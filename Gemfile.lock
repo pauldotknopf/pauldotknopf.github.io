@@ -130,6 +130,7 @@ DEPENDENCIES
   github-pages
   jekyll-gist
   jekyll-paginate
+  jekyll-redirect-from
 
 BUNDLED WITH
    1.11.2

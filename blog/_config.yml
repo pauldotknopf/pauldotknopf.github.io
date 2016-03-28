@@ -24,4 +24,7 @@ version:          2.1.0
 github:
   repo:           https://github.com/poole/hyde
 
-gems: [jekyll-paginate, jekyll-gist]
+gems:
+  - jekyll-paginate
+  - jekyll-gist
+  - jekyll-redirect-from
