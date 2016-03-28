@@ -1,7 +1,7 @@
 #!/bin/bash
 
 RUBY_VERSION=2.2.2
-RUBY_GEMS="jekyll coderay jekyll-sitemap"
+RUBY_GEMS="jekyll coderay jekyll-sitemap bundler"
 RVM_PATH=/usr/local/rvm
 
 # Update the version information
@@ -26,3 +26,5 @@ gem install $RUBY_GEMS
 # Install pip and pygments
 curl https://bootstrap.pypa.io/get-pip.py | python
 pip install pygments
+
+sudo usermod -a -G rvm vagrant
