@@ -16,4 +16,5 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.network "forwarded_port", guest: 4000, host: 4000
 
   config.vm.provision :shell, :path => "provision/main.sh"
+  # config.vm.provision "shell", run: "always", inline: "cd /vagrant && bundle exec jekyll serve --host 0.0.0.0 --watch -P 4000 --force_polling&"
 end
