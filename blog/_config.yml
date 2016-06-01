@@ -6,23 +6,13 @@ highlighter:      rouge
 permalink:        pretty
 
 # Setup
-title:            pknopf
+title:            'Paul'
 tagline:          'tag line'
-description:      'This is the decrition'
+description:      'Random thoughts and ideas of a software developer.'
 url:              http://www.pknopf.com/
 baseurl:          /
 
-author:
-  name:           'Mark Otto'
-  url:            https://twitter.com/mdo
-
 paginate:         5
-
-# Custom vars
-version:          2.1.0
-
-github:
-  repo:           https://github.com/poole/hyde
 
 disqus_shortname: pknopf
 
