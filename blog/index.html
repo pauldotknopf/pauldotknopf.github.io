@@ -11,9 +11,10 @@ title: Home
         {{ post.title }}
       </a>
     </h1>
-
-    <span class="post-date">{{ post.date | date_to_string }}</span>
-
+    <div class="post-links">
+      <span class="post-date"><i class="fa fa-calendar-o fa-1" aria-hidden="true"></i> {{ post.date | date_to_string }}</span>
+      <span class="post-edit"><i class="fa fa-pencil-square-o fa-1" aria-hidden="true"></i> {% include post/edit.html %}</span>
+    </div>
     {{ post.content }}
   </div>
   {% endfor %}

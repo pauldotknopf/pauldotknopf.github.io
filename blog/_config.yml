@@ -16,6 +16,9 @@ paginate:         5
 
 disqus_shortname: pknopf
 
+github_user: pauldotknopf
+github_repo_url: https://github.com/pauldotknopf/pauldotknopf.github.io/
+
 gems:
   - jekyll-paginate
   - jekyll-gist

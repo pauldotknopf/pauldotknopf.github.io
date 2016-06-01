@@ -164,3 +164,20 @@ a.sidebar-nav-item:focus {
     margin-right: 22rem;
   }
 }
+
+.post-links {
+}
+
+.post-date, .post-edit {
+  display: inline;
+  margin-top: -.5rem;
+  margin-bottom: 1rem;
+  margin-right: .5rem;
+  color: #9a9a9a;
+}
+
+.post-links a,
+.post-links a:hover,
+.post-links a:active {
+  color: #9a9a9a;
+}
