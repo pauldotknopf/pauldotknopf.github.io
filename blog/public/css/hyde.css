@@ -168,7 +168,7 @@ a.sidebar-nav-item:focus {
 .post-links {
 }
 
-.post-date, .post-edit {
+.post-date, .post-edit, .post-comments {
   display: inline;
   margin-top: -.5rem;
   margin-bottom: 1rem;

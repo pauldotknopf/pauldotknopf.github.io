@@ -1,0 +1,11 @@
+{% if post %}
+  {% assign context = post %}
+{% else %}
+  {% assign context = page %}
+{% endif %}
+
+<div class="post-links">
+  <span class="post-date"><i class="fa fa-calendar-o fa-1" aria-hidden="true"></i> {{ context.date | date_to_string }}</span>
+  <span class="post-edit"><i class="fa fa-pencil-square-o fa-1" aria-hidden="true"></i> {% include post/edit.html %}</span>
+  {% include post/comments_link.html %}
+</div>
