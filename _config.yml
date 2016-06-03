@@ -19,6 +19,8 @@ disqus_shortname: pknopf
 github_user: pauldotknopf
 github_repo_url: https://github.com/pauldotknopf/pauldotknopf.github.io/
 
+exclude: [vendor]
+
 gems:
   - jekyll-paginate
   - jekyll-gist
