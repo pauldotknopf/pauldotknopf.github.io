@@ -47,6 +47,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  jekyll
   jekyll-gist
   jekyll-paginate
   jekyll-redirect-from
