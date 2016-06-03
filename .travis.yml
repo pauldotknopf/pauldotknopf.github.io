@@ -10,4 +10,4 @@ before_install:
   -in deploy_key.enc -out deploy_key -d
 script:
 - gem install jekyll
-- ./compile.sh
+- ./deploy.sh
