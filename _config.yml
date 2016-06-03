@@ -19,7 +19,7 @@ disqus_shortname: pknopf
 github_user: pauldotknopf
 github_repo_url: https://github.com/pauldotknopf/pauldotknopf.github.io/
 
-exclude: [vendor, 'Gemfile', 'Gemfile.lock', 'deploy_key', 'deploy_key.enc', 'CNAME', 'compile.sh', 'deploy.sh']
+exclude: [vendor, 'Gemfile', 'Gemfile.lock', 'deploy_key', 'deploy_key.enc', 'compile.sh', 'deploy.sh']
 
 gems:
   - jekyll-paginate
