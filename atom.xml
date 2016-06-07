@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+ <title>Paul</title>
+ <link href="http://www.pknopf.com//atom.xml" rel="self"/>
+ <link href="http://www.pknopf.com//"/>
+ <updated>2016-06-07T06:15:03+00:00</updated>
+ <id>http://www.pknopf.com/</id>
+ <author>
+   <name></name>
+   <email></email>
+ </author>
+
+ 
+ <entry>
+   <title>Performance: C++/CLI vs COM</title>
+   <link href="http://www.pknopf.com//development/2013/03/07/Performance-CPP-CLI-vs-COM/"/>
+   <updated>2013-03-07T00:00:00+00:00</updated>
+   <id>http://www.pknopf.com//development/2013/03/07/Performance-CPP-CLI-vs-COM</id>
+   <content type="html">&lt;p&gt;In my current project, we are going to require a great deal of native code due to interation with drivers and hardware. The application is going to be based in .NET, at least the UI portion, but the heart has to live in native C++.&lt;/p&gt;
+
+&lt;p&gt;I began investigating different ways to interop with .NET and unmanaged code. There seems to be three approaches.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;PInvoke&lt;/li&gt;
+  &lt;li&gt;COM/COM+/Interop&lt;/li&gt;
+  &lt;li&gt;C++/CLI&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;I did not look into the PInvoke method because I know that it will not be suitable for my needs. Things get complicated really quick with PInvoke. It is ideal for small/quick access to Win32, but not beyond that. With that said, I produced some metrics about the performance between COM+ and C++/CLI.&lt;/p&gt;
+
+&lt;p&gt;I have one class (unmanaged) that I use in every metric.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-c--&quot; data-lang=&quot;c++&quot;&gt;&lt;span class=&quot;cp&quot;&gt;#pragma once
+&lt;/span&gt;&lt;span class=&quot;kr&quot;&gt;__declspec&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dllexport&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;NativeClass&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;public&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
+	&lt;span class=&quot;kr&quot;&gt;__declspec&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dllexport&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NativeClass&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+	&lt;span class=&quot;kr&quot;&gt;__declspec&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dllexport&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;~&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NativeClass&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+	&lt;span class=&quot;kr&quot;&gt;__declspec&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dllexport&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;GetWindowsVersion&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;numberOfExecutions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;There are duplications of this class but they all do the same thing. The method we are testing is a simple GetVersionEx from the WinAPI.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-c--&quot; data-lang=&quot;c++&quot;&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NativeClass&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;GetWindowsVersion&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;numberOfExecutions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;OSVERSIONINFO&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;osvi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+	&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;numberOfExecutions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+		&lt;span class=&quot;n&quot;&gt;ZeroMemory&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;osvi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;sizeof&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;OSVERSIONINFO&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
+		&lt;span class=&quot;n&quot;&gt;osvi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dwOSVersionInfoSize&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;sizeof&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;OSVERSIONINFO&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+		&lt;span class=&quot;n&quot;&gt;GetVersionEx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;osvi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+	&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;osvi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dwBuildNumber&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;The parameter “numberOfExecutions” tells the unmanaged class how many times it should invoke GetVersionEx. This native class is written/duplicated in multiple projects to similate the same process. I have 4 projects.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;PerformanceTest - This is a console application that runs the performance in C#/.NET&lt;/li&gt;
+  &lt;li&gt;CLITest - This is a C++/CLI project that contains two classes.
+The first class is a wrapper around an unmanaged class that is compiled in the same C++/CLI project.
+The second class is a wrapper around an unmanaged class that is compiled in a seperate native dll (not C++/CLI).&lt;/li&gt;
+  &lt;li&gt;COMTest - This is a project that has a COM wrapper around an unmanaged class.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;I tested two scenarios.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Calling an unmanaged class from .NET multiple times.&lt;/li&gt;
+  &lt;li&gt;Calling an unmanaged class from .NET a single time while doing a large task (numberOfExecutions = 10000000).&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Here are the results from the console application for the 3 situations.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;.NET to CLI calling an unmanaged class compiled in C++/CLI.&lt;/li&gt;
+  &lt;li&gt;.NET to CLI calling an unmanaged class compiled in native C++.&lt;/li&gt;
+  &lt;li&gt;.NET to COM calling an unmanaged class compiled in native C++.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Here is the output of the test.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;CLI..........................
+     GetWindowsVersion:
+         Calls: 100000
+         Executions: 1
+         Result: 00:00:00.0190000
+     GetWindowsVersion:
+         Calls: 1
+         Executions: 100000000
+         Result: 00:00:15.7790000
+CLI to native................
+     GetWindowsVersion:
+         Calls: 100000
+         Executions: 1
+         Result: 00:00:00.0180000
+     GetWindowsVersion:
+         Calls: 1
+         Executions: 100000000
+         Result: 00:00:04.8020000
+COM..........................
+     GetWindowsVersion:
+         Calls: 100000
+         Executions: 1
+         Result: 00:00:02.6120000
+     GetWindowsVersion:
+         Calls: 1
+         Executions: 100000000
+         Result: 00:00:04.7310000
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;Native code compiled and running under C++/CLI is a great deal slower than running pure native code. COM would be the obviouse choice due to it running pure unmanaged code, but C++/CLI can give the same performance if used as a wrapper around a pure native assembly. In addition, COM/ATL is very difficult to learn, however, Visual Studio’s class wizards make it easier. Also, it seems that, making a great deal of calls to native code is MUCH more efficient through C++/CLI as opposed to COM, but this may be an unlikely scenario. Given these results and given the fact that this native code I am writing will be written primarily for .NET (as opposed to COM/activex/etc), I would recommend using the C++/CLI wrapper approach. Same performance, more flexible interop.&lt;/p&gt;
+
+&lt;p&gt;The project used for running these tests can be found on github &lt;a href=&quot;https://github.com/theonlylawislove/CLICOMPerformanceTest&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Why you should avoid Ektron</title>
+   <link href="http://www.pknopf.com//development/2013/01/26/why-you-should-avoid-ektron/"/>
+   <updated>2013-01-26T00:00:00+00:00</updated>
+   <id>http://www.pknopf.com//development/2013/01/26/why-you-should-avoid-ektron</id>
+   <content type="html">&lt;p&gt;&lt;strong&gt;The first Ektron project I worked on&lt;/strong&gt;, I had no experience with it. I am a very quick learner and dive into new things head first, so I gave Ektron and honest chance. After setting Ektron up out of the box, &lt;strong&gt;I immediately started feeling uncomfortable&lt;/strong&gt;. The first thing I noticed were the tables.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/ektron_tables.jpg&quot; alt=&quot;Alt text&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;This immediately gave me the feeling that there are separate divisions within Ektron that live by their own rules, sorta like the wild west. “Maybe this will be the extent of my discomfort.” I told my self. Then, I saw that the product was a &lt;strong&gt;mix of C#/VB&lt;/strong&gt;. This goes &lt;strong&gt;against best practices&lt;/strong&gt;, especially since the code in each language serves the same problem domain! &lt;strong&gt;Edit&lt;/strong&gt;: &lt;em&gt;Latest release now includes only C#.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;In addition, the product &lt;strong&gt;only supports websites (not web applications)&lt;/strong&gt;. You will be hard-pressed to find any website now-a-days (excluding Ekton websites) that still use the website project template. This has introduced many pain points. For one, you are unable to “exclude” the Workarea from Visual Studio. This is a problem because the workarea is very large. It &lt;strong&gt;ruins the performance of Visual Studio&lt;/strong&gt; due to intellisense namespace/object caching because Visual Studio has to inspect that directory. People have suggested “hiding” the workarea and a filesystem level, but this doesn’t work in development due to widgets referencing user contols that exist in the workarea (which can’t be located). Also, websites don’t work well with a build process of any kind. It increased my build times on TFS to almost 30 minutes! There are some workarounds, but none that don’t involve re-deploying the workarea every time (which is very large). Their latest versions claim to support web applications, but there is no template provided. You must use the “Convert to web application” command in visual studio. There is stil the problem of uncompiled source code that shouldn’t be built/available in implementations. At my last company, I wanted to have everything compiled in my implementation. So, I decided to publish the website, perform an aspnet_merge to create one (very big) EktronWeb.dll, and add the output to my implementation. I was notified by support that the solution would be unsupported. That is ridiculous to so say that a published version of your website (which is essentially what I had) would be unsupported. That is like saying you do not support any deployed instances of Ektron! I was forced to waste a great deal of time building/deploying. Long story short, &lt;strong&gt;web applications are the way to go and avoid any project that is a website (including Ektron)&lt;/strong&gt;. Ektron is the only CMS I have seen that uses a website project template. There are good reasons for this Ektron! Take note!&lt;/p&gt;
+
+&lt;p&gt;Also, the &lt;strong&gt;usability of Ektron is horrible&lt;/strong&gt;. They almost refuse to adhere to any kind of UI/layout/style standard. This leads to a large amount of HTML/CSS that is required to style forms that adhere to their own standards (or lack thereof). It also forces the end users to constantly rethink what is going on in each area/page, therefore, ruining usability.&lt;/p&gt;
+
+&lt;p&gt;The use of &lt;strong&gt;XML/XLST is largely outdated&lt;/strong&gt; and Ektron insists on being centered around this idea. Their SmartForm is very unusable in real world situations. It is entirely xml based and &lt;strong&gt;corrupts very easily&lt;/strong&gt;. Support recommended that I remove each field 1-by-1 to determine what was corrupting it, which is unacceptable. You cannot change the smartform after content has already been applied to it. Collections cannot be reordered without running the &lt;strong&gt;risk of losing content&lt;/strong&gt;. Working with the data that the smartform generates (in xml) is also verify difficult, however, recent versions have allowed you to map the xml to a .NET object. Also, since that database stores the content in one huge xml field (that isn’t even an xml data type), it is almost &lt;strong&gt;impossible to query smartforms based on criteria&lt;/strong&gt; without loading all the items in memory. I saw somewhere that they support linq, but further investigation revealed that they support linq-to-objects that are in memory. This is a out-of-the-box .NET feature, not an Ektron feature! They recently introduced support for criteria seaching, but it is still unacceptable, due to the fact you can only query standard fields in Ektron. This is not valid in the real world due to most implementations will want to filter/sort based on custom fields specific to the implementation.&lt;/p&gt;
+
+&lt;p&gt;The editor for Ektron insists (no way around it) on putting ‘&amp;amp;#160’ everywhere which makes css break and html bloated. Developers are forced to add .Replace(“&amp;amp;#160”,””); everywhere, which is also unacceptable. &lt;strong&gt;Edit&lt;/strong&gt;: &lt;em&gt;The latest version has a new editor which doesn’t do this.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Also, &lt;strong&gt;MVC will never be supported&lt;/strong&gt;. I have made MVC work inside of Ektron, but Ektron itself will never be centered around the pattern. This is a feature I like to see in the products I choose. Now, I can’t really say for certain they will never support it, but given what I know about how page builder, embedded widgets and the workarea, it is a safe bet to assume so. A rewrite is needed (for more than 1 reason).&lt;/p&gt;
+
+&lt;p&gt;Every CMS has support for building custom forms, but &lt;strong&gt;Ektron’s “HTML Forms/Surveys” is not for the standard business user&lt;/strong&gt;. It requires an advanced knowledge of XHTML. My client needed to build custom forms, but they weren’t a web dev shop, so they &lt;strong&gt;couldn’t use the feature&lt;/strong&gt;. Unless, of course, they paid $180 an hour for my previous job’s time. They were extremely upset with it. Yet another Ektron site that the client later regrets. I will say it again, Ektron must move from being XML centered.&lt;/p&gt;
+
+&lt;p&gt;The Ektron API’s are &lt;strong&gt;unusable from non-web applications&lt;/strong&gt; which make &lt;strong&gt;one-off tasks&lt;/strong&gt; impossible without the use of hand-crafted ADO.NET code.&lt;/p&gt;
+
+&lt;p&gt;Ektron also uses many 3rd party libraries, but they refuse to keep them updated, which forces implementors to &lt;strong&gt;use outdated libraries&lt;/strong&gt;. My project required the latest version of Netwon’s JSON.NET, but Ektron had a very outdated version of it in use. I was force to download JSON.NET, add a wrapper namespace and rename the assembly to avoid &lt;strong&gt;breaking Ektron&lt;/strong&gt; (which the new version did). This is unacceptable Ektron. Before each release, you should ensure all 3rd party libraries are up to date.&lt;/p&gt;
+
+&lt;p&gt;Long story short, I was forced into many situations where I had to &lt;strong&gt;explain to my clients that things were not possible&lt;/strong&gt;. For example, I had to tell a client that they couldn’t generate a sitemap for google. There response was an awkward “Well, that is a standard feature of CMS system.” I was inclined to agree and was &lt;strong&gt;forced to defend a product that I strongly oppose&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;After my experiences with Ektron, I realized that I am &lt;a href=&quot;http://www.realstorygroup.com/Blog/2370-Is-Ektron-headed-up-or-down%20&quot;&gt;not&lt;/a&gt; &lt;a href=&quot;https://twitter.com/GoJaime/status/73437199873482753%20&quot;&gt;the&lt;/a&gt; &lt;a href=&quot;https://twitter.com/ajryan6of7/status/55804229457158144&quot;&gt;only&lt;/a&gt; &lt;a href=&quot;https://twitter.com/arcware/status/51309851883741184&quot;&gt;one&lt;/a&gt;. Sure, every product will have its naysayers, but I believe (&lt;a href=&quot;http://www.hiprank.com/dotnetnuke-vs-ektron-vs-kentico-vs-sitecore-vs-sitefinity.html&quot;&gt;as&lt;/a&gt; &lt;a href=&quot;http://www.glassdoor.com/Reviews/Ektron-Reviews-E33092.htm%20&quot;&gt;well&lt;/a&gt; &lt;a href=&quot;http://amplicate.com/hate/ektron&quot;&gt;as&lt;/a&gt; &lt;a href=&quot;http://www.webdeveloper.com/forum/showthread.php?148354-Anyone-else-hate-Ektron-Any-hope-for-it&quot;&gt;others&lt;/a&gt;) that there is an &lt;strong&gt;alarming amount of negative press surrounding Ektron&lt;/strong&gt;. Ektron must shift its focus from developing features to improving that architecture of Ektron, which I don’t think is possible without doing a complete rewrite. It is unfortunate that they do infact have a great marketing/sales team because they are &lt;strong&gt;polluting the CMS industry with a horrible product&lt;/strong&gt;. Clients must stop assuming that “This product is expensive, so it MUST be good!” Have your software architects review the product before shelling out a great deal of money for licenses/support!&lt;/p&gt;
+</content>
+ </entry>
+ 
+
+</feed>
