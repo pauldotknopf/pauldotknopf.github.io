@@ -23,3 +23,6 @@ exclude: [vendor, 'Gemfile', 'Gemfile.lock', 'deploy_key', 'deploy_key.enc', 'co
 include: ['.travis.yml']
 
 gems:
+  - jekyll-paginate
+  - jekyll-gist
+  - jekyll-redirect-from
