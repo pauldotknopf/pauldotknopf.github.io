@@ -40,7 +40,9 @@ Task("Build")
     .IsDependentOn("DownloadHugo")
     .Does(() =>
 {
-    
+    StartProcess(hugoPath, new ProcessSettings() {
+        WorkingDirectory = Directory("./web")
+    });
 });
 
 Task("Server")

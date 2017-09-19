@@ -1,3 +1,9 @@
-baseURL = "http://example.org/"
+baseURL = "http://pknopf.com/"
 languageCode = "en-us"
-title = "My New Hugo Site"
+title = "Paul Knopf"
+
+theme = "beautifulhugo"
+
+[Author]
+  name = "Paul Knopf"
+  website = "https://pknopf.com"
