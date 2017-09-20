@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>http://pknopf.com/post/2013-03-06-cpp-cli-vs-com/</loc>
+    <lastmod>2013-03-07T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://pknopf.com/page/about/</loc>
+  </url>
+  
+  <url>
+    <loc>http://pknopf.com/categories/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://pknopf.com/</loc>
+    <lastmod>2013-03-07T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://pknopf.com/page/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://pknopf.com/post/</loc>
+    <lastmod>2013-03-07T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://pknopf.com/tags/</loc>
+    <priority>0</priority>
+  </url>
+  
+</urlset>
