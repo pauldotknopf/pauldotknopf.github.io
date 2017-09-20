@@ -2,7 +2,7 @@ var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
 
 var buildDir = Directory("./src/Example/bin") + Directory(configuration);
-var hugoPath = Directory("./tools") + File("hugo.exe");
+var hugoPath = Directory("./tools") + File("hugo");
 
 Task("Clean")
     .Does(() =>
@@ -21,15 +21,17 @@ Task("DownloadHugo")
         {
             DeleteFile(tmpArchive);
         }
-        DownloadFile("https://github.com/gohugoio/hugo/releases/download/v0.27.1/hugo_0.27.1_Windows-64bit.zip", tmpArchive);
+        DownloadFile("https://github.com/gohugoio/hugo/releases/download/v0.27.1/hugo_0.27.1_Linux-64bit.tar.gz", tmpArchive);
         var tmpArchiveExtracted = Directory("./tools/hugo-zip");
         if(DirectoryExists(tmpArchiveExtracted))
         {
             DeleteDirectory(tmpArchiveExtracted, true);
         }
         CreateDirectory(tmpArchiveExtracted);
-        Unzip(tmpArchive, tmpArchiveExtracted);
-        CopyFile(tmpArchiveExtracted + File("hugo.exe"), hugoPath);
+        StartProcess("bash", new ProcessSettings() {
+            Arguments = "-c \"tar xf " + tmpArchive + " -C " + tmpArchiveExtracted + "\""
+        });
+        CopyFile(tmpArchiveExtracted + File("hugo"), hugoPath);
         DeleteDirectory(tmpArchiveExtracted, true);
         DeleteFile(tmpArchive);
     }
