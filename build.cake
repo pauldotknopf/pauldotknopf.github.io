@@ -68,6 +68,37 @@ Task("Server")
     });
 });
 
+Task("New")
+    .IsDependentOn("DownloadHugo")
+    .Does(() =>
+{
+    Console.WriteLine("Enter the name for the new post...");
+    var name = Console.ReadLine();
+    if(string.IsNullOrEmpty(name))
+    {
+        Error("Name is empty...");
+        return;
+    }
+
+    name = name.ToLower().Trim();
+
+    foreach (char c in System.IO.Path.GetInvalidFileNameChars())
+    {
+        name = name.Replace(c, '_');
+    }
+
+    if(string.IsNullOrEmpty(name))
+    {
+        Error("Name is empty...");
+        return;
+    }
+
+    StartProcess(hugoPath, new ProcessSettings() {
+        Arguments = "new post/" + name + ".md",
+        WorkingDirectory = Directory("./web")
+    });
+});
+
 Task("Default")
     .IsDependentOn("Build");
 
