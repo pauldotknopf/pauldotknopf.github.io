@@ -202,23 +202,3 @@ reboot now
 * Storing images on Docker Hub for using in other machines, or by complete strangers!
 
 What do you think?
-
-# What exists now?
-
-## NixOS
-
-https://nixos.org/
-
-NixOS is marketed as "The Purely Functional Linux Distribution".
-
-The functional nature of the operating system gives you a 100% consistent build. The resulting build is entirely dependent on the input Nix expressions. However, this also requires you to create Nix expressions for literally everything. This level of control is amazing, but I'd much rather prefer traditional package managers and formats (pacman, apt-get, rpm, deb, etc). Not a total deal breaker for me, but this would make NixOS my last choice.
-
-## OSTree
-
-https://ostree.readthedocs.io/en/latest/
-
-OSTree isn't really an operating system or distribution, but it's worth mentioning. It is more a way of *controlling* a distribution. It is used in many ways, but it's primary purpose is support atomic upgrades/rollbacks on embedded systems. On boot, it will read a local OSTree repository at a specific commit, and create symlinks at ```/```. You can reboot into different "branches" and "commits".
-
-I bring this up because it might be a nice solution to allow me to quickly swap between operating systems.
-
-## Docker
