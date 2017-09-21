@@ -4,6 +4,8 @@ title = "Paul Knopf"
 
 theme = "beautifulhugo"
 
+disqusShortname = "pauldotknopf"
+
 [Author]
   name = "Paul Knopf"
   website = "https://pknopf.com"
