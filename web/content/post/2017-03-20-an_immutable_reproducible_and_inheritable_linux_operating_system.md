@@ -1,7 +1,6 @@
 ---
 title: "An immutable, reproducible and inheritable Linux operating system."
 date: 2017-09-20T14:50:41-04:00
-draft: true
 ---
 
 ***Be warned**! This is just "thought-expirement" post. Nothing has been tried or tested.*
