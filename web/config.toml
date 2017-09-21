@@ -6,9 +6,13 @@ theme = "beautifulhugo"
 
 disqusShortname = "pknopf"
 
+[Params]
+  logo = "img/avatar-icon.png"
+  comments = true
+
 [Author]
   name = "Paul Knopf"
-  website = "https://pknopf.com"
+  website = "http://www.pknopf.com"
 
 [[menu.main]]
     name = "Blog"
