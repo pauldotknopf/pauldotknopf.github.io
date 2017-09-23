@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Hi! I&#39;m Paul. on Paul Knopf</title>
-    <link>http://www.pknopf.com/</link>
+    <link>https://www.pknopf.com/</link>
     <description>Recent content in Hi! I&#39;m Paul. on Paul Knopf</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Wed, 20 Sep 2017 14:50:41 -0400</lastBuildDate>
     
-	<atom:link href="http://www.pknopf.com/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://www.pknopf.com/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>An immutable, reproducible and inheritable Linux operating system.</title>
-      <link>http://www.pknopf.com/post/2017-03-20-an_immutable_reproducible_and_inheritable_linux_operating_system/</link>
+      <link>https://www.pknopf.com/post/2017-03-20-an_immutable_reproducible_and_inheritable_linux_operating_system/</link>
       <pubDate>Wed, 20 Sep 2017 14:50:41 -0400</pubDate>
       
-      <guid>http://www.pknopf.com/post/2017-03-20-an_immutable_reproducible_and_inheritable_linux_operating_system/</guid>
+      <guid>https://www.pknopf.com/post/2017-03-20-an_immutable_reproducible_and_inheritable_linux_operating_system/</guid>
       <description>*Be warned! This is just &amp;ldquo;thought-expirement&amp;rdquo; post. Nothing has been tried or tested.*
 My problem I have multiple computers. Each system has a different OS (or version) and configuration. One has Ubuntu 14, the others have Ubuntu 16. Some have had their packages updated, some have been neglected. Some are using NVIDIA graphics, others onboard Intel graphics.
 The context switching from machine-to-machine for simple tasks is mind numbing.
@@ -25,10 +25,10 @@ Is Qt Creator installed?</description>
     
     <item>
       <title>Performance: C&#43;&#43;/CLI vs COM</title>
-      <link>http://www.pknopf.com/post/2013-03-06-cpp-cli-vs-com/</link>
+      <link>https://www.pknopf.com/post/2013-03-06-cpp-cli-vs-com/</link>
       <pubDate>Thu, 07 Mar 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://www.pknopf.com/post/2013-03-06-cpp-cli-vs-com/</guid>
+      <guid>https://www.pknopf.com/post/2013-03-06-cpp-cli-vs-com/</guid>
       <description>In my current project, we are going to require a great deal of native code due to interation with drivers and hardware. The application is going to be based in .NET, at least the UI portion, but the heart has to live in native C++.
 I began investigating different ways to interop with .NET and unmanaged code. There seems to be three approaches.
  PInvoke COM/COM+/Interop C++/CLI  I did not look into the PInvoke method because I know that it will not be suitable for my needs.</description>
@@ -36,10 +36,10 @@ I began investigating different ways to interop with .NET and unmanaged code. Th
     
     <item>
       <title>About me</title>
-      <link>http://www.pknopf.com/page/about/</link>
+      <link>https://www.pknopf.com/page/about/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://www.pknopf.com/page/about/</guid>
+      <guid>https://www.pknopf.com/page/about/</guid>
       <description>What I do I am a software engineer for a medical device company building products on many platforms. From front-end web applications, to embedded Linux devices, and everything in between.
 Why I do it My first webpage was a geocities page. I would scan through gifs/stickers and absolutely position (drag-and-drop) them all over my home page, add random javascript snippets for fancy tickers and blinking colors, etc. I channeled my passion into developing an &amp;ldquo;actual&amp;rdquo; website.</description>
     </item>
