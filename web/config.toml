@@ -1,4 +1,4 @@
-baseURL = "http://www.pknopf.com/"
+baseURL = "https://www.pknopf.com/"
 languageCode = "en-us"
 title = "Paul Knopf"
 
@@ -12,7 +12,7 @@ disqusShortname = "pknopf"
 
 [Author]
   name = "Paul Knopf"
-  website = "http://www.pknopf.com"
+  website = "https://www.pknopf.com"
 
 [[menu.main]]
     name = "Blog"
