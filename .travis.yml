@@ -1,6 +1,6 @@
 language: csharp
 mono:
-  - latest
+  - 5.2.0
 branches:
   only:
   - develop
