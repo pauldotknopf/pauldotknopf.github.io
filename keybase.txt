@@ -1,0 +1,68 @@
+==================================================================
+https://keybase.io/pauldotknopf
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of https://www.pknopf.com
+  * I am pauldotknopf (https://keybase.io/pauldotknopf) on keybase.
+  * I have a public key with fingerprint 855B 7B78 BF57 C3AA B320  810E 2593 9644 282F A48F
+
+To do so, I am signing this object:
+
+{
+  "body": {
+    "key": {
+      "eldest_kid": "010162d08f1b3c49b619771a4a278eb70084bcc7b08b203b71ade22145ea1043e66c0a",
+      "fingerprint": "855b7b78bf57c3aab320810e25939644282fa48f",
+      "host": "keybase.io",
+      "key_id": "25939644282fa48f",
+      "kid": "010162d08f1b3c49b619771a4a278eb70084bcc7b08b203b71ade22145ea1043e66c0a",
+      "uid": "ce4766c3681772d59c476edc2b5eb319",
+      "username": "pauldotknopf"
+    },
+    "service": {
+      "hostname": "www.pknopf.com",
+      "protocol": "https:"
+    },
+    "type": "web_service_binding",
+    "version": 1
+  },
+  "ctime": 1515950732,
+  "expire_in": 157680000,
+  "prev": "81f2a687f0e387e9a7744961a40ec3d16ebb3f4bd319d01e1350dfb084516a57",
+  "seqno": 16,
+  "tag": "signature"
+}
+
+which yields the signature:
+
+-----BEGIN PGP MESSAGE-----
+Version: Keybase OpenPGP v2.0.76
+Comment: https://keybase.io/crypto
+
+yMIsAnicrVJdSBRRFF61rMztl6yQIichqXW9d/7uzGbvZVpIkpXFNnfmjg3uzoyz
+s6uLWFmEUQlqhEuWPfVU9Gc9+BJpv1QEEQQaRRRJ2g8VqbVRdGeptx67L5dzzne+
++53vnlv+HF9e1sZt4987UpG8rAeDfXHfjrruYy0MtrQkE2phGkjmIhGNxNxwg6Ex
+IQZAAEVWA5IOMafyMhahjBBUeIVFEsEIAInHqoowkDALOExLGmFZyAtEgYDniCiq
+QGECjG6Y9cSxHcN0Ka0kCBhhJGFdQCqnKJhjgQQBYQWZk0WeZyVWV3hJp417rJjX
+QcVhJUaChkVzNAhn5P0D/591xzN0KuERzXCiBBFiNUFWaUw0lcUCwRyUPWCMOKYS
+JRRtK/GIZrkNpmXrTGuAoZWEoRLPXG+aP6impqagncEEVStKGWzHci3VitDaHte1
+YyGv103aGTDB4T80YWyYGnWTdiSIEzMskwlBilRdw+OFAhRkASCODTCk2TYcEjY8
+hIBECdDjvUMS3h9AnVVECemAcBIisoIQz8si9QgQldOgSDDmdB5rdD4NQAI5AWg6
+NYwXoKgIiPEGazQtyi1SnUo95YwZ9abixh3CtA7d2DnNl5Xny52e7a2ZL2/WvL/L
+l+ufkc6+GbaNG9s3XFo/lvvwSPpb470LvuhgzdGazwd/+aOpnrv30897Khu7txjD
+Nf0lW1fOLPavTo9fuT863vj2wMmPha3Gm8nXg3tXLJyavWv38Pn+ExXNpQWDVs+P
+aVcvR11RfMnXzv/SVby44IDW8aJ8WfPtgsLRvlNTET5xLrGurupntJAPXZuYmvM0
+mD9DK9+9auBTqrd67vV9y/Fkqmr/1+Opj2uLDp9+ML/s8Znupbs+dDgL6r5UlPiW
+OG2BsXi8WuhMJoWizSN3npUd6n1/tvR1dKSnvKr//Y/pc4fOzXm0I3/R0ZwnyZyB
+zuj2tq72d7UHx4L27epX19sDm9avuRivnPgNZW1ATA==
+=0zkj
+-----END PGP MESSAGE-----
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/pauldotknopf
+
+==================================================================

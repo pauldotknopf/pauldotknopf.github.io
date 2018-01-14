@@ -6,10 +6,22 @@
     <description>Recent content in Posts on Paul Knopf</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 20 Sep 2017 14:50:41 -0400</lastBuildDate>
+    <lastBuildDate>Sun, 14 Jan 2018 11:36:35 -0500</lastBuildDate>
     
 	<atom:link href="https://www.pknopf.com/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Introducing Darch, a tool for building immutable, reproducable, and stateless bootable Linux images. Think docker, but for bare-metal.</title>
+      <link>https://www.pknopf.com/post/2018-01-14-introducing_darch_a_tool_for_building_immutable_reproducable_stateless_linux_images_docker_for_base_metal/</link>
+      <pubDate>Sun, 14 Jan 2018 11:36:35 -0500</pubDate>
+      
+      <guid>https://www.pknopf.com/post/2018-01-14-introducing_darch_a_tool_for_building_immutable_reproducable_stateless_linux_images_docker_for_base_metal/</guid>
+      <description>GitHub Project
+I have previously blogged about my desire to have a &amp;ldquo;docker-like&amp;rdquo; environment for build images that I can boot bare-metal.
+With that said, I created Darch.
+What it is Darch is an application (written in golang) that makes building and booting rootfs images simple. It will generate rootfs.squash files and update grub.cfg for booting them. Even though Darch supports Arch only (Gentoo/VoidLinux soon), you can build and boot the images from any operating system that has grub installed.</description>
+    </item>
     
     <item>
       <title>An immutable, reproducible and inheritable Linux operating system.</title>

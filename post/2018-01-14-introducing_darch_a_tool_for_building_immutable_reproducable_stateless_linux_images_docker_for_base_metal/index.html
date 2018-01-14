@@ -5,26 +5,31 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-  <title>Performance: C&#43;&#43;/CLI vs COM</title>
-  <meta property="og:title" content="Performance: C&#43;&#43;/CLI vs COM" />
-  <meta name="twitter:title" content="Performance: C&#43;&#43;/CLI vs COM" />
-  <meta name="description" content="In my current project, we are going to require a great deal of native code due to interation with drivers and hardware. The application is going to be based in .NET, at least the UI portion, but the heart has to live in native C&#43;&#43;.
-I began investigating different ways to interop with .NET and unmanaged code. There seems to be three approaches.
- PInvoke COM/COM&#43;/Interop C&#43;&#43;/CLI  I did not look into the PInvoke method because I know that it will not be suitable for my needs.">
-  <meta property="og:description" content="In my current project, we are going to require a great deal of native code due to interation with drivers and hardware. The application is going to be based in .NET, at least the UI portion, but the heart has to live in native C&#43;&#43;.
-I began investigating different ways to interop with .NET and unmanaged code. There seems to be three approaches.
- PInvoke COM/COM&#43;/Interop C&#43;&#43;/CLI  I did not look into the PInvoke method because I know that it will not be suitable for my needs.">
-  <meta name="twitter:description" content="In my current project, we are going to require a great deal of native code due to interation with drivers and hardware. The application is going to be based in .NET, at least the UI portion, but the …">
+  <title>Introducing Darch, a tool for building immutable, reproducable, and stateless bootable Linux images. Think docker, but for bare-metal.</title>
+  <meta property="og:title" content="Introducing Darch, a tool for building immutable, reproducable, and stateless bootable Linux images. Think docker, but for bare-metal." />
+  <meta name="twitter:title" content="Introducing Darch, a tool for building immutable, reproducable, and …" />
+  <meta name="description" content="GitHub Project
+I have previously blogged about my desire to have a &ldquo;docker-like&rdquo; environment for build images that I can boot bare-metal.
+With that said, I created Darch.
+What it is Darch is an application (written in golang) that makes building and booting rootfs images simple. It will generate rootfs.squash files and update grub.cfg for booting them. Even though Darch supports Arch only (Gentoo/VoidLinux soon), you can build and boot the images from any operating system that has grub installed.">
+  <meta property="og:description" content="GitHub Project
+I have previously blogged about my desire to have a &ldquo;docker-like&rdquo; environment for build images that I can boot bare-metal.
+With that said, I created Darch.
+What it is Darch is an application (written in golang) that makes building and booting rootfs images simple. It will generate rootfs.squash files and update grub.cfg for booting them. Even though Darch supports Arch only (Gentoo/VoidLinux soon), you can build and boot the images from any operating system that has grub installed.">
+  <meta name="twitter:description" content="GitHub Project
+I have previously blogged about my desire to have a &ldquo;docker-like&rdquo; environment for build images that I can boot bare-metal.
+With that said, I created Darch.
+What it is Darch …">
   <meta name="author" content="Paul Knopf"/>
   <meta property="og:image" content="https://www.pknopf.com/img/avatar-icon.png" />
   <meta name="twitter:image" content="https://www.pknopf.com/img/avatar-icon.png" />
   <meta name="twitter:card" content="summary" />
-  <meta property="og:url" content="https://www.pknopf.com/post/2013-03-06-cpp-cli-vs-com/" />
+  <meta property="og:url" content="https://www.pknopf.com/post/2018-01-14-introducing_darch_a_tool_for_building_immutable_reproducable_stateless_linux_images_docker_for_base_metal/" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Paul Knopf" />
 
   <meta name="generator" content="Hugo 0.32.3" />
-  <link rel="canonical" href="https://www.pknopf.com/post/2013-03-06-cpp-cli-vs-com/" />
+  <link rel="canonical" href="https://www.pknopf.com/post/2018-01-14-introducing_darch_a_tool_for_building_immutable_reproducable_stateless_linux_images_docker_for_base_metal/" />
   <link rel="alternate" href="https://www.pknopf.com/index.xml" type="application/rss+xml" title="Paul Knopf">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
@@ -154,11 +159,11 @@ I began investigating different ways to interop with .NET and unmanaged code. Th
         <div class="row">
           <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
             <div class="post-heading">
-              <h1>Performance: C&#43;&#43;/CLI vs COM</h1>
+              <h1>Introducing Darch, a tool for building immutable, reproducable, and stateless bootable Linux images. Think docker, but for bare-metal.</h1>
                 
                 
                   <span class="post-meta">
-  Posted on March 7, 2013
+  Posted on January 14, 2018
   
 </span>
 
@@ -179,115 +184,87 @@ I began investigating different ways to interop with .NET and unmanaged code. Th
       <article role="main" class="blog-post">
         
 
-<p>In my current project, we are going to require a great deal of native code due to interation with drivers and hardware. The application is going to be based in .NET, at least the UI portion, but the heart has to live in native C++.</p>
+<p><a href="https://github.com/pauldotknopf/darch">GitHub Project</a></p>
 
-<p>I began investigating different ways to interop with .NET and unmanaged code. There seems to be three approaches.</p>
+<p>I have <a href="https://www.pknopf.com/post/2017-03-20-an_immutable_reproducible_and_inheritable_linux_operating_system/">previously blogged</a> about my desire to have a &ldquo;docker-like&rdquo; environment for build images that I can boot bare-metal.</p>
+
+<p>With that said, I created <a href="https://github.com/pauldotknopf/darch">Darch</a>.</p>
+
+<h1 id="what-it-is">What it is</h1>
+
+<p>Darch is an application (written in golang) that makes building and booting rootfs images simple. It will generate <code>rootfs.squash</code> files and update <code>grub.cfg</code> for booting them. Even though Darch supports Arch only (Gentoo/VoidLinux soon), you can build and boot the images from any operating system that has grub installed.</p>
+
+<p>During boot, a set of hooks are ran (see <a href="https://github.com/pauldotknopf/darch/tree/develop/scripts/hooks">here</a>) in initcpio that will prepare things like <code>/etc/fstab</code> and <code>/etc/hostname</code>.</p>
+
+<p>See <a href="https://github.com/pauldotknopf/darch-images">here</a> for my image repository. It is setup with Travis-CI to auto-deploy to DockerHub, where my bootable images are deployed to. Darch supports pulling from DockerHub to boot images locally.</p>
+
+<h1 id="steps-to-get-started">Steps to get started</h1>
+
+<p>First, <a href="https://github.com/pauldotknopf/darch#install">install Darch</a>, then&hellip;</p>
+
+<pre><code># Build the images. This generates local Docker images.
+darch build $(darch build-dep)
+# Extract Docker image to local file system.
+darch stage upload plasma
+# This effectively calls grub-mkconfig.
+darch stage sync-boot-loader
+</code></pre>
+
+<p>Then, reboot into grub, and you will see a new menu entry for your Darch image.</p>
+
+<h1 id="hooks">Hooks</h1>
+
+<p>Images need to have certain machine-specific configurations. Out of the box, there are hooks for <code>/etc/fstab</code> and <code>/etc/hostname</code>. When images are uploaded to the stage, the hooks are ran against it (<code>darch stage run-hooks</code> to re-run them).</p>
+
+<h2 id="fstab">fstab</h2>
+
+<pre><code class="language-bash">darch hooks help fstab
+</code></pre>
+
+<ol>
+<li>Create a <code>/var/darch/hooks/fstab.config</code> file.</li>
+<li>The file is a list of <code>image-name=value</code> entries, where <code>image-name</code> is a globbing pattern matching &ldquo;image-name:tag&rdquo;, and <code>value</code> is the name of the file that will be placed into the booted image. Add a catch-all at the end of the file (<code>*=default_fstab</code>) to use the same <code>/etc/fstab</code> for all images.</li>
+<li>Re-run the hooks after making changes with <code>darch stage run-hooks</code>.</li>
+</ol>
+
+<h2 id="hostname">hostname</h2>
+
+<pre><code class="language-bash">darch hooks help hostname
+</code></pre>
+
+<ol>
+<li>Create a <code>/var/darch/hooks/hostname.config</code> file.</li>
+<li>The file is a list of <code>image-name=value</code>, similar to the fstab hook above, but where <code>value</code> represents the value that will be put into <code>/etc/hostname</code>.</li>
+<li>Re-run the hooks after making changes with <code>darch stage run-hooks</code>.</li>
+</ol>
+
+<h1 id="documentation">Documentation</h1>
+
+<p>At the moment, you should refer to the <code>darch</code> command for documentation. A wiki will eventually be created.</p>
+
+<h1 id="going-forward">Going forward</h1>
+
+<p>I am really happy with this solution. With future support for different distributions, users can easily tinker with Gentoo, Void Linux, and even Ubuntu.</p>
+
+<p>I really like the approach for using Docker. It&rsquo;s inheritance made it really easy to isolate and speed up the build process. However, I don&rsquo;t like that the images are mixed together with traditional Docker images, and a daemon is required to be running to perform the build.</p>
+
+<p>In the future, I will be using the internals of the Docker daemon directly inside of Darch.</p>
 
 <ul>
-<li>PInvoke</li>
-<li>COM/COM+/Interop</li>
-<li>C++/CLI</li>
+<li>Layer store</li>
+<li>Images (tagging/pushing/pulling)</li>
 </ul>
 
-<p>I did not look into the PInvoke method because I know that it will not be suitable for my needs. Things get complicated really quick with PInvoke. It is ideal for small/quick access to Win32, but not beyond that. With that said, I produced some metrics about the performance between COM+ and C++/CLI.</p>
-
-<p>I have one class (unmanaged) that I use in every metric.</p>
-
-<pre><code class="language-c++">#pragma once
-__declspec(dllexport) class NativeClass
-{
-public:
-	__declspec(dllexport) NativeClass(void);
-	__declspec(dllexport) ~NativeClass(void);
-	__declspec(dllexport) int GetWindowsVersion(int numberOfExecutions);
-};
-</code></pre>
-
-<p>There are duplications of this class but they all do the same thing. The method we are testing is a simple GetVersionEx from the WinAPI.</p>
-
-<pre><code class="language-c++">int NativeClass::GetWindowsVersion(int numberOfExecutions)
-{
-	OSVERSIONINFO osvi;
-
-	for(int x = 0; x &lt; numberOfExecutions; x++)
-	{
-		ZeroMemory(&amp;osvi, sizeof(OSVERSIONINFO));
-		osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
-		GetVersionEx(&amp;osvi);
-	}
-
-	return osvi.dwBuildNumber;
-}
-</code></pre>
-
-<p>The parameter “numberOfExecutions” tells the unmanaged class how many times it should invoke GetVersionEx. This native class is written/duplicated in multiple projects to similate the same process. I have 4 projects.</p>
-
-<ol>
-<li>PerformanceTest - This is a console application that runs the performance in C#/.NET</li>
-<li>CLITest - This is a C++/CLI project that contains two classes. The first class is a wrapper around an unmanaged class that is compiled in the same C++/CLI project. The second class is a wrapper around an unmanaged class that is compiled in a seperate native dll (not C++/CLI).</li>
-<li>COMTest - This is a project that has a COM wrapper around an unmanaged class.</li>
-</ol>
-
-<p>I tested two scenarios.</p>
-
-<ol>
-<li>Calling an unmanaged class from .NET multiple times.</li>
-<li>Calling an unmanaged class from .NET a single time while doing a large task (numberOfExecutions = 10000000).</li>
-</ol>
-
-<p>Here are the results from the console application for the 3 situations.</p>
-
-<ol>
-<li>.NET to CLI calling an unmanaged class compiled in C++/CLI.</li>
-<li>.NET to CLI calling an unmanaged class compiled in native C++.</li>
-<li>.NET to COM calling an unmanaged class compiled in native C++.</li>
-</ol>
-
-<p>Here is the output of the test.</p>
-
-<pre><code>CLI..........................
-     GetWindowsVersion:
-         Calls: 100000
-         Executions: 1
-         Result: 00:00:00.0190000
-     GetWindowsVersion:
-         Calls: 1
-         Executions: 100000000
-         Result: 00:00:15.7790000
-CLI to native................
-     GetWindowsVersion:
-         Calls: 100000
-         Executions: 1
-         Result: 00:00:00.0180000
-     GetWindowsVersion:
-         Calls: 1
-         Executions: 100000000
-         Result: 00:00:04.8020000
-COM..........................
-     GetWindowsVersion:
-         Calls: 100000
-         Executions: 1
-         Result: 00:00:02.6120000
-     GetWindowsVersion:
-         Calls: 1
-         Executions: 100000000
-         Result: 00:00:04.7310000
-</code></pre>
-
-<h1 id="conclusion">Conclusion</h1>
-
-<p>Native code compiled and running under C++/CLI is a great deal slower than running pure native code. COM would be the obviouse choice due to it running pure unmanaged code, but C++/CLI can give the same performance if used as a wrapper around a pure native assembly. In addition, COM/ATL is very difficult to learn, however, Visual Studio’s class wizards make it easier. Also, it seems that, making a great deal of calls to native code is MUCH more efficient through C++/CLI as opposed to COM, but this may be an unlikely scenario. Given these results and given the fact that this native code I am writing will be written primarily for .NET (as opposed to COM/activex/etc), I would recommend using the C++/CLI wrapper approach. Same performance, more flexible interop.</p>
-
-<p>The project used for running these tests can be found on github <a href="https://github.com/theonlylawislove/CLICOMPerformanceTest">here</a>.</p>
+<p>The layers/images/mounts will be stored in <code>/var/lib/darch</code>, it&rsquo;s own directory. A running daemon will not be required, since Darch doesn&rsquo;t actually run processes/containers. The built layers/images will be compatible with any Docker registry, including DockerHub.</p>
 
       </article>
 
       <ul class="pager blog-pager">
         
-        
-          <li class="next">
-            <a href="https://www.pknopf.com/post/2017-03-20-an_immutable_reproducible_and_inheritable_linux_operating_system/" data-toggle="tooltip" data-placement="top" title="An immutable, reproducible and inheritable Linux operating system.">Next Post &rarr;</a>
+          <li class="previous">
+            <a href="https://www.pknopf.com/post/2017-03-20-an_immutable_reproducible_and_inheritable_linux_operating_system/" data-toggle="tooltip" data-placement="top" title="An immutable, reproducible and inheritable Linux operating system.">&larr; Previous Post</a>
           </li>
+        
         
       </ul>
 
