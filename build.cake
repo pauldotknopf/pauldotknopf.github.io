@@ -4,8 +4,8 @@ var configuration = Argument("configuration", "Release");
 var buildDir = Directory("./src/Example/bin") + Directory(configuration);
 var hugoPath = Directory("./tools") + File("hugo" + (IsRunningOnWindows() ? ".exe" : ""));
 var hugoUrl = IsRunningOnWindows()
-    ? "https://github.com/gohugoio/hugo/releases/download/v0.27.1/hugo_0.27.1_Windows-64bit.zip"
-    : "https://github.com/gohugoio/hugo/releases/download/v0.27.1/hugo_0.27.1_Linux-64bit.tar.gz";
+    ? "https://github.com/gohugoio/hugo/releases/download/v0.32.4/hugo_0.32.4_Windows-64bit.zip"
+    : "https://github.com/gohugoio/hugo/releases/download/v0.32.3/hugo_0.32.3_Linux-64bit.tar.gz";
 
 Task("Clean")
     .Does(() =>
