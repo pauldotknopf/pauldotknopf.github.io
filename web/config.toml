@@ -6,6 +6,8 @@ theme = "beautifulhugo"
 
 disqusShortname = "pknopf"
 
+googleAnalytics = "UA-112478642-1"
+
 [Params]
   logo = "img/avatar-icon.png"
   comments = true
