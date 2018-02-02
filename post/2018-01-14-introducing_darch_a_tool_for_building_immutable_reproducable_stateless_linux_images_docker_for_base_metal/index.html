@@ -5,21 +5,18 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-  <title>Introducing Darch, a tool for building immutable, reproducable, and stateless bootable Linux images. Think docker, but for bare-metal.</title>
-  <meta property="og:title" content="Introducing Darch, a tool for building immutable, reproducable, and stateless bootable Linux images. Think docker, but for bare-metal." />
+  <title>Introducing Darch, a tool for building immutable, reproducable, and stateless bootable Linux images. Think Docker, but for bare-metal.</title>
+  <meta property="og:title" content="Introducing Darch, a tool for building immutable, reproducable, and stateless bootable Linux images. Think Docker, but for bare-metal." />
   <meta name="twitter:title" content="Introducing Darch, a tool for building immutable, reproducable, and …" />
-  <meta name="description" content="GitHub Project
-I have previously blogged about my desire to have a &ldquo;docker-like&rdquo; environment for build images that I can boot bare-metal.
+  <meta name="description" content="I have previously blogged about my desire to have a &ldquo;docker-like&rdquo; environment for build images that I can boot bare-metal.
 With that said, I created Darch.
 What it is Darch is an application (written in golang) that makes building and booting rootfs images simple. It will generate rootfs.squash files and update grub.cfg for booting them. Even though Darch supports Arch only (Gentoo/VoidLinux soon), you can build and boot the images from any operating system that has grub installed.">
-  <meta property="og:description" content="GitHub Project
-I have previously blogged about my desire to have a &ldquo;docker-like&rdquo; environment for build images that I can boot bare-metal.
+  <meta property="og:description" content="I have previously blogged about my desire to have a &ldquo;docker-like&rdquo; environment for build images that I can boot bare-metal.
 With that said, I created Darch.
 What it is Darch is an application (written in golang) that makes building and booting rootfs images simple. It will generate rootfs.squash files and update grub.cfg for booting them. Even though Darch supports Arch only (Gentoo/VoidLinux soon), you can build and boot the images from any operating system that has grub installed.">
-  <meta name="twitter:description" content="GitHub Project
-I have previously blogged about my desire to have a &ldquo;docker-like&rdquo; environment for build images that I can boot bare-metal.
+  <meta name="twitter:description" content="I have previously blogged about my desire to have a &ldquo;docker-like&rdquo; environment for build images that I can boot bare-metal.
 With that said, I created Darch.
-What it is Darch …">
+What it is Darch is an …">
   <meta name="author" content="Paul Knopf"/>
   <meta property="og:image" content="https://www.pknopf.com/img/avatar-icon.png" />
   <meta name="twitter:image" content="https://www.pknopf.com/img/avatar-icon.png" />
@@ -166,11 +163,11 @@ ga('send', 'pageview');
         <div class="row">
           <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
             <div class="post-heading">
-              <h1>Introducing Darch, a tool for building immutable, reproducable, and stateless bootable Linux images. Think docker, but for bare-metal.</h1>
+              <h1>Introducing Darch, a tool for building immutable, reproducable, and stateless bootable Linux images. Think Docker, but for bare-metal.</h1>
                 
                 
                   <span class="post-meta">
-  Posted on January 14, 2018
+  Posted on February 1, 2018
   
 </span>
 
@@ -191,78 +188,17 @@ ga('send', 'pageview');
       <article role="main" class="blog-post">
         
 
-<p><a href="https://github.com/pauldotknopf/darch">GitHub Project</a></p>
-
 <p>I have <a href="https://www.pknopf.com/post/2017-03-20-an_immutable_reproducible_and_inheritable_linux_operating_system/">previously blogged</a> about my desire to have a &ldquo;docker-like&rdquo; environment for build images that I can boot bare-metal.</p>
 
-<p>With that said, I created <a href="https://github.com/pauldotknopf/darch">Darch</a>.</p>
+<p>With that said, I created <a href="https://godarch.com/">Darch</a>.</p>
 
 <h1 id="what-it-is">What it is</h1>
 
 <p>Darch is an application (written in golang) that makes building and booting rootfs images simple. It will generate <code>rootfs.squash</code> files and update <code>grub.cfg</code> for booting them. Even though Darch supports Arch only (Gentoo/VoidLinux soon), you can build and boot the images from any operating system that has grub installed.</p>
 
-<p>During boot, a set of hooks are ran (see <a href="https://github.com/pauldotknopf/darch/tree/develop/scripts/hooks">here</a>) in initcpio that will prepare things like <code>/etc/fstab</code> and <code>/etc/hostname</code>.</p>
+<p>During boot, a set of hooks are ran (see <a href="https://github.com/godarch/darch/tree/develop/scripts/hooks">here</a>) in initcpio that will prepare things like <code>/etc/fstab</code> and <code>/etc/hostname</code>.</p>
 
-<p>See <a href="https://github.com/pauldotknopf/darch-images">here</a> for my image repository. It is setup with Travis-CI to auto-deploy to DockerHub, where my bootable images are deployed to. Darch supports pulling from DockerHub to boot images locally.</p>
-
-<h1 id="steps-to-get-started">Steps to get started</h1>
-
-<p>First, <a href="https://github.com/pauldotknopf/darch#install">install Darch</a>, then&hellip;</p>
-
-<pre><code># Build the images. This generates local Docker images.
-darch build $(darch build-dep)
-# Extract Docker image to local file system.
-darch stage upload plasma
-# This effectively calls grub-mkconfig.
-darch stage sync-boot-loader
-</code></pre>
-
-<p>Then, reboot into grub, and you will see a new menu entry for your Darch image.</p>
-
-<h1 id="hooks">Hooks</h1>
-
-<p>Images need to have certain machine-specific configurations. Out of the box, there are hooks for <code>/etc/fstab</code> and <code>/etc/hostname</code>. When images are uploaded to the stage, the hooks are ran against it (<code>darch stage run-hooks</code> to re-run them).</p>
-
-<h2 id="fstab">fstab</h2>
-
-<pre><code class="language-bash">darch hooks help fstab
-</code></pre>
-
-<ol>
-<li>Create a <code>/var/darch/hooks/fstab.config</code> file.</li>
-<li>The file is a list of <code>image-name=value</code> entries, where <code>image-name</code> is a globbing pattern matching &ldquo;image-name:tag&rdquo;, and <code>value</code> is the name of the file that will be placed into the booted image. Add a catch-all at the end of the file (<code>*=default_fstab</code>) to use the same <code>/etc/fstab</code> for all images.</li>
-<li>Re-run the hooks after making changes with <code>darch stage run-hooks</code>.</li>
-</ol>
-
-<h2 id="hostname">hostname</h2>
-
-<pre><code class="language-bash">darch hooks help hostname
-</code></pre>
-
-<ol>
-<li>Create a <code>/var/darch/hooks/hostname.config</code> file.</li>
-<li>The file is a list of <code>image-name=value</code>, similar to the fstab hook above, but where <code>value</code> represents the value that will be put into <code>/etc/hostname</code>.</li>
-<li>Re-run the hooks after making changes with <code>darch stage run-hooks</code>.</li>
-</ol>
-
-<h1 id="documentation">Documentation</h1>
-
-<p>At the moment, you should refer to the <code>darch</code> command for documentation. A wiki will eventually be created.</p>
-
-<h1 id="going-forward">Going forward</h1>
-
-<p>I am really happy with this solution. With future support for different distributions, users can easily tinker with Gentoo, Void Linux, and even Ubuntu.</p>
-
-<p>I really like the approach for using Docker. It&rsquo;s inheritance made it really easy to isolate and speed up the build process. However, I don&rsquo;t like that the images are mixed together with traditional Docker images, and a daemon is required to be running to perform the build.</p>
-
-<p>In the future, I will be using the internals of the Docker daemon directly inside of Darch.</p>
-
-<ul>
-<li>Layer store</li>
-<li>Images (tagging/pushing/pulling)</li>
-</ul>
-
-<p>The layers/images/mounts will be stored in <code>/var/lib/darch</code>, it&rsquo;s own directory. A running daemon will not be required, since Darch doesn&rsquo;t actually run processes/containers. The built layers/images will be compatible with any Docker registry, including DockerHub.</p>
+<p>See <a href="https://github.com/pauldotknopf/darch-recipes">here</a> for my recipes. It is setup with Travis-CI to auto-deploy to Docker Hub, where my bootable images are deployed to. Darch supports pulling from Docker Hub to boot images locally.</p>
 
       </article>
 
