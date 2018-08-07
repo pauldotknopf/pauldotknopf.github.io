@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://www.pknopf.com/post/2018-08-06-a-new-approach-for-cross-platform-net-gui-development-introducing-qml-net/</loc>
+    <lastmod>2018-08-06T11:36:35-05:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://www.pknopf.com/post/2018-01-14-introducing_darch_a_tool_for_building_immutable_reproducable_stateless_linux_images_docker_for_base_metal/</loc>
     <lastmod>2018-02-01T11:36:35-05:00</lastmod>
   </url>
@@ -28,7 +33,7 @@
   
   <url>
     <loc>https://www.pknopf.com/</loc>
-    <lastmod>2018-02-01T11:36:35-05:00</lastmod>
+    <lastmod>2018-08-06T11:36:35-05:00</lastmod>
   </url>
   
   <url>
@@ -38,7 +43,7 @@
   
   <url>
     <loc>https://www.pknopf.com/post/</loc>
-    <lastmod>2018-02-01T11:36:35-05:00</lastmod>
+    <lastmod>2018-08-06T11:36:35-05:00</lastmod>
     <priority>0</priority>
   </url>
   

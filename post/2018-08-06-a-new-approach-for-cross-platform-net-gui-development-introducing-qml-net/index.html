@@ -5,28 +5,24 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-  <title>Introducing Darch, a tool for building immutable, reproducable, and stateless bootable Linux images. Think Docker, but for bare-metal.</title>
-  <meta property="og:title" content="Introducing Darch, a tool for building immutable, reproducable, and stateless bootable Linux images. Think Docker, but for bare-metal." />
-  <meta name="twitter:title" content="Introducing Darch, a tool for building immutable, reproducable, and …" />
-  <meta name="description" content="I have previously blogged about my desire to have a &ldquo;docker-like&rdquo; environment for build images that I can boot bare-metal.
-With that said, I created Darch.
-What it is Darch is an application (written in golang) that makes building and booting rootfs images simple. It will generate rootfs.squash files and update grub.cfg for booting them. Even though Darch supports Arch only (Gentoo/VoidLinux soon), you can build and boot the images from any operating system that has grub installed.">
-  <meta property="og:description" content="I have previously blogged about my desire to have a &ldquo;docker-like&rdquo; environment for build images that I can boot bare-metal.
-With that said, I created Darch.
-What it is Darch is an application (written in golang) that makes building and booting rootfs images simple. It will generate rootfs.squash files and update grub.cfg for booting them. Even though Darch supports Arch only (Gentoo/VoidLinux soon), you can build and boot the images from any operating system that has grub installed.">
-  <meta name="twitter:description" content="I have previously blogged about my desire to have a &ldquo;docker-like&rdquo; environment for build images that I can boot bare-metal.
-With that said, I created Darch.
-What it is Darch is an …">
+  <title>A new approach for cross-platform .NET GUI development, introducting Qml.Net.</title>
+  <meta property="og:title" content="A new approach for cross-platform .NET GUI development, introducting Qml.Net." />
+  <meta name="twitter:title" content="A new approach for cross-platform .NET GUI development, introducting …" />
+  <meta name="description" content="Since Microsoft anounced .NET Core, there hasn&rsquo;t been a clear vision vision on what cross-platform GUI development would look like. Although they plan to support WPF in .NET Core 3.0, it will still only target Windows.
+There have been many different projects that have proped up that have attempted to fill the void, but (IMO) have come up short. They typically have one or more of the following issues:">
+  <meta property="og:description" content="Since Microsoft anounced .NET Core, there hasn&rsquo;t been a clear vision vision on what cross-platform GUI development would look like. Although they plan to support WPF in .NET Core 3.0, it will still only target Windows.
+There have been many different projects that have proped up that have attempted to fill the void, but (IMO) have come up short. They typically have one or more of the following issues:">
+  <meta name="twitter:description" content="Since Microsoft anounced .NET Core, there hasn&rsquo;t been a clear vision vision on what cross-platform GUI development would look like. Although they plan to support WPF in .NET Core 3.0, it will …">
   <meta name="author" content="Paul Knopf"/>
   <meta property="og:image" content="https://www.pknopf.com/img/avatar-icon.png" />
   <meta name="twitter:image" content="https://www.pknopf.com/img/avatar-icon.png" />
   <meta name="twitter:card" content="summary" />
-  <meta property="og:url" content="https://www.pknopf.com/post/2018-01-14-introducing_darch_a_tool_for_building_immutable_reproducable_stateless_linux_images_docker_for_base_metal/" />
+  <meta property="og:url" content="https://www.pknopf.com/post/2018-08-06-a-new-approach-for-cross-platform-net-gui-development-introducing-qml-net/" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Paul Knopf" />
 
   <meta name="generator" content="Hugo 0.32.3" />
-  <link rel="canonical" href="https://www.pknopf.com/post/2018-01-14-introducing_darch_a_tool_for_building_immutable_reproducable_stateless_linux_images_docker_for_base_metal/" />
+  <link rel="canonical" href="https://www.pknopf.com/post/2018-08-06-a-new-approach-for-cross-platform-net-gui-development-introducing-qml-net/" />
   <link rel="alternate" href="https://www.pknopf.com/index.xml" type="application/rss+xml" title="Paul Knopf">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
@@ -163,11 +159,11 @@ ga('send', 'pageview');
         <div class="row">
           <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
             <div class="post-heading">
-              <h1>Introducing Darch, a tool for building immutable, reproducable, and stateless bootable Linux images. Think Docker, but for bare-metal.</h1>
+              <h1>A new approach for cross-platform .NET GUI development, introducting Qml.Net.</h1>
                 
                 
                   <span class="post-meta">
-  Posted on February 1, 2018
+  Posted on August 6, 2018
   
 </span>
 
@@ -188,30 +184,56 @@ ga('send', 'pageview');
       <article role="main" class="blog-post">
         
 
-<p>I have <a href="https://www.pknopf.com/post/2017-03-20-an_immutable_reproducible_and_inheritable_linux_operating_system/">previously blogged</a> about my desire to have a &ldquo;docker-like&rdquo; environment for build images that I can boot bare-metal.</p>
+<p>Since Microsoft anounced .NET Core, there hasn&rsquo;t been a clear vision vision on what cross-platform GUI development would look like. Although they plan to support WPF in .NET Core 3.0, it will still only target Windows.</p>
 
-<p>With that said, I created <a href="https://godarch.com/">Darch</a>.</p>
+<p>There have been many different projects that have proped up that have attempted to fill the void, but (IMO) have come up short. They typically have one or more of the following issues:</p>
 
-<h1 id="what-it-is">What it is</h1>
+<ol>
+<li>Too young, not enough controls. Particularly with projects that render their own components.</li>
+<li>Lack of styling/customizations. Particularly with projects that wrap native controls which don&rsquo;t support advanced styling scenarios.</li>
+<li>Too &ldquo;PInvoke chatty&rdquo;. Some projects attempt to render their own controls in .NET which require many calls to correctly draw the 2D scenes. It is expensive to call into native libraries. It is because of this reason that Microsoft created <code>PresentationFramework.dll</code> for WPF which handles most of the DirectX calls while exposing the key peices needed to render controls in .NET/WPF.</li>
+</ol>
 
-<p>Darch is an application (written in golang) that makes building and booting rootfs images simple. It will generate <code>rootfs.squash</code> files and update <code>grub.cfg</code> for booting them. Even though Darch supports Arch only (Gentoo/VoidLinux soon), you can build and boot the images from any operating system that has grub installed.</p>
+<h1 id="using-an-existing-gui-framework">Using an existing GUI framework</h1>
 
-<p>During boot, a set of hooks are ran (see <a href="https://github.com/godarch/darch/tree/develop/scripts/hooks">here</a>) in initcpio that will prepare things like <code>/etc/fstab</code> and <code>/etc/hostname</code>.</p>
+<p>It is always nice to stand on the shoulder of giants. Wouldn&rsquo;t you rather implement your GUI on something that has been battle tested in the field for years in many different fields?</p>
 
-<p>See <a href="https://github.com/pauldotknopf/darch-recipes">here</a> for my recipes. It is setup with Travis-CI to auto-deploy to Docker Hub, where my bootable images are deployed to. Darch supports pulling from Docker Hub to boot images locally.</p>
+<p><strong>GTK</strong> - It supports many platforms, including embedded architectures. It is also written in C which makes interopping with C# considerablly easier than C++. However, this isn&rsquo;t a good candidate for C#/.NET for a few reasons. While the controls look great under Linux, they look alien on OSX and Windows. Considering the APIs that would need to be exposed to .NET to build a fully-featured application, it would take a considerable amount of effort to develop/maintain and would increase your surface area for bugs. Also, it would suffer from the &ldquo;chatty PInvoke&rdquo; issue mentioned previously, especially when rendering your own controls.</p>
+
+<p><strong>Qt Widgets</strong> - This would also suffer similar problems that GTK faces. It is written in C++ which makes it particularly hard to interop with from C#. Qt Widgets is also considered the &ldquo;old-way&rdquo; of doing things. QML/QtQuick is the recommended approach by the Qt team for new projects.</p>
+
+<p><strong>Qt/QML/QtQuick</strong> - This is the best option. The UI is entirely written and defined in QML, which removes any &ldquo;chatty PInvoke&rdquo; issues. It would also not require you to wrap an extensive API since everything is done in QML. It has great styles that mimick native controls on each platform (Windows/OSX/Linux/Android/iOS).</p>
+
+<h1 id="the-current-landscape">The current landscape</h1>
+
+<p><strong>GtkSharp</strong> - This is great wrapper. It still suffers from chatty PInvoke though when doing any custom rendering. It also looks alien on OSX and Windows.</p>
+
+<p><strong>QtSharp</strong> - This project attempts to wrap Qt and the Qt Widgets. It auto-generates it&rsquo;s C# wrappers which makes it easier to wrap the large API surface needed to build an application. However, it is still trying to wrap a C++ api (using MonoCpp), and because of this, it is plagued with issues (name mangling, object ownership semantics, the MOC/signal system, portability). It also attempts to wrap the entire Qt API, even when there are comparable .NET types/libraries. It also only supports Qt Widgets, which is considered the &ldquo;old way&rdquo; of doing things.</p>
+
+<h1 id="introducing-my-project-qml-net">Introducing my project, Qml.Net</h1>
+
+<p><a href="https://github.com/pauldotknopf/Qml.Net">Qml.Net</a></p>
+
+<p>Qml.Net is a C# library with a native dependency that exposes the required types needed to host a QML engine. The PInvoke code is hand-crafted to to ensure proper memory mangement and owner-ship semantics. I&rsquo;d bet you could&rsquo;t generate a segfault, even if you wanted to.</p>
+
+<p>You can register C# objects to be treated as QML components that you can interop with as if they are regular JS objects. These registered objects serve as the portal into which the QML world can interact with your .NET objects. This has the added benefit of enforcing you to keep to keep your business/UI concerns seperated cleanly along the tech stacks, and no chatty PInvoke calls for rendering. It truely is a mariage made in heaven!</p>
+
+<p>A pre-compiled portable installation of Qt and the native C wrapper is available for Windows, OSX and Linux. Developers shouldn&rsquo;t have to touch C/C++. All you need to know is QML (json-like), JavaScript and C#. Pluralsight has a great course for QML/QtQuick <a href="https://www.pluralsight.com/courses/qt-quick-fundamentals">here</a>.</p>
+
+<p>The best way to get an idea of what this all looks like is to check out <a href="https://github.com/pauldotknopf/Qml.Net.Examples">the examples</a>.</p>
+
+<p><img src="/img/qmlnet-demo.gif" alt="Demo" /></p>
+
+<p>I&rsquo;m really excited about this approach for building cross-platform apps with C#. Please give it a shot and leave me some feedback!</p>
 
       </article>
 
       <ul class="pager blog-pager">
         
           <li class="previous">
-            <a href="https://www.pknopf.com/post/2017-03-20-an_immutable_reproducible_and_inheritable_linux_operating_system/" data-toggle="tooltip" data-placement="top" title="An immutable, reproducible and inheritable Linux operating system.">&larr; Previous Post</a>
+            <a href="https://www.pknopf.com/post/2018-01-14-introducing_darch_a_tool_for_building_immutable_reproducable_stateless_linux_images_docker_for_base_metal/" data-toggle="tooltip" data-placement="top" title="Introducing Darch, a tool for building immutable, reproducable, and stateless bootable Linux images. Think Docker, but for bare-metal.">&larr; Previous Post</a>
           </li>
         
-        
-          <li class="next">
-            <a href="https://www.pknopf.com/post/2018-08-06-a-new-approach-for-cross-platform-net-gui-development-introducing-qml-net/" data-toggle="tooltip" data-placement="top" title="A new approach for cross-platform .NET GUI development, introducting Qml.Net.">Next Post &rarr;</a>
-          </li>
         
       </ul>
 
