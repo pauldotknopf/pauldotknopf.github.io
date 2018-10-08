@@ -1,4 +1,4 @@
-@model PageModel
+@model PostsModel
 
 <div class="container">
     @foreach (var post in Model.Posts)
@@ -16,7 +16,7 @@
         </div>
     }
 
-    <div class="d-flex">
+    <p class="d-flex">
         @if (Model.Posts.HasPreviousPage)
         {
             <a href="@Url.Content($"/blog/{Model.Posts.PageIndex - 1}")" class="mr-auto btn btn-default">previous</a>
@@ -26,6 +26,6 @@
         {
             <a href="@Url.Content($"/blog/{Model.Posts.PageIndex + 1}")" class="ml-auto btn btn-default">next</a>
         }
-    </div>
+    </p>
 
 </div>

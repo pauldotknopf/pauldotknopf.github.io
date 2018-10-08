@@ -28,6 +28,7 @@ namespace Blog
         private static IMarkdownParser _markdownParser;
         private static IMarkdownRenderer _markdownRenderer;
         private static IPosts _posts;
+        private static IPages _pages;
         
         static int Main(string[] args)
         {
@@ -52,8 +53,11 @@ namespace Blog
                     });
                 });
                 
+                LoadPages();
                 LoadPosts();
+                
                 RegisterPages();
+                RegisterPosts();
                 RegisterResources();
                 
                 try
@@ -87,6 +91,35 @@ namespace Blog
             }
         }
 
+        private static void LoadPages()
+        {
+            var pagesDirectory = Path.Combine(_contentDirectory, "pages");
+            if (!Directory.Exists(pagesDirectory))
+            {
+                return;
+            }
+
+            var pages = new List<Page>();
+            foreach (var page in Directory.GetFiles(pagesDirectory, "*.md"))
+            {
+                var result = _markdownParser.Parse<Page>(File.ReadAllText(page));
+                if (result.Yaml == null)
+                {
+                    throw new InvalidOperationException($"no yaml provided for {page}");
+                }
+
+                result.Yaml.Markdown = result.Markdown;
+                if (string.IsNullOrEmpty(result.Yaml.Slug))
+                {
+                    result.Yaml.Slug = Statik.StatikHelpers.ConvertStringToSlug(result.Yaml.Title);
+                }
+                result.Yaml.Path = $"/{result.Yaml.Slug.ToLower()}";
+                pages.Add(result.Yaml);
+            }
+            _pages = new Pages(pages);
+            _webBuilder.RegisterServices(services => services.AddSingleton(_pages));
+        }
+        
         private static void LoadPosts()
         {
             var posts = new List<Post>();
@@ -109,8 +142,21 @@ namespace Blog
             _posts = new Posts(posts);
             _webBuilder.RegisterServices(services => { services.AddSingleton(_posts); });
         }
-        
+
         private static void RegisterPages()
+        {
+            foreach (var page in _pages.GetPages())
+            {
+                _webBuilder.RegisterMvc(page.Path, new
+                {
+                    controller = "Page",
+                    action = "Page",
+                    page
+                });
+            }
+        }
+        
+        private static void RegisterPosts()
         {
             _webBuilder.RegisterMvc("/", new
             {

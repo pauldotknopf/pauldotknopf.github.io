@@ -19,7 +19,7 @@ namespace Blog.Controllers
         
         public ActionResult Page([FromRouteData]int pageIndex)
         {
-            var model = new PageModel();
+            var model = new PostsModel();
             model.Posts = _posts.GetPosts(pageIndex, 2);
             return View("Page", model);
         }
