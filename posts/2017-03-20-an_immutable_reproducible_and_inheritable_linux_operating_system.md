@@ -20,7 +20,7 @@ Is Qt Creator installed? If so, what version of Qt? Why does my compilation fail
 
 I would like to treat my operating system like inheritance in OOP. Here is my pseudo code to illustrate.
 
-```c#
+```csharp
 public abstract class BaseImage
 {
     protected abstract void Install();
@@ -67,7 +67,7 @@ public class Gaming : NVidia
 I'd imagine building these images with something like this.
 
 ```bash
-> build --type Gaming --output gaming.rootfs
+> build --type Gaming --output gaming.squashfs
 ```
 
 Notice the ```squashfs``` extension, which brings me to my next point.

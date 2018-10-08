@@ -17,6 +17,11 @@ namespace Blog
         [YamlMember(Alias = "disqus_identifier")]
         public string DisqusIdentifier { get; set; }
         
+        [YamlMember(Alias = "slug")]
+        public string Slug { get; set; }
+        
+        public string Path { get; set; }
+        
         public string Markdown { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Threading.Tasks;
 using Blog.Services;
@@ -98,6 +99,11 @@ namespace Blog
                 }
 
                 result.Yaml.Markdown = result.Markdown;
+                if (string.IsNullOrEmpty(result.Yaml.Slug))
+                {
+                    result.Yaml.Slug = Statik.StatikHelpers.ConvertStringToSlug(result.Yaml.Title);
+                }
+                result.Yaml.Path = $"/post/{result.Yaml.Date.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)}-{result.Yaml.Slug.ToLower()}";
                 posts.Add(result.Yaml);
             }
             _posts = new Posts(posts);
@@ -106,12 +112,19 @@ namespace Blog
         
         private static void RegisterPages()
         {
+            _webBuilder.RegisterMvc("/", new
+            {
+                controller = "Blog",
+                action = "Page",
+                pageIndex = 0
+            });
+            
             var pageIndex = 0;
             PagedList<Post> posts;
             do
             {
                 posts = _posts.GetPosts(pageIndex, 2);
-                _webBuilder.RegisterMvc($"/blog/{pageIndex + 1}", new
+                _webBuilder.RegisterMvc($"/blog/{pageIndex}", new
                 {
                     controller = "Blog",
                     action = "Page",
@@ -119,13 +132,17 @@ namespace Blog
                 });
                 pageIndex++;
             } while (posts.HasNextPage);
-            
-            _webBuilder.RegisterMvc("/", new
+
+            posts = _posts.GetPosts(0, int.MaxValue);
+            foreach (var post in posts)
             {
-                controller = "Blog",
-                action = "Page",
-                pageIndex = 0
-            });
+                _webBuilder.RegisterMvc(post.Path, new
+                {
+                    controller = "Blog",
+                    action = "Post",
+                    post
+                });
+            }
         }
         
         [ArgActionMethod, ArgIgnoreCase]

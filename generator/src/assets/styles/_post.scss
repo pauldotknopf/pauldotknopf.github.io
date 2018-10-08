@@ -1,0 +1,15 @@
+.post {
+    .title {
+        a {
+            color: $body-color;
+            @include hover {
+                text-decoration: none;
+                color: $link-hover-color;
+            }
+        }
+    }
+    .submitted {
+        color: $text-muted;
+        font-size: $font-size-sm;
+    }
+}

@@ -1,1 +1,12 @@
 // https://github.com/HackerThemes/theme-machine/blob/master/themes/neon-glow/css/bootstrap4-neon-glow.scss
+$theme-colors: () !default;
+
+$grid-breakpoints: (
+  sm: 0,
+  lg: 900px
+);
+
+$container-max-widths: (
+  sm: 540px,
+  lg: 840px
+);

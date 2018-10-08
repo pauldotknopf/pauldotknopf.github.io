@@ -10,7 +10,7 @@ namespace Blog.Services.Impl
 
         public Posts(List<Post> posts)
         {
-            _posts = posts.OrderBy(x => x.Date).ToList();
+            _posts = posts.OrderByDescending(x => x.Date).ToList();
         }
 
         public PagedList<Post> GetPosts(int pageIndex, int pageSize)
@@ -21,7 +21,7 @@ namespace Blog.Services.Impl
 
             var count = _posts.Count;
             
-            return new PagedList<Post>(posts, pageIndex, (count + pageSize) / pageSize, pageSize, count);
+            return new PagedList<Post>(posts, pageIndex, (int)Math.Ceiling(count / (decimal)pageSize) - 1, pageSize, count);
         }
     }
 }

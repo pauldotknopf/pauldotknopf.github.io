@@ -1,11 +1,31 @@
 @model PageModel
 
-@Model.Posts.TotalCount
+<div class="container">
+    @foreach (var post in Model.Posts)
+    {
+        <div class="post">
+            <h1 class="title">
+                <a href="@Url.Content($"~{post.Path}")">@post.Title</a>
+            </h1>
+            <p class="submitted">
+                posted on @post.Date.ToString("MMM dd, yyyy")
+            </p>
+            <div class="summary">
+                @Html.Raw(post.Summary)
+            </div>
+        </div>
+    }
 
-<pre>
-This is a test
-</pre>
+    <div class="d-flex">
+        @if (Model.Posts.HasPreviousPage)
+        {
+            <a href="@Url.Content($"/blog/{Model.Posts.PageIndex - 1}")" class="mr-auto btn btn-default">previous</a>
+        }
 
-<p>
-    This is a test
-</p>
+        @if (Model.Posts.HasNextPage)
+        {
+            <a href="@Url.Content($"/blog/{Model.Posts.PageIndex + 1}")" class="ml-auto btn btn-default">next</a>
+        }
+    </div>
+
+</div>
