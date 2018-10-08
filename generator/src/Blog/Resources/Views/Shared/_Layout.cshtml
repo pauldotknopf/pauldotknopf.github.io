@@ -12,11 +12,34 @@
 <body>
 
     <header>
-      <div class="navbar navbar-dark bg-dark shadow-sm">
-        <div class="container d-flex justify-content-between">
-          <a href="@Url.Content("~/")" class="navbar-brand d-flex align-items-center">
-            <strong>Album</strong>
-          </a>
+      <div class="powerline-bar">
+        <div class="container">
+          <div class="powerline-container">
+            <ul class="powerline">
+              <li class="primary">
+                pknopf@web
+              </li>
+              <li class="end primary-to-dark">
+              </li>
+              <li class="dark">
+                <a href="@Url.Content("~/")">cd ~/<span class="caret">&nbsp;</span></a>
+              </li>
+            </ul>
+            <ul class="powerline">
+              <li class="end dark-to-secondary">
+              </li>
+              <li class="secondary">
+                <a href="@Url.Content("~/archives")">archives</a>
+              </li>
+              <li class="end secondary-to-dark">
+              </li>
+              <li class="dark">
+                <a href="@Url.Content("~/about")">about</a>
+              </li>
+              <li class="end dark-to-primary">
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </header>

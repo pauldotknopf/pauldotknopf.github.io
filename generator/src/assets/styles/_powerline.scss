@@ -1,0 +1,95 @@
+.powerline-bar {
+    font-family: 'Hack';
+    background: theme-color('primary');
+}
+
+%powerline-end {
+    width: 0;
+    height: 0;
+    border-top: 0.8em solid transparent;
+    border-bottom: 0.8em solid transparent;
+    border-left: 0.8em solid;
+    padding-right: 4px;
+}
+
+.powerline-container {
+    @extend .bg-dark, .navbar, .navbar-expand, .justify-content-between;
+    padding: 0;
+    font-size: 120%;
+    .powerline {
+        @extend .navbar-nav;
+        > li {
+            @extend .nav-item;
+            &.primary-to-dark {
+                border-left-color: theme-color('primary');
+                background-color: theme-color('dark');
+            }
+            &.dark-to-primary {
+                border-left-color: theme-color('dark');
+                background-color: theme-color('primary');
+            }
+            &.dark-to-secondary {
+                border-left-color: theme-color('dark');
+                background-color: theme-color('secondary');
+            }
+            &.secondary-to-primary {
+                border-left-color: theme-color('secondary');
+                background-color: theme-color('primary');
+            }
+            &.secondary-to-dark {
+                border-left-color: theme-color('secondary');
+                background-color: theme-color('dark');
+            }
+            &.dark {
+                background: theme-color('dark');
+                color: theme-color('light');
+                a {
+                    color: theme-color('light');
+                    @include hover-focus {
+                        color: theme-color('light');
+                    }
+                }
+            }
+            &.secondary {
+                background: theme-color('secondary');
+                color: theme-color('light');
+                a {
+                    color: theme-color('light');
+                    @include hover-focus {
+                        color: theme-color('light');
+                    }
+                }
+            }
+            &.primary {
+                background: theme-color('primary');
+                color: theme-color('light');
+                a {
+                    color: theme-color('light');
+                    @include hover-focus {
+                        color: theme-color('light');
+                    }
+                }
+            }
+            &.end {
+                @extend %powerline-end;
+            }
+            a {
+                text-decoration: none;
+                @include hover-focus {
+                    text-decoration: none;
+                }
+            }
+        }
+
+        .caret {
+            animation: vimCaret 1s linear infinite;
+        }
+    }
+}
+
+@keyframes vimCaret {
+    0% { background-color: transparent; }
+    49% {  background-color: transparent; }
+    50% { background-color: rgba(255, 255, 255, .2); }
+    100% { background-color: rgba(255, 255, 255, .2); }
+}
