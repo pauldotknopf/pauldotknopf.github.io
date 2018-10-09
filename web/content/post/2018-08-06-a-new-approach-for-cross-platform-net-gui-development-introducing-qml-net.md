@@ -1,5 +1,5 @@
 ---
-title: "A new approach for cross-platform .NET GUI development, introducting Qml.Net."
+title: "A new approach for cross-platform .NET GUI development, introducing Qml.Net."
 date: 2018-08-06T11:36:35-05:00
 ---
 
