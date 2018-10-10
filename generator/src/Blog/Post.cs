@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using YamlDotNet.Serialization;
 
 namespace Blog
@@ -19,6 +20,9 @@ namespace Blog
         
         [YamlMember(Alias = "slug")]
         public string Slug { get; set; }
+        
+        [YamlMember(Alias = "redirect_from")]
+        public List<string> RedirectFrom { get; set; }
         
         public string Path { get; set; }
         

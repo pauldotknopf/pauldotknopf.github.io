@@ -10,6 +10,19 @@
     }
     .submitted {
         color: $text-muted;
-        font-size: $font-size-sm;
+        font-size: $font-size-base;
+    }
+}
+
+.archive-year {
+    .year {
+        font-size: $font-size-base;
+        color: $text-muted;
+    }
+    .archive-month {
+        .month {
+            font-size: $font-size-base;
+            color: $text-muted;
+        }
     }
 }

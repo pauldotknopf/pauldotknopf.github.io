@@ -31,5 +31,47 @@ namespace Blog.Controllers
             model.Body = _markdownRenderer.Render(post.Markdown);
             return View("Post", model);
         }
+
+        public ActionResult Archive()
+        {
+            var model = new ArchiveModel();
+            var posts = _posts.GetPosts(0, int.MaxValue);
+            ArchiveModel.YearPosts yearPosts = null;
+            ArchiveModel.YearPosts.MonthPosts monthPosts = null;
+            foreach (var post in posts)
+            {
+                if (yearPosts == null)
+                {
+                    yearPosts = new ArchiveModel.YearPosts();
+                    yearPosts.Year = post.Date.Year;
+                    model.Years.Add(yearPosts);
+                }
+
+                if (yearPosts.Year != post.Date.Year)
+                {
+                    yearPosts = new ArchiveModel.YearPosts();
+                    yearPosts.Year = post.Date.Year;
+                    model.Years.Add(yearPosts);
+                }
+
+                if (monthPosts == null)
+                {
+                    monthPosts = new ArchiveModel.YearPosts.MonthPosts();
+                    monthPosts.Month = post.Date.Month;
+                    yearPosts.Months.Add(monthPosts);
+                }
+
+                if (monthPosts.Month != post.Date.Month)
+                {
+                    monthPosts = new ArchiveModel.YearPosts.MonthPosts();
+                    monthPosts.Month = post.Date.Month;
+                    yearPosts.Months.Add(monthPosts);
+                }
+                
+                monthPosts.Posts.Add(post);
+            }
+
+            return View("Archive", model);
+        }
     }
 }

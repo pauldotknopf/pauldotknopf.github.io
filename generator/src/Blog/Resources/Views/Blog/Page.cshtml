@@ -4,9 +4,9 @@
     @foreach (var post in Model.Posts)
     {
         <div class="post">
-            <h1 class="title">
+            <h2 class="title">
                 <a href="@Url.Content($"~{post.Path}")">@post.Title</a>
-            </h1>
+            </h2>
             <p class="submitted">
                 posted on @post.Date.ToString("MMM dd, yyyy")
             </p>
@@ -19,12 +19,12 @@
     <p class="d-flex">
         @if (Model.Posts.HasPreviousPage)
         {
-            <a href="@Url.Content($"/blog/{Model.Posts.PageIndex - 1}")" class="mr-auto btn btn-default">previous</a>
+            <a href="@Url.Content($"/blog/{Model.Posts.PageIndex - 1}")" class="mr-auto btn btn-light">previous</a>
         }
 
         @if (Model.Posts.HasNextPage)
         {
-            <a href="@Url.Content($"/blog/{Model.Posts.PageIndex + 1}")" class="ml-auto btn btn-default">next</a>
+            <a href="@Url.Content($"/blog/{Model.Posts.PageIndex + 1}")" class="ml-auto btn btn-light">next</a>
         }
     </p>
 

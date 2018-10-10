@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Blog.Services;
 using Blog.Services.Impl;
@@ -12,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Pek.Markdig.HighlightJs;
 using PowerArgs;
+using Statik;
 using Statik.Embedded;
 using Statik.Files;
 using Statik.Markdown;
@@ -188,7 +190,20 @@ namespace Blog
                     action = "Post",
                     post
                 });
+                if (post.RedirectFrom != null && post.RedirectFrom.Count > 0)
+                {
+                    foreach(var redirectFrom in post.RedirectFrom)
+                    {
+                        _webBuilder.Redirect(redirectFrom, post.Path);
+                    }
+                }
             }
+            
+            _webBuilder.RegisterMvc("/archive", new
+            {
+                controller = "Blog",
+                action = "Archive"
+            });
         }
         
         [ArgActionMethod, ArgIgnoreCase]
