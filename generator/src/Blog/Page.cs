@@ -13,5 +13,7 @@ namespace Blog
         public string Path { get; set; }
         
         public string Markdown { get; set; }
+        
+        public string FilePath { get; set; }
     }
 }

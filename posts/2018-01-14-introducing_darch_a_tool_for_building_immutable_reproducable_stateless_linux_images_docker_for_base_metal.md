@@ -3,7 +3,7 @@ title: "Introducing Darch, a tool for building immutable, reproducable, and stat
 date: 2018-02-01T11:36:35-05:00
 ---
 
-I have [previously blogged]({{< ref "2017-03-20-an_immutable_reproducible_and_inheritable_linux_operating_system.md" >}}) about my desire to have a "docker-like" environment for build images that I can boot bare-metal.
+I have [previously blogged](2017-03-20-an_immutable_reproducible_and_inheritable_linux_operating_system.md) about my desire to have a "docker-like" environment for build images that I can boot bare-metal.
 
 With that said, I created [Darch](https://godarch.com/).
 

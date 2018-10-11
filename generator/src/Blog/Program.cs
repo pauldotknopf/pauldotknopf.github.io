@@ -4,6 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Blog.Models;
 using Blog.Services;
 using Blog.Services.Impl;
 using Markdig;
@@ -89,7 +90,14 @@ namespace Blog
             var staticDirectory = Path.Combine(_contentDirectory, "static");
             if (Directory.Exists(staticDirectory))
             {
-                _webBuilder.RegisterDirectory(staticDirectory);
+                _webBuilder.RegisterDirectory(staticDirectory, new RegisterOptions
+                {
+                    State = delegate(string prefix, string path, string filePath, IFileInfo file,
+                        IFileProvider provider)
+                    {
+                        return new State.PathState($"/static{filePath}", "");
+                    }
+                });
             }
         }
 
@@ -116,6 +124,7 @@ namespace Blog
                     result.Yaml.Slug = Statik.StatikHelpers.ConvertStringToSlug(result.Yaml.Title);
                 }
                 result.Yaml.Path = $"/{result.Yaml.Slug.ToLower()}";
+                result.Yaml.FilePath = $"/pages/{Path.GetFileName(page)}";
                 pages.Add(result.Yaml);
             }
             _pages = new Pages(pages);
@@ -139,6 +148,7 @@ namespace Blog
                     result.Yaml.Slug = Statik.StatikHelpers.ConvertStringToSlug(result.Yaml.Title);
                 }
                 result.Yaml.Path = $"/post/{result.Yaml.Date.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)}-{result.Yaml.Slug.ToLower()}";
+                result.Yaml.FilePath = $"/posts/{Path.GetFileName(post)}";
                 posts.Add(result.Yaml);
             }
             _posts = new Posts(posts);
@@ -150,22 +160,23 @@ namespace Blog
             foreach (var page in _pages.GetPages())
             {
                 _webBuilder.RegisterMvc(page.Path, new
-                {
-                    controller = "Page",
-                    action = "Page",
-                    page
-                });
+                    {
+                        controller = "Page",
+                        action = "Page",
+                        page
+                    },
+                    new State.PathState(page.FilePath, page.Title));
             }
         }
         
         private static void RegisterPosts()
         {
             _webBuilder.RegisterMvc("/", new
-            {
-                controller = "Blog",
-                action = "Page",
-                pageIndex = 0
-            });
+                {
+                    controller = "Blog",
+                    action = "Page",
+                    pageIndex = 0
+                });
             
             var pageIndex = 0;
             PagedList<Post> posts;
@@ -173,11 +184,11 @@ namespace Blog
             {
                 posts = _posts.GetPosts(pageIndex, 2);
                 _webBuilder.RegisterMvc($"/blog/{pageIndex}", new
-                {
-                    controller = "Blog",
-                    action = "Page",
-                    pageIndex
-                });
+                    {
+                        controller = "Blog",
+                        action = "Page",
+                        pageIndex
+                    });
                 pageIndex++;
             } while (posts.HasNextPage);
 
@@ -185,11 +196,12 @@ namespace Blog
             foreach (var post in posts)
             {
                 _webBuilder.RegisterMvc(post.Path, new
-                {
-                    controller = "Blog",
-                    action = "Post",
-                    post
-                });
+                    {
+                        controller = "Blog",
+                        action = "Post",
+                        post
+                    },
+                    new State.PathState(post.FilePath, post.Title));
                 if (post.RedirectFrom != null && post.RedirectFrom.Count > 0)
                 {
                     foreach(var redirectFrom in post.RedirectFrom)
@@ -200,10 +212,10 @@ namespace Blog
             }
             
             _webBuilder.RegisterMvc("/archive", new
-            {
-                controller = "Blog",
-                action = "Archive"
-            });
+                {
+                    controller = "Blog",
+                    action = "Archive"
+                });
         }
         
         [ArgActionMethod, ArgIgnoreCase]

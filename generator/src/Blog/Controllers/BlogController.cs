@@ -1,8 +1,12 @@
+using System.IO;
 using Blog.Misc;
 using Blog.Models;
 using Blog.Services;
+using Blog.State;
 using Microsoft.AspNetCore.Mvc;
+using Statik;
 using Statik.Markdown;
+using Statik.Web;
 
 namespace Blog.Controllers
 {
@@ -10,11 +14,15 @@ namespace Blog.Controllers
     {
         private readonly IPosts _posts;
         private readonly IMarkdownRenderer _markdownRenderer;
+        private readonly IPageRegistry _pageRegistry;
 
-        public BlogController(IPosts posts, IMarkdownRenderer markdownRenderer)
+        public BlogController(IPosts posts,
+            IMarkdownRenderer markdownRenderer,
+            IPageRegistry pageRegistry)
         {
             _posts = posts;
             _markdownRenderer = markdownRenderer;
+            _pageRegistry = pageRegistry;
         }
         
         public ActionResult Page([FromRouteData]int pageIndex)
@@ -28,7 +36,24 @@ namespace Blog.Controllers
         {
             var model = new PostModel();
             model.Post = post;
-            model.Body = _markdownRenderer.Render(post.Markdown);
+            model.Body = _markdownRenderer.Render(post.Markdown, url =>
+            {
+                var possiblePath = StatikHelpers.ResolvePathPart(Path.GetDirectoryName(post.FilePath), url);
+
+                var statikPage = _pageRegistry.FindOne(x =>
+                {
+                    var state = x.State as IFilePath;
+                    if (state == null) return false;
+                    return state.FilePath == possiblePath;
+                });
+
+                if (statikPage != null)
+                {
+                    return Request.PathBase + statikPage.Path;
+                }
+                
+                return url;
+            });
             return View("Post", model);
         }
 

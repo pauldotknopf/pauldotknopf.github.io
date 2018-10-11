@@ -41,6 +41,8 @@ A pre-compiled portable installation of Qt and the native C wrapper is available
 
 The best way to get an idea of what this all looks like is to check out [the examples](https://github.com/pauldotknopf/Qml.Net.Examples).
 
-![Demo](/img/qmlnet-demo.gif)
+:::text-center
+![Demo](../static/qmlnet-demo.gif)
+:::
 
 I'm really excited about this approach for building cross-platform apps with C#. Please give it a shot and leave me some feedback!
