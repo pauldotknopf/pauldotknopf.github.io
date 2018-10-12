@@ -145,9 +145,9 @@ namespace Blog
                 result.Yaml.Markdown = result.Markdown;
                 if (string.IsNullOrEmpty(result.Yaml.Slug))
                 {
-                    result.Yaml.Slug = Statik.StatikHelpers.ConvertStringToSlug(result.Yaml.Title);
+                    result.Yaml.Slug = Path.GetFileNameWithoutExtension(post);
                 }
-                result.Yaml.Path = $"/post/{result.Yaml.Date.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)}-{result.Yaml.Slug.ToLower()}";
+                result.Yaml.Path = $"/post/{result.Yaml.Slug}";
                 result.Yaml.FilePath = $"/posts/{Path.GetFileName(post)}";
                 posts.Add(result.Yaml);
             }
@@ -176,7 +176,8 @@ namespace Blog
                     controller = "Blog",
                     action = "Page",
                     pageIndex = 0
-                });
+                },
+                new State.PathState(string.Empty, "Blog"));
             
             var pageIndex = 0;
             PagedList<Post> posts;
@@ -188,7 +189,8 @@ namespace Blog
                         controller = "Blog",
                         action = "Page",
                         pageIndex
-                    });
+                    },
+                    new State.PathState(string.Empty, "Blog"));
                 pageIndex++;
             } while (posts.HasNextPage);
 
@@ -215,7 +217,8 @@ namespace Blog
                 {
                     controller = "Blog",
                     action = "Archive"
-                });
+                },
+                new State.PathState(string.Empty, "Archive"));
         }
         
         [ArgActionMethod, ArgIgnoreCase]
@@ -239,8 +242,9 @@ namespace Blog
         [ArgActionMethod, ArgIgnoreCase]
         public async Task Build(BuildArgs args)
         {
-            using (var host = _webBuilder.BuildVirtualHost())
+            using (var host = _webBuilder.BuildWebHost(port:8001))
             {
+                host.Listen();
                 await Statik.Statik.ExportHost(host, args.Output);
             }
         }
