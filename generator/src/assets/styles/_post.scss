@@ -1,0 +1,28 @@
+.post {
+    .title {
+        a {
+            color: $body-color;
+            @include hover {
+                text-decoration: none;
+                color: $link-hover-color;
+            }
+        }
+    }
+    .submitted {
+        color: $text-muted;
+        font-size: $font-size-base;
+    }
+}
+
+.archive-year {
+    .year {
+        font-size: $font-size-base;
+        color: $text-muted;
+    }
+    .archive-month {
+        .month {
+            font-size: $font-size-base;
+            color: $text-muted;
+        }
+    }
+}

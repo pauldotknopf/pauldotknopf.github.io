@@ -1,0 +1,10 @@
+code {
+    font-family: 'Hack';
+}
+
+.featured-image {
+    text-align: center;
+    img {
+        @extend .img-fluid, .rounded;
+    }
+}

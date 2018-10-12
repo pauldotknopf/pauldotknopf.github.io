@@ -1,0 +1,15 @@
+@model PostModel
+
+<div class="container">
+    <div class="post">
+        <h1 class="title">
+            @Model.Post.Title
+        </h1>
+        <p class="submitted">
+            posted on @Model.Post.Date.ToString("MMM dd, yyyy")
+        </p>
+        <div class="content">
+            @Html.Raw(Model.Body)
+        </div>
+    </div>
+</div>

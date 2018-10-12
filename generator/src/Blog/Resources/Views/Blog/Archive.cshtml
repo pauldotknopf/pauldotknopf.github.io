@@ -1,0 +1,27 @@
+@model ArchiveModel
+
+<div class="container">
+    <div class="archive">
+        <h1>Archive</h1>
+        @foreach (var year in Model.Years)
+        {
+            <div class="archive-year">
+                <p class="year">@year.Year</p>
+                @foreach (var month in year.Months)
+                {
+                    <div class="archive-month">
+                        <p class="month">@(new DateTime(year.Year, month.Month, 1).ToString("MMMM"))</p>
+                        @foreach (var post in month.Posts)
+                        {
+                            <div class="post">
+                                <h2 class="title">
+                                    <a href="@Url.Content($"~{post.Path}")">@post.Title</a>
+                                </h2>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</div>
