@@ -422,7 +422,7 @@ mark,
   .blockquote-footer::before {
     content: "\2014   \A0"; }
 
-.img-fluid {
+.img-fluid, .featured-image img {
   max-width: 100%;
   height: auto; }
 
@@ -4008,7 +4008,7 @@ button.bg-dark:focus {
 .border-white {
   border-color: #fff !important; }
 
-.rounded {
+.rounded, .featured-image img {
   border-radius: 0.25rem !important; }
 
 .rounded-top {
@@ -9084,3 +9084,6 @@ readers do not read off random characters that represent icons */
 
 code {
   font-family: 'Hack'; }
+
+.featured-image {
+  text-align: center; }

@@ -7,6 +7,9 @@ namespace Blog
         [YamlMember(Alias = "title")]
         public string Title { get; set; }
         
+        [YamlMember(Alias = "show_title")]
+        public bool ShowTitle { get; set; }
+        
         [YamlMember(Alias = "slug")]
         public string Slug { get; set; }
         

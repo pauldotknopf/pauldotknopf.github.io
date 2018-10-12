@@ -242,9 +242,8 @@ namespace Blog
         [ArgActionMethod, ArgIgnoreCase]
         public async Task Build(BuildArgs args)
         {
-            using (var host = _webBuilder.BuildWebHost(port:8001))
+            using (var host = _webBuilder.BuildVirtualHost())
             {
-                host.Listen();
                 await Statik.Statik.ExportHost(host, args.Output);
             }
         }
