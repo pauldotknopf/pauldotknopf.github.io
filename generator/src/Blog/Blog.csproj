@@ -17,10 +17,10 @@
     <PackageReference Include="Markdig" Version="0.15.3" />
     <PackageReference Include="Pek.Markdig.HighlightJs" Version="0.4.0" />
     <PackageReference Include="PowerArgs" Version="3.5.0" />
-    <PackageReference Include="Statik" Version="0.10.0" />
-    <PackageReference Include="Statik.Files" Version="0.10.0" />
-    <PackageReference Include="Statik.Mvc" Version="0.10.0" />
-    <PackageReference Include="Statik.Markdown" Version="0.10.0" />
+    <PackageReference Include="Statik" Version="0.10.1" />
+    <PackageReference Include="Statik.Files" Version="0.10.1" />
+    <PackageReference Include="Statik.Mvc" Version="0.10.1" />
+    <PackageReference Include="Statik.Markdown" Version="0.10.1" />
     <PackageReference Include="YamlDotNet" Version="5.2.0" />
   </ItemGroup>
 

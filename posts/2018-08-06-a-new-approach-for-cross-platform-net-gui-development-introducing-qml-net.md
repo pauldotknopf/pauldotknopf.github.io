@@ -1,8 +1,6 @@
 ---
 title: "A new approach for cross-platform .NET GUI development, introducing Qml.Net."
 date: 2018-08-06T11:36:35-05:00
-redirect_from:
-  - post/2018-08-06-a-new-approach-for-cross-platform-net-gui-development-introducing-qml-net
 ---
 
 Since Microsoft anounced .NET Core, there hasn't been a clear vision vision on what cross-platform GUI development would look like. Although they plan to support WPF in .NET Core 3.0, it will still only target Windows.
@@ -41,7 +39,7 @@ A pre-compiled portable installation of Qt and the native C wrapper is available
 
 The best way to get an idea of what this all looks like is to check out [the examples](https://github.com/pauldotknopf/Qml.Net.Examples).
 
-:::text-center
+:::featured-image
 ![Demo](../static/qmlnet-demo.gif)
 :::
 

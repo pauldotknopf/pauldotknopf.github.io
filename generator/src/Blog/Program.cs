@@ -183,7 +183,7 @@ namespace Blog
             PagedList<Post> posts;
             do
             {
-                posts = _posts.GetPosts(pageIndex, 2);
+                posts = _posts.GetPosts(pageIndex, 5);
                 _webBuilder.RegisterMvc($"/blog/{pageIndex}", new
                     {
                         controller = "Blog",
