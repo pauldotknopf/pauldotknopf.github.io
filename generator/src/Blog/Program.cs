@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
+using Octokit;
 using Pek.Markdig.HighlightJs;
 using PowerArgs;
 using Statik;
@@ -33,7 +34,7 @@ namespace Blog
         private static IPosts _posts;
         private static IPages _pages;
         
-        static int Main(string[] args)
+        static async Task<int> Main(string[] args)
         {
             try
             {
@@ -51,13 +52,13 @@ namespace Blog
                     services.AddSingleton(_markdownRenderer);
                     services.Configure<RazorViewEngineOptions>(options =>
                     {
-                        options.FileProviders.Add(new EmbeddedFileProvider(typeof(Program).Assembly, "Blog.Resources"));
-                        //options.FileProviders.Add(new PhysicalFileProvider("/Users/pknopf/git/pauldotknopf.github.io/generator/src/Blog/Resources"));
+                        //options.FileProviders.Add(new EmbeddedFileProvider(typeof(Program).Assembly, "Blog.Resources"));
+                        options.FileProviders.Add(new PhysicalFileProvider("/Users/pknopf/git/pauldotknopf.github.io/generator/src/Blog/Resources"));
                     });
                 });
                 
                 LoadPages();
-                LoadPosts();
+                await LoadPosts();
                 
                 RegisterPages();
                 RegisterPosts();
@@ -85,8 +86,8 @@ namespace Blog
 
         private static void RegisterResources()
         {
-            _webBuilder.RegisterFileProvider(new EmbeddedFileProvider(typeof(Program).Assembly, "Blog.Resources.wwwroot"));
-            //_webBuilder.RegisterFileProvider(new PhysicalFileProvider("/Users/pknopf/git/pauldotknopf.github.io/generator/src/Blog/Resources/wwwroot"));
+            //_webBuilder.RegisterFileProvider(new EmbeddedFileProvider(typeof(Program).Assembly, "Blog.Resources.wwwroot"));
+            _webBuilder.RegisterFileProvider(new PhysicalFileProvider("/Users/pknopf/git/pauldotknopf.github.io/generator/src/Blog/Resources/wwwroot"));
             var staticDirectory = Path.Combine(_contentDirectory, "static");
             if (Directory.Exists(staticDirectory))
             {
@@ -131,7 +132,7 @@ namespace Blog
             _webBuilder.RegisterServices(services => services.AddSingleton(_pages));
         }
         
-        private static void LoadPosts()
+        private static async Task LoadPosts()
         {
             var posts = new List<Post>();
             foreach (var post in Directory.GetFiles(Path.Combine(_contentDirectory, "posts"), "*.md"))
@@ -149,8 +150,37 @@ namespace Blog
                 }
                 result.Yaml.Path = $"/post/{result.Yaml.Slug}";
                 result.Yaml.FilePath = $"/posts/{Path.GetFileName(post)}";
+                
                 posts.Add(result.Yaml);
             }
+            
+            // Load the comments from GitHub.
+            foreach (var post in posts)
+            {
+                if (post.CommentIssueID.HasValue)
+                {
+                    post.Comments = new List<GitHubComment>();
+                    var github = new GitHubClient(new ProductHeaderValue("pauldotknopf.github.io"));
+                    var issue = await github.Issue.Get("pauldotknopf", "pauldotknopf.github.io", post.CommentIssueID.Value);
+                    var comments = await github.Issue.Comment.GetAllForIssue("pauldotknopf", "pauldotknopf.github.io", post.CommentIssueID.Value);
+                    foreach (var comment in comments)
+                    {
+                        var body = await github.Miscellaneous.RenderArbitraryMarkdown(new NewArbitraryMarkdown(comment.Body, "gfm", "pauldotknopf/pauldotknopf.github.io"));
+                        post.Comments.Add(new GitHubComment
+                        {
+                            CreatedAt = comment.CreatedAt,
+                            UpdatedAt = comment.UpdatedAt,
+                            User = comment.User.Login,
+                            Body = body,
+                            Reactions = comment.Reactions
+                        });
+                    }
+                    Console.WriteLine(issue.Id);
+                    Console.WriteLine(comments.Count);
+                }
+                
+            }
+            
             _posts = new Posts(posts);
             _webBuilder.RegisterServices(services => { services.AddSingleton(_posts); });
         }

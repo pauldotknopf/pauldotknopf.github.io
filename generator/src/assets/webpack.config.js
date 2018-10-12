@@ -14,7 +14,8 @@ module.exports = {
       scripts: './scripts.js'
   },
   output: {
-    path: path.resolve(__dirname, '..', 'Blog', 'Resources', 'wwwroot', 'dist')
+    path: path.resolve(__dirname, '..', 'Blog', 'Resources', 'wwwroot', 'dist'),
+    libraryTarget: 'this'
   },
   module: {
     rules: [

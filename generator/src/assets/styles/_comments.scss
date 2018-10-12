@@ -1,0 +1,17 @@
+.comment {
+    @extend .card;
+    .header {
+        @extend .card-header;
+    }
+    .body {
+        @extend .card-body;
+        > *:last-child {
+            margin-bottom: 0;
+        }
+    }
+    .footer {
+        @extend .card-footer;
+        padding: 0;
+    }
+    margin-bottom: map-get($spacers, 3);
+}

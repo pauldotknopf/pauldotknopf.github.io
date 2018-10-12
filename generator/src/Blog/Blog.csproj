@@ -10,11 +10,12 @@
       https://github.com/aspnet/Razor/issues/1212
     -->
     <PreserveCompilationContext>true</PreserveCompilationContext>
-    
+    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Markdig" Version="0.15.3" />
+    <PackageReference Include="Octokit" Version="0.32.0" />
     <PackageReference Include="Pek.Markdig.HighlightJs" Version="0.4.0" />
     <PackageReference Include="PowerArgs" Version="3.5.0" />
     <PackageReference Include="Statik" Version="0.10.1" />

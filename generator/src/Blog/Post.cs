@@ -24,6 +24,11 @@ namespace Blog
         [YamlMember(Alias = "redirect_from")]
         public List<string> RedirectFrom { get; set; }
         
+        [YamlMember(Alias = "comment_issue_id")]
+        public int? CommentIssueID { get; set; }
+        
+        public List<GitHubComment> Comments { get; set; }
+        
         public string Path { get; set; }
         
         public string Markdown { get; set; }

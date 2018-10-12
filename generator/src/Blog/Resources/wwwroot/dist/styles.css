@@ -2666,7 +2666,7 @@ input[type="button"].btn-block {
     .navbar-dark .navbar-text a:hover, .navbar-dark .navbar-text a:focus {
       color: #fff; }
 
-.card {
+.card, .comment {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -2676,17 +2676,17 @@ input[type="button"].btn-block {
   background-clip: border-box;
   border: 1px solid rgba(0, 0, 0, 0.125);
   border-radius: 0.25rem; }
-  .card > hr {
+  .card > hr, .comment > hr {
     margin-right: 0;
     margin-left: 0; }
-  .card > .list-group:first-child .list-group-item:first-child {
+  .card > .list-group:first-child .list-group-item:first-child, .comment > .list-group:first-child .list-group-item:first-child {
     border-top-left-radius: 0.25rem;
     border-top-right-radius: 0.25rem; }
-  .card > .list-group:last-child .list-group-item:last-child {
+  .card > .list-group:last-child .list-group-item:last-child, .comment > .list-group:last-child .list-group-item:last-child {
     border-bottom-right-radius: 0.25rem;
     border-bottom-left-radius: 0.25rem; }
 
-.card-body {
+.card-body, .comment .body {
   flex: 1 1 auto;
   padding: 1.25rem; }
 
@@ -2706,21 +2706,21 @@ input[type="button"].btn-block {
 .card-link + .card-link {
   margin-left: 1.25rem; }
 
-.card-header {
+.card-header, .comment .header {
   padding: 0.75rem 1.25rem;
   margin-bottom: 0;
   background-color: rgba(0, 0, 0, 0.03);
   border-bottom: 1px solid rgba(0, 0, 0, 0.125); }
-  .card-header:first-child {
+  .card-header:first-child, .comment .header:first-child {
     border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0; }
-  .card-header + .list-group .list-group-item:first-child {
+  .card-header + .list-group .list-group-item:first-child, .comment .header + .list-group .list-group-item:first-child {
     border-top: 0; }
 
-.card-footer {
+.card-footer, .comment .footer {
   padding: 0.75rem 1.25rem;
   background-color: rgba(0, 0, 0, 0.03);
   border-top: 1px solid rgba(0, 0, 0, 0.125); }
-  .card-footer:last-child {
+  .card-footer:last-child, .comment .footer:last-child {
     border-radius: 0 0 calc(0.25rem - 1px) calc(0.25rem - 1px); }
 
 .card-header-tabs {
@@ -2761,9 +2761,9 @@ input[type="button"].btn-block {
   flex-flow: row wrap;
   margin-right: -15px;
   margin-left: -15px; }
-  .card-deck .card {
+  .card-deck .card, .card-deck .comment {
     margin-bottom: 15px; }
-  .card-deck .card {
+  .card-deck .card, .card-deck .comment {
     display: flex;
     flex: 1 0 0%;
     flex-direction: column;
@@ -2775,48 +2775,81 @@ input[type="button"].btn-block {
   display: flex;
   flex-direction: column;
   flex-flow: row wrap; }
-  .card-group > .card {
+  .card-group > .card, .card-group > .comment {
     margin-bottom: 15px; }
-  .card-group > .card {
+  .card-group > .card, .card-group > .comment {
     flex: 1 0 0%;
     margin-bottom: 0; }
-    .card-group > .card + .card {
+    .card-group > .card + .card, .card-group > .comment + .card, .card-group > .card + .comment, .card-group > .comment + .comment {
       margin-left: 0;
       border-left: 0; }
-    .card-group > .card:first-child {
+    .card-group > .card:first-child, .card-group > .comment:first-child {
       border-top-right-radius: 0;
       border-bottom-right-radius: 0; }
-      .card-group > .card:first-child .card-img-top,
-      .card-group > .card:first-child .card-header {
+      .card-group > .card:first-child .card-img-top, .card-group > .comment:first-child .card-img-top,
+      .card-group > .card:first-child .card-header,
+      .card-group > .comment:first-child .card-header,
+      .card-group > .card:first-child .comment .header,
+      .comment .card-group > .card:first-child .header,
+      .card-group > .comment:first-child .header {
         border-top-right-radius: 0; }
-      .card-group > .card:first-child .card-img-bottom,
-      .card-group > .card:first-child .card-footer {
+      .card-group > .card:first-child .card-img-bottom, .card-group > .comment:first-child .card-img-bottom,
+      .card-group > .card:first-child .card-footer,
+      .card-group > .comment:first-child .card-footer,
+      .card-group > .card:first-child .comment .footer,
+      .comment .card-group > .card:first-child .footer,
+      .card-group > .comment:first-child .footer {
         border-bottom-right-radius: 0; }
-    .card-group > .card:last-child {
+    .card-group > .card:last-child, .card-group > .comment:last-child {
       border-top-left-radius: 0;
       border-bottom-left-radius: 0; }
-      .card-group > .card:last-child .card-img-top,
-      .card-group > .card:last-child .card-header {
+      .card-group > .card:last-child .card-img-top, .card-group > .comment:last-child .card-img-top,
+      .card-group > .card:last-child .card-header,
+      .card-group > .comment:last-child .card-header,
+      .card-group > .card:last-child .comment .header,
+      .comment .card-group > .card:last-child .header,
+      .card-group > .comment:last-child .header {
         border-top-left-radius: 0; }
-      .card-group > .card:last-child .card-img-bottom,
-      .card-group > .card:last-child .card-footer {
+      .card-group > .card:last-child .card-img-bottom, .card-group > .comment:last-child .card-img-bottom,
+      .card-group > .card:last-child .card-footer,
+      .card-group > .comment:last-child .card-footer,
+      .card-group > .card:last-child .comment .footer,
+      .comment .card-group > .card:last-child .footer,
+      .card-group > .comment:last-child .footer {
         border-bottom-left-radius: 0; }
-    .card-group > .card:only-child {
+    .card-group > .card:only-child, .card-group > .comment:only-child {
       border-radius: 0.25rem; }
-      .card-group > .card:only-child .card-img-top,
-      .card-group > .card:only-child .card-header {
+      .card-group > .card:only-child .card-img-top, .card-group > .comment:only-child .card-img-top,
+      .card-group > .card:only-child .card-header,
+      .card-group > .comment:only-child .card-header,
+      .card-group > .card:only-child .comment .header,
+      .comment .card-group > .card:only-child .header,
+      .card-group > .comment:only-child .header {
         border-top-left-radius: 0.25rem;
         border-top-right-radius: 0.25rem; }
-      .card-group > .card:only-child .card-img-bottom,
-      .card-group > .card:only-child .card-footer {
+      .card-group > .card:only-child .card-img-bottom, .card-group > .comment:only-child .card-img-bottom,
+      .card-group > .card:only-child .card-footer,
+      .card-group > .comment:only-child .card-footer,
+      .card-group > .card:only-child .comment .footer,
+      .comment .card-group > .card:only-child .footer,
+      .card-group > .comment:only-child .footer {
         border-bottom-right-radius: 0.25rem;
         border-bottom-left-radius: 0.25rem; }
-    .card-group > .card:not(:first-child):not(:last-child):not(:only-child) {
+    .card-group > .card:not(:first-child):not(:last-child):not(:only-child), .card-group > .comment:not(:first-child):not(:last-child):not(:only-child) {
       border-radius: 0; }
-      .card-group > .card:not(:first-child):not(:last-child):not(:only-child) .card-img-top,
+      .card-group > .card:not(:first-child):not(:last-child):not(:only-child) .card-img-top, .card-group > .comment:not(:first-child):not(:last-child):not(:only-child) .card-img-top,
       .card-group > .card:not(:first-child):not(:last-child):not(:only-child) .card-img-bottom,
+      .card-group > .comment:not(:first-child):not(:last-child):not(:only-child) .card-img-bottom,
       .card-group > .card:not(:first-child):not(:last-child):not(:only-child) .card-header,
-      .card-group > .card:not(:first-child):not(:last-child):not(:only-child) .card-footer {
+      .card-group > .comment:not(:first-child):not(:last-child):not(:only-child) .card-header,
+      .card-group > .card:not(:first-child):not(:last-child):not(:only-child) .comment .header,
+      .comment .card-group > .card:not(:first-child):not(:last-child):not(:only-child) .header,
+      .card-group > .comment:not(:first-child):not(:last-child):not(:only-child) .header,
+      .card-group > .card:not(:first-child):not(:last-child):not(:only-child) .card-footer,
+      .card-group > .comment:not(:first-child):not(:last-child):not(:only-child) .card-footer,
+      .card-group > .card:not(:first-child):not(:last-child):not(:only-child) .comment .footer,
+      .comment .card-group > .card:not(:first-child):not(:last-child):not(:only-child) .footer,
+      .card-group > .comment:not(:first-child):not(:last-child):not(:only-child) .footer {
         border-radius: 0; }
 
 .card-columns {
@@ -2824,25 +2857,25 @@ input[type="button"].btn-block {
   column-gap: 1.25rem;
   orphans: 1;
   widows: 1; }
-  .card-columns .card {
+  .card-columns .card, .card-columns .comment {
     margin-bottom: 0.75rem; }
-  .card-columns .card {
+  .card-columns .card, .card-columns .comment {
     display: inline-block;
     width: 100%; }
 
-.accordion .card:not(:first-of-type):not(:last-of-type) {
+.accordion .card:not(:first-of-type):not(:last-of-type), .accordion .comment:not(:first-of-type):not(:last-of-type) {
   border-bottom: 0;
   border-radius: 0; }
 
-.accordion .card:not(:first-of-type) .card-header:first-child {
+.accordion .card:not(:first-of-type) .card-header:first-child, .accordion .comment:not(:first-of-type) .card-header:first-child, .accordion .card:not(:first-of-type) .comment .header:first-child, .comment .accordion .card:not(:first-of-type) .header:first-child, .accordion .comment:not(:first-of-type) .header:first-child {
   border-radius: 0; }
 
-.accordion .card:first-of-type {
+.accordion .card:first-of-type, .accordion .comment:first-of-type {
   border-bottom: 0;
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0; }
 
-.accordion .card:last-of-type {
+.accordion .card:last-of-type, .accordion .comment:last-of-type {
   border-top-left-radius: 0;
   border-top-right-radius: 0; }
 
@@ -9087,3 +9120,10 @@ code {
 
 .featured-image {
   text-align: center; }
+
+.comment {
+  margin-bottom: 1rem; }
+  .comment .body > *:last-child {
+    margin-bottom: 0; }
+  .comment .footer {
+    padding: 0; }
