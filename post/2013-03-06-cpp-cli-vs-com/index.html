@@ -1,257 +1,92 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-
-  <title>Performance: C&#43;&#43;/CLI vs COM</title>
-  <meta property="og:title" content="Performance: C&#43;&#43;/CLI vs COM" />
-  <meta name="twitter:title" content="Performance: C&#43;&#43;/CLI vs COM" />
-  <meta name="description" content="In my current project, we are going to require a great deal of native code due to interation with drivers and hardware. The application is going to be based in .NET, at least the UI portion, but the heart has to live in native C&#43;&#43;.
-I began investigating different ways to interop with .NET and unmanaged code. There seems to be three approaches.
- PInvoke COM/COM&#43;/Interop C&#43;&#43;/CLI  I did not look into the PInvoke method because I know that it will not be suitable for my needs.">
-  <meta property="og:description" content="In my current project, we are going to require a great deal of native code due to interation with drivers and hardware. The application is going to be based in .NET, at least the UI portion, but the heart has to live in native C&#43;&#43;.
-I began investigating different ways to interop with .NET and unmanaged code. There seems to be three approaches.
- PInvoke COM/COM&#43;/Interop C&#43;&#43;/CLI  I did not look into the PInvoke method because I know that it will not be suitable for my needs.">
-  <meta name="twitter:description" content="In my current project, we are going to require a great deal of native code due to interation with drivers and hardware. The application is going to be based in .NET, at least the UI portion, but the …">
-  <meta name="author" content="Paul Knopf"/>
-  <meta property="og:image" content="https://www.pknopf.com/img/avatar-icon.png" />
-  <meta name="twitter:image" content="https://www.pknopf.com/img/avatar-icon.png" />
-  <meta name="twitter:card" content="summary" />
-  <meta property="og:url" content="https://www.pknopf.com/post/2013-03-06-cpp-cli-vs-com/" />
-  <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="Paul Knopf" />
-
-  <meta name="generator" content="Hugo 0.32.3" />
-  <link rel="canonical" href="https://www.pknopf.com/post/2013-03-06-cpp-cli-vs-com/" />
-  <link rel="alternate" href="https://www.pknopf.com/index.xml" type="application/rss+xml" title="Paul Knopf">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://www.pknopf.com/css/main.css" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
-  <link rel="stylesheet" href="https://www.pknopf.com/css/pygment_highlights.css" />
-  <link rel="stylesheet" href="https://www.pknopf.com/css/highlight.min.css" />
-
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/photoswipe.min.css" integrity="sha256-sCl5PUOGMLfFYctzDW3MtRib0ctyUvI9Qsmq2wXOeBY=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/default-skin/default-skin.min.css" integrity="sha256-BFeI1V+Vh1Rk37wswuOYn5lsTcaU96hGaI7OUVCLjPc=" crossorigin="anonymous" />
-
-
-
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
-
-<div class="pswp__bg"></div>
-
-<div class="pswp__scroll-wrap">
-    
-    <div class="pswp__container">
-      <div class="pswp__item"></div>
-      <div class="pswp__item"></div>
-      <div class="pswp__item"></div>
-    </div>
-    
-    <div class="pswp__ui pswp__ui--hidden">
-    <div class="pswp__top-bar">
-      
-      <div class="pswp__counter"></div>
-      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
-      <button class="pswp__button pswp__button--share" title="Share"></button>
-      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
-      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
-      
-      
-      <div class="pswp__preloader">
-        <div class="pswp__preloader__icn">
-          <div class="pswp__preloader__cut">
-            <div class="pswp__preloader__donut"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-      <div class="pswp__share-tooltip"></div>
-    </div>
-    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-    </button>
-    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-    </button>
-    <div class="pswp__caption">
-      <div class="pswp__caption__center"></div>
-    </div>
-    </div>
-    </div>
-</div>
-
-<script>
-window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-ga('create', 'UA-112478642-1', 'auto');
-ga('send', 'pageview');
-</script>
-<script async src='//www.google-analytics.com/analytics.js'></script>
-
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Performance: C&#x2B;&#x2B;/CLI vs COM - Paul Knopf</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link href="/dist/styles.css" rel="stylesheet" type="text/css"/>
+  <script src="/dist/scripts.js"></script>
 </head>
-
-  <body>
-    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="https://www.pknopf.com/">Paul Knopf</a>
-    </div>
-
-    <div class="collapse navbar-collapse" id="main-navbar">
-      <ul class="nav navbar-nav navbar-right">
-        
-          
-            <li>
-              <a title="Blog" href="/">Blog</a>
-            </li>
-          
-        
-          
-            <li>
-              <a title="About" href="/page/about/">About</a>
-            </li>
-          
-        
-
-        
-
-        
+<body>
+<header>
+  <div class="navbar navbar-expand">
+    <div class="container">
+      <a href="/" class="navbar-brand d-flex">
+        <strong>paul knopf</strong>
+      </a>
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="/archive">archive</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/about">about</a>
+        </li>
       </ul>
     </div>
-
-    <div class="avatar-container">
-      <div class="avatar-img-border">
-        
-          <a title="Paul Knopf" href="https://www.pknopf.com/">
-            <img class="avatar-img" src="https://www.pknopf.com/img/avatar-icon.png" alt="Paul Knopf" />
-          </a>
-        
-      </div>
-    </div>
-
   </div>
-</nav>
-
-
-
-
-    
-
-
-
-
-
+</header>
+<main>
   
-
-  <header class="header-section ">
-    
-    <div class="intro-header no-img">
-      
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-            <div class="post-heading">
-              <h1>Performance: C&#43;&#43;/CLI vs COM</h1>
-                
-                
-                  <span class="post-meta">
-  Posted on March 7, 2013
-  
-</span>
-
-
-                
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </header>
-
-
-    
-<div class="container" role="main">
-  <div class="row">
-    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-      <article role="main" class="blog-post">
-        
-
-<p>In my current project, we are going to require a great deal of native code due to interation with drivers and hardware. The application is going to be based in .NET, at least the UI portion, but the heart has to live in native C++.</p>
-
+<div class="container">
+    <div class="post">
+        <h1 class="title">
+            Performance: C&#x2B;&#x2B;/CLI vs COM
+        </h1>
+        <p class="submitted">
+            posted on Mar 07, 2013
+        </p>
+        <div class="content">
+            <p>In my current project, we are going to require a great deal of native code due to interation with drivers and hardware. The application is going to be based in .NET, at least the UI portion, but the heart has to live in native C++.</p>
 <p>I began investigating different ways to interop with .NET and unmanaged code. There seems to be three approaches.</p>
-
 <ul>
 <li>PInvoke</li>
 <li>COM/COM+/Interop</li>
 <li>C++/CLI</li>
 </ul>
-
 <p>I did not look into the PInvoke method because I know that it will not be suitable for my needs. Things get complicated really quick with PInvoke. It is ideal for small/quick access to Win32, but not beyond that. With that said, I produced some metrics about the performance between COM+ and C++/CLI.</p>
-
 <p>I have one class (unmanaged) that I use in every metric.</p>
-
-<pre><code class="language-c++">#pragma once
-__declspec(dllexport) class NativeClass
-{
-public:
-	__declspec(dllexport) NativeClass(void);
-	__declspec(dllexport) ~NativeClass(void);
-	__declspec(dllexport) int GetWindowsVersion(int numberOfExecutions);
-};
-</code></pre>
-
+<pre><code class="language-c++ hljs"><span class="hljs-meta">#<span class="hljs-meta-keyword">pragma</span> once</span>
+__declspec(dllexport) <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">NativeClass</span>
+{</span>
+<span class="hljs-keyword">public</span>:
+	__declspec(dllexport) NativeClass(<span class="hljs-keyword">void</span>);
+	__declspec(dllexport) ~NativeClass(<span class="hljs-keyword">void</span>);
+	__declspec(dllexport) <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">GetWindowsVersion</span><span class="hljs-params">(<span class="hljs-keyword">int</span> numberOfExecutions)</span></span>;
+};</code></pre>
 <p>There are duplications of this class but they all do the same thing. The method we are testing is a simple GetVersionEx from the WinAPI.</p>
-
-<pre><code class="language-c++">int NativeClass::GetWindowsVersion(int numberOfExecutions)
+<pre><code class="language-c++ hljs"><span class="hljs-keyword">int</span> NativeClass::GetWindowsVersion(<span class="hljs-keyword">int</span> numberOfExecutions)
 {
 	OSVERSIONINFO osvi;
 
-	for(int x = 0; x &lt; numberOfExecutions; x++)
+	<span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> x = <span class="hljs-number">0</span>; x &lt; numberOfExecutions; x++)
 	{
-		ZeroMemory(&amp;osvi, sizeof(OSVERSIONINFO));
-		osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
+		ZeroMemory(&amp;osvi, <span class="hljs-keyword">sizeof</span>(OSVERSIONINFO));
+		osvi.dwOSVersionInfoSize = <span class="hljs-keyword">sizeof</span>(OSVERSIONINFO);
 		GetVersionEx(&amp;osvi);
 	}
 
-	return osvi.dwBuildNumber;
-}
-</code></pre>
-
+	<span class="hljs-keyword">return</span> osvi.dwBuildNumber;
+}</code></pre>
 <p>The parameter “numberOfExecutions” tells the unmanaged class how many times it should invoke GetVersionEx. This native class is written/duplicated in multiple projects to similate the same process. I have 4 projects.</p>
-
 <ol>
 <li>PerformanceTest - This is a console application that runs the performance in C#/.NET</li>
 <li>CLITest - This is a C++/CLI project that contains two classes. The first class is a wrapper around an unmanaged class that is compiled in the same C++/CLI project. The second class is a wrapper around an unmanaged class that is compiled in a seperate native dll (not C++/CLI).</li>
 <li>COMTest - This is a project that has a COM wrapper around an unmanaged class.</li>
 </ol>
-
 <p>I tested two scenarios.</p>
-
 <ol>
 <li>Calling an unmanaged class from .NET multiple times.</li>
 <li>Calling an unmanaged class from .NET a single time while doing a large task (numberOfExecutions = 10000000).</li>
 </ol>
-
 <p>Here are the results from the console application for the 3 situations.</p>
-
 <ol>
 <li>.NET to CLI calling an unmanaged class compiled in C++/CLI.</li>
 <li>.NET to CLI calling an unmanaged class compiled in native C++.</li>
 <li>.NET to COM calling an unmanaged class compiled in native C++.</li>
 </ol>
-
 <p>Here is the output of the test.</p>
-
 <pre><code>CLI..........................
      GetWindowsVersion:
          Calls: 100000
@@ -280,95 +115,16 @@ COM..........................
          Executions: 100000000
          Result: 00:00:04.7310000
 </code></pre>
-
 <h1 id="conclusion">Conclusion</h1>
-
 <p>Native code compiled and running under C++/CLI is a great deal slower than running pure native code. COM would be the obviouse choice due to it running pure unmanaged code, but C++/CLI can give the same performance if used as a wrapper around a pure native assembly. In addition, COM/ATL is very difficult to learn, however, Visual Studio’s class wizards make it easier. Also, it seems that, making a great deal of calls to native code is MUCH more efficient through C++/CLI as opposed to COM, but this may be an unlikely scenario. Given these results and given the fact that this native code I am writing will be written primarily for .NET (as opposed to COM/activex/etc), I would recommend using the C++/CLI wrapper approach. Same performance, more flexible interop.</p>
-
 <p>The project used for running these tests can be found on github <a href="https://github.com/theonlylawislove/CLICOMPerformanceTest">here</a>.</p>
 
-      </article>
-
-      <ul class="pager blog-pager">
-        
-        
-          <li class="next">
-            <a href="https://www.pknopf.com/post/2017-03-20-an_immutable_reproducible_and_inheritable_linux_operating_system/" data-toggle="tooltip" data-placement="top" title="An immutable, reproducible and inheritable Linux operating system.">Next Post &rarr;</a>
-          </li>
-        
-      </ul>
-
-      
-        
-          <div class="disqus-comments">
-            <div id="disqus_thread"></div>
-<script>
-    var disqus_config = function () {
-    
-    
-    
-    };
-    (function() {
-        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
-            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
-            return;
-        }
-        var d = document, s = d.createElement('script'); s.async = true;
-        s.src = '//' + "pknopf" + '.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', +new Date());
-        (d.head || d.body).appendChild(s);
-    })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-          </div>
-        
-      
-
+        </div>
     </div>
-  </div>
 </div>
-
-    <footer>
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-        <ul class="list-inline text-center footer-links">
-          
-          
-        </ul>
-        <p class="credits copyright text-muted">
-          © 2018
-
-          
-            &nbsp;&bull;&nbsp;
-            <a href="https://www.pknopf.com/">Paul Knopf</a>
-          
-        </p>
-        
-        <p class="credits theme-by text-muted">
-           
-          
-        </p>
-      </div>
-    </div>
-  </div>
+</main>
+<footer class="bg-light py-3 text-muted text-center">
+  <a href="https://github.com/pauldotknopf/pauldotknopf.github.io"><i class="fab fa-github"></i> source</a>
 </footer>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.js" integrity="sha384-/y1Nn9+QQAipbNQWU65krzJralCnuOasHncUFXGkdwntGeSvQicrYkiUBwsgUqc1" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/contrib/auto-render.min.js" integrity="sha384-dq1/gEHSxPZQ7DdrM82ID4YVol9BYyU7GbWlIwnwyPzotpoc57wDw/guX8EaYGPx" crossorigin="anonymous"></script>
-<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-<script src="https://www.pknopf.com/js/main.js"></script>
-<script src="https://www.pknopf.com/js/highlight.min.js"></script>
-<script> hljs.initHighlightingOnLoad(); </script>
-<script> renderMathInElement(document.body); </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/photoswipe.min.js" integrity="sha256-UplRCs9v4KXVJvVY+p+RSo5Q4ilAUXh7kpjyIP5odyc=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/photoswipe-ui-default.min.js" integrity="sha256-PWHOlUzc96pMc8ThwRIXPn8yH4NOLu42RQ0b9SpnpFk=" crossorigin="anonymous"></script>
-<script src="https://www.pknopf.com/js/load-photoswipe.js"></script>
-
-
-
-  </body>
+</body>
 </html>
-

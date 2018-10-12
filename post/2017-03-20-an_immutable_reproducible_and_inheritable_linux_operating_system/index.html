@@ -1,379 +1,173 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-
-  <title>An immutable, reproducible and inheritable Linux operating system.</title>
-  <meta property="og:title" content="An immutable, reproducible and inheritable Linux operating system." />
-  <meta name="twitter:title" content="An immutable, reproducible and inheritable Linux operating system." />
-  <meta name="description" content="*Be warned! This is just &ldquo;thought-expirement&rdquo; post. Nothing has been tried or tested.*
-My problem I have multiple computers. Each system has a different OS (or version) and configuration. One has Ubuntu 14, the others have Ubuntu 16. Some have had their packages updated, some have been neglected. Some are using NVIDIA graphics, others onboard Intel graphics.
-The context switching from machine-to-machine for simple tasks is mind numbing.
-Is Qt Creator installed?">
-  <meta property="og:description" content="*Be warned! This is just &ldquo;thought-expirement&rdquo; post. Nothing has been tried or tested.*
-My problem I have multiple computers. Each system has a different OS (or version) and configuration. One has Ubuntu 14, the others have Ubuntu 16. Some have had their packages updated, some have been neglected. Some are using NVIDIA graphics, others onboard Intel graphics.
-The context switching from machine-to-machine for simple tasks is mind numbing.
-Is Qt Creator installed?">
-  <meta name="twitter:description" content="*Be warned! This is just &ldquo;thought-expirement&rdquo; post. Nothing has been tried or tested.*
-My problem I have multiple computers. Each system has a different OS (or version) and configuration. …">
-  <meta name="author" content="Paul Knopf"/>
-  <meta property="og:image" content="https://www.pknopf.com/img/avatar-icon.png" />
-  <meta name="twitter:image" content="https://www.pknopf.com/img/avatar-icon.png" />
-  <meta name="twitter:card" content="summary" />
-  <meta property="og:url" content="https://www.pknopf.com/post/2017-03-20-an_immutable_reproducible_and_inheritable_linux_operating_system/" />
-  <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="Paul Knopf" />
-
-  <meta name="generator" content="Hugo 0.32.3" />
-  <link rel="canonical" href="https://www.pknopf.com/post/2017-03-20-an_immutable_reproducible_and_inheritable_linux_operating_system/" />
-  <link rel="alternate" href="https://www.pknopf.com/index.xml" type="application/rss+xml" title="Paul Knopf">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://www.pknopf.com/css/main.css" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
-  <link rel="stylesheet" href="https://www.pknopf.com/css/pygment_highlights.css" />
-  <link rel="stylesheet" href="https://www.pknopf.com/css/highlight.min.css" />
-
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/photoswipe.min.css" integrity="sha256-sCl5PUOGMLfFYctzDW3MtRib0ctyUvI9Qsmq2wXOeBY=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/default-skin/default-skin.min.css" integrity="sha256-BFeI1V+Vh1Rk37wswuOYn5lsTcaU96hGaI7OUVCLjPc=" crossorigin="anonymous" />
-
-
-
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
-
-<div class="pswp__bg"></div>
-
-<div class="pswp__scroll-wrap">
-    
-    <div class="pswp__container">
-      <div class="pswp__item"></div>
-      <div class="pswp__item"></div>
-      <div class="pswp__item"></div>
-    </div>
-    
-    <div class="pswp__ui pswp__ui--hidden">
-    <div class="pswp__top-bar">
-      
-      <div class="pswp__counter"></div>
-      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
-      <button class="pswp__button pswp__button--share" title="Share"></button>
-      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
-      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
-      
-      
-      <div class="pswp__preloader">
-        <div class="pswp__preloader__icn">
-          <div class="pswp__preloader__cut">
-            <div class="pswp__preloader__donut"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-      <div class="pswp__share-tooltip"></div>
-    </div>
-    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-    </button>
-    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-    </button>
-    <div class="pswp__caption">
-      <div class="pswp__caption__center"></div>
-    </div>
-    </div>
-    </div>
-</div>
-
-<script>
-window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-ga('create', 'UA-112478642-1', 'auto');
-ga('send', 'pageview');
-</script>
-<script async src='//www.google-analytics.com/analytics.js'></script>
-
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>An immutable, reproducible and inheritable Linux operating system. - Paul Knopf</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link href="/dist/styles.css" rel="stylesheet" type="text/css"/>
+  <script src="/dist/scripts.js"></script>
 </head>
-
-  <body>
-    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="https://www.pknopf.com/">Paul Knopf</a>
-    </div>
-
-    <div class="collapse navbar-collapse" id="main-navbar">
-      <ul class="nav navbar-nav navbar-right">
-        
-          
-            <li>
-              <a title="Blog" href="/">Blog</a>
-            </li>
-          
-        
-          
-            <li>
-              <a title="About" href="/page/about/">About</a>
-            </li>
-          
-        
-
-        
-
-        
+<body>
+<header>
+  <div class="navbar navbar-expand">
+    <div class="container">
+      <a href="/" class="navbar-brand d-flex">
+        <strong>paul knopf</strong>
+      </a>
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="/archive">archive</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/about">about</a>
+        </li>
       </ul>
     </div>
-
-    <div class="avatar-container">
-      <div class="avatar-img-border">
-        
-          <a title="Paul Knopf" href="https://www.pknopf.com/">
-            <img class="avatar-img" src="https://www.pknopf.com/img/avatar-icon.png" alt="Paul Knopf" />
-          </a>
-        
-      </div>
-    </div>
-
   </div>
-</nav>
-
-
-
-
-    
-
-
-
-
-
+</header>
+<main>
   
-
-  <header class="header-section ">
-    
-    <div class="intro-header no-img">
-      
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-            <div class="post-heading">
-              <h1>An immutable, reproducible and inheritable Linux operating system.</h1>
-                
-                
-                  <span class="post-meta">
-  Posted on September 20, 2017
-  
-</span>
-
-
-                
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </header>
-
-
-    
-<div class="container" role="main">
-  <div class="row">
-    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-      <article role="main" class="blog-post">
-        
-
-<p>*<strong>Be warned</strong>! This is just &ldquo;thought-expirement&rdquo; post. Nothing has been tried or tested.*</p>
-
+<div class="container">
+    <div class="post">
+        <h1 class="title">
+            An immutable, reproducible and inheritable Linux operating system.
+        </h1>
+        <p class="submitted">
+            posted on Sep 20, 2017
+        </p>
+        <div class="content">
+            <p><em><strong>Be warned</strong>! This is just &quot;thought-expirement&quot; post. Nothing has been tried or tested.</em></p>
 <h1 id="my-problem">My problem</h1>
-
 <p>I have multiple computers. Each system has a different OS (or version) and configuration. One has Ubuntu 14, the others have Ubuntu 16. Some have had their packages updated, some have been neglected. Some are using NVIDIA graphics, others onboard Intel graphics.</p>
-
 <p>The context switching from machine-to-machine for simple tasks is mind numbing.</p>
-
 <p>Is Qt Creator installed? If so, what version of Qt? Why does my compilation fail at home, but not at work? Old gcc? The list goes on.</p>
-
 <h1 id="what-i-want">What I want</h1>
-
 <h2 id="inheritance">Inheritance</h2>
-
 <p>I would like to treat my operating system like inheritance in OOP. Here is my pseudo code to illustrate.</p>
-
-<pre><code class="language-c#">public abstract class BaseImage
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">class</span> <span class="hljs-title">BaseImage</span>
 {
-    protected abstract void Install();
+    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Install</span>(<span class="hljs-params"></span>)</span>;
 
-    protected void Run(string command)
-    {
-        // Run &quot;command&quot; in your operating system.
-        // This command could be shell scripts, apt-get/pacman commands, etc.
+    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Run</span>(<span class="hljs-params"><span class="hljs-keyword">string</span> command</span>)
+    </span>{
+        <span class="hljs-comment">// Run "command" in your operating system.</span>
+        <span class="hljs-comment">// This command could be shell scripts, apt-get/pacman commands, etc.</span>
     }
 }
 
-public class Arch64 : BaseImage
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Arch64</span> : <span class="hljs-title">BaseImage</span>
 {
-    protected override void Install()
-    {
-        Run(&quot;./install-arch-rootfs.sh&quot;);
+    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Install</span>(<span class="hljs-params"></span>)
+    </span>{
+        Run(<span class="hljs-string">"./install-arch-rootfs.sh"</span>);
     }
 }
     
-public class NVidia : Arch64
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">NVidia</span> : <span class="hljs-title">Arch64</span>
 {
-    protected override void Install()
-    {
-        Run(&quot;./install-nvidia-drivers.sh&quot;);
+    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Install</span>(<span class="hljs-params"></span>)
+    </span>{
+        Run(<span class="hljs-string">"./install-nvidia-drivers.sh"</span>);
     }
 }
 
-public class Development : NVidia
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Development</span> : <span class="hljs-title">NVidia</span>
 {
-    protected override void Install()
-    {
-        Run(&quot;./install-devtools.sh&quot;);
+    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Install</span>(<span class="hljs-params"></span>)
+    </span>{
+        Run(<span class="hljs-string">"./install-devtools.sh"</span>);
     }
 }
 
-public class Gaming : NVidia
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Gaming</span> : <span class="hljs-title">NVidia</span>
 {
-    protected override void Install()
-    {
-        Run(&quot;./install-stream.sh&quot;);
+    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Install</span>(<span class="hljs-params"></span>)
+    </span>{
+        Run(<span class="hljs-string">"./install-stream.sh"</span>);
     }
-}
-</code></pre>
-
-<p>I&rsquo;d imagine building these images with something like this.</p>
-
-<pre><code class="language-bash">&gt; build --type Gaming --output gaming.rootfs
-</code></pre>
-
+}</code></pre>
+<p>I'd imagine building these images with something like this.</p>
+<pre><code class="language-bash hljs">&gt; build --<span class="hljs-built_in">type</span> Gaming --output gaming.squashfs</code></pre>
 <p>Notice the <code>squashfs</code> extension, which brings me to my next point.</p>
-
 <h2 id="temporary-boots">Temporary boots</h2>
-
-<p>When I boot images, I&rsquo;d like all changes made to my operating system to be discarded after boot. This would allow me to test new packages with no fear that it will break my system.</p>
-
+<p>When I boot images, I'd like all changes made to my operating system to be discarded after boot. This would allow me to test new packages with no fear that it will break my system.</p>
 <p>Theoretically, Linux would mount <code>gaming.squashfs</code> at <code>/</code> on boot. The <code>squashfs</code> file system is read-only. To make <code>/</code> writable, we would have to overlay <code>tmpfs</code> on <code>/</code>, which would make all changes in <code>/</code> happen in RAM, wiping itself clean on fresh boot.</p>
-
 <p>This would have also have a positive side effect of <em>forcing</em> you to capture all your operating system changes via your build scripts.</p>
-
 <h1 id="proposal">Proposal</h1>
-
 <h2 id="operating-system">Operating system</h2>
-
-<p>I&rsquo;m a fan of Arch Linux. It gives you a lot of control and bleeding edge packages (via AUR). I haven&rsquo;t jumped aboard though because of the level of maintenance that has to be done, especially if your <code>pacman -Syu</code> breaks your install. Bleeding edge can bleed a little.</p>
-
+<p>I'm a fan of Arch Linux. It gives you a lot of control and bleeding edge packages (via AUR). I haven't jumped aboard though because of the level of maintenance that has to be done, especially if your <code>pacman -Syu</code> breaks your install. Bleeding edge can bleed a little.</p>
 <h2 id="building-and-inheritance">Building and inheritance</h2>
-
-<p>So, how do I build a an Arch rootfs while also allowing me to inherit &ldquo;layers&rdquo; from each other?</p>
-
+<p>So, how do I build a an Arch rootfs while also allowing me to inherit &quot;layers&quot; from each other?</p>
 <p>Docker.</p>
-
-<pre><code class="language-dockerfile"># my-base - Packages that I want present on all systems.
-FROM base/archlinux
-# Update everything
-RUN pacman -Syu
-# Enable the AUR
-RUN pacman -S yaourt
-# Use KDE
-RUN pacman -S plasma-meta
-# Install Google Chrome
-RUN pacman -S google-chrome
-</code></pre>
-
-<pre><code class="language-dockerfile"># my-base-nvidia - My base image with NVidia layered on top.
-FROM my-base
-# Install NVidia drivers
-RUN pacman -S nvidia-dkms 
-</code></pre>
-
-<pre><code class="language-dockerfile"># my-development - My development machine that has a NVidia graphics card.
-FROM my-base-nvidia
-# Install dev tools
-RUN pacman -S base-devel
-</code></pre>
-
-<pre><code class="language-dockerfile"># my-gaming - My gaming machine, which also has a NVidia graphics card.
-FROM my-base-nvidia
-RUN pacman -S steam
-</code></pre>
-
+<pre><code class="language-dockerfile hljs"><span class="hljs-comment"># my-base - Packages that I want present on all systems.</span>
+<span class="hljs-keyword">FROM</span> base/archlinux
+<span class="hljs-comment"># Update everything</span>
+<span class="hljs-keyword">RUN</span><span class="bash"> pacman -Syu
+</span><span class="hljs-comment"># Enable the AUR</span>
+<span class="hljs-keyword">RUN</span><span class="bash"> pacman -S yaourt
+</span><span class="hljs-comment"># Use KDE</span>
+<span class="hljs-keyword">RUN</span><span class="bash"> pacman -S plasma-meta
+</span><span class="hljs-comment"># Install Google Chrome</span>
+<span class="hljs-keyword">RUN</span><span class="bash"> pacman -S google-chrome</span></code></pre>
+<pre><code class="language-dockerfile hljs"><span class="hljs-comment"># my-base-nvidia - My base image with NVidia layered on top.</span>
+<span class="hljs-keyword">FROM</span> my-base
+<span class="hljs-comment"># Install NVidia drivers</span>
+<span class="hljs-keyword">RUN</span><span class="bash"> pacman -S nvidia-dkms </span></code></pre>
+<pre><code class="language-dockerfile hljs"><span class="hljs-comment"># my-development - My development machine that has a NVidia graphics card.</span>
+<span class="hljs-keyword">FROM</span> my-base-nvidia
+<span class="hljs-comment"># Install dev tools</span>
+<span class="hljs-keyword">RUN</span><span class="bash"> pacman -S base-devel</span></code></pre>
+<pre><code class="language-dockerfile hljs"><span class="hljs-comment"># my-gaming - My gaming machine, which also has a NVidia graphics card.</span>
+<span class="hljs-keyword">FROM</span> my-base-nvidia
+<span class="hljs-keyword">RUN</span><span class="bash"> pacman -S steam</span></code></pre>
 <blockquote>
 <p>What? How do you expect to boot these docker images on bare-metal?</p>
 </blockquote>
-
-<p>Well, yeah. You can&rsquo;t. However, Arch has support for preparing rootfs file systems on any Linux machine, provided you have the <code>arch-chroot</code> bash script is installed. This can be done in Docker.</p>
-
+<p>Well, yeah. You can't. However, Arch has support for preparing rootfs file systems on any Linux machine, provided you have the <code>arch-chroot</code> bash script is installed. This can be done in Docker.</p>
 <p>So, I imagine creating a base <code>arch-rootfs</code> Docker image that contains a clean rootfs and <code>arch-chroot</code> available for customization.</p>
-
-<pre><code class="language-dockerfile"># arch-rootfs
-FROM base/archlinux
-# Install arch-chroot
-RUN arch-install-scripts
-# Create our rootfs directory
-RUN mkdir /rootfs
-# Populate our rootfs with a base Arch install
-RUN cd /rootfs &amp;&amp;
-    curl -O https://arch.com/root.tar.gz &amp;&amp;
-    tar xzf root.tar.gz
-</code></pre>
-
+<pre><code class="language-dockerfile hljs"><span class="hljs-comment"># arch-rootfs</span>
+<span class="hljs-keyword">FROM</span> base/archlinux
+<span class="hljs-comment"># Install arch-chroot</span>
+<span class="hljs-keyword">RUN</span><span class="bash"> arch-install-scripts
+</span><span class="hljs-comment"># Create our rootfs directory</span>
+<span class="hljs-keyword">RUN</span><span class="bash"> mkdir /rootfs
+</span><span class="hljs-comment"># Populate our rootfs with a base Arch install</span>
+<span class="hljs-keyword">RUN</span><span class="bash"> <span class="hljs-built_in">cd</span> /rootfs &amp;&amp;
+</span>    curl -O https://arch.com/root.tar.gz &amp;&amp;
+    tar xzf root.tar.gz</code></pre>
 <p>Now we will have to add some additional commands to our layers.</p>
-
-<pre><code class="language-dockerfile">FROM arch-rootfs
-# Update everything
-RUN arch-chroot /rootfs pacman -Syu
-# Enable the AUR
-RUN arch-chroot /rootfs pacman -S yaourt
-# Use KDE
-RUN arch-chroot /rootfs pacman -S plasma-meta
-# Install Google Chrome
-RUN arch-chroot /rootfs pacman -S google-chrome
-</code></pre>
-
-<p>It isn&rsquo;t exactly clean, but it will work.</p>
-
+<pre><code class="language-dockerfile hljs"><span class="hljs-keyword">FROM</span> arch-rootfs
+<span class="hljs-comment"># Update everything</span>
+<span class="hljs-keyword">RUN</span><span class="bash"> arch-chroot /rootfs pacman -Syu
+</span><span class="hljs-comment"># Enable the AUR</span>
+<span class="hljs-keyword">RUN</span><span class="bash"> arch-chroot /rootfs pacman -S yaourt
+</span><span class="hljs-comment"># Use KDE</span>
+<span class="hljs-keyword">RUN</span><span class="bash"> arch-chroot /rootfs pacman -S plasma-meta
+</span><span class="hljs-comment"># Install Google Chrome</span>
+<span class="hljs-keyword">RUN</span><span class="bash"> arch-chroot /rootfs pacman -S google-chrome</span></code></pre>
+<p>It isn't exactly clean, but it will work.</p>
 <blockquote>
 <p>How will you extract the /rootfs for booting?</p>
 </blockquote>
-
 <pre><code>docker save my-gaming &gt; my-gaming.tar
 </code></pre>
-
 <p>Within this tarball is a <code>/rootfs</code> directory containing our image. We will want to eventually convert this to a <code>squashfs</code> file.</p>
-
 <p>To use boot these <code>squashfs</code> images, we would have to install Arch the normal way. Then customize the initcpio with some <a href="https://wiki.archlinux.org/index.php/mkinitcpio#Runtime_hooks">runtime hooks</a> that will mount <code>squashfs</code> images, overlay <code>tempfs</code> on <code>/</code>, <code>chroot</code> into the new root, and call <code>init</code>.</p>
-
 <h2 id="image-storage">Image storage</h2>
-
 <p>The docker files that build my layers will be checked into a GitHub repository. Travis-CI will monitor checkins, rebuild and deploy my images/layers to Docker Hub. I will use Docker Hub to make my builds available easily to all my machines.</p>
-
-<p>I can also imagine many people using this approach, allowing people to quickly boot into stranger&rsquo;s operating systems to play around and expirement. For example:</p>
-
-<pre><code class="language-bash"># Checkout and build some guy named Steve's gaming build.
+<p>I can also imagine many people using this approach, allowing people to quickly boot into stranger's operating systems to play around and expirement. For example:</p>
+<pre><code class="language-bash hljs"><span class="hljs-comment"># Checkout and build some guy named Steve's gaming build.</span>
 build steve/gaming
-# And reboot into it!
+<span class="hljs-comment"># And reboot into it!</span>
 boot steve/gaming
-reboot now
-</code></pre>
-
-<p>Now you are playing around in someone else&rsquo;s configuration! Fun!</p>
-
-<p>Let&rsquo;s get back to our build.</p>
-
-<pre><code class="language-bash">boot paul/gaming
-reboot now
-</code></pre>
-
+reboot now</code></pre>
+<p>Now you are playing around in someone else's configuration! Fun!</p>
+<p>Let's get back to our build.</p>
+<pre><code class="language-bash hljs">boot paul/gaming
+reboot now</code></pre>
 <h1 id="in-summary">In summary</h1>
-
 <ul>
 <li>Reproducible builds of Arch Linux, using Docker.</li>
 <li>Inheritance of Arch layers, using Docker.</li>
@@ -381,95 +175,14 @@ reboot now
 <li>Mounting <code>tempfs</code> on <code>/</code> for writes that persist only during the current boot.</li>
 <li>Storing images on Docker Hub for using in other machines, or by complete strangers!</li>
 </ul>
-
 <p>What do you think?</p>
 
-      </article>
-
-      <ul class="pager blog-pager">
-        
-          <li class="previous">
-            <a href="https://www.pknopf.com/post/2013-03-06-cpp-cli-vs-com/" data-toggle="tooltip" data-placement="top" title="Performance: C&#43;&#43;/CLI vs COM">&larr; Previous Post</a>
-          </li>
-        
-        
-          <li class="next">
-            <a href="https://www.pknopf.com/post/2018-01-14-introducing_darch_a_tool_for_building_immutable_reproducable_stateless_linux_images_docker_for_base_metal/" data-toggle="tooltip" data-placement="top" title="Introducing Darch, a tool for building immutable, reproducable, and stateless bootable Linux images. Think Docker, but for bare-metal.">Next Post &rarr;</a>
-          </li>
-        
-      </ul>
-
-      
-        
-          <div class="disqus-comments">
-            <div id="disqus_thread"></div>
-<script>
-    var disqus_config = function () {
-    this.page.identifier = 'an_immutable_reproducible_and_inheritable_linux_operating_system';
-    
-    
-    };
-    (function() {
-        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
-            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
-            return;
-        }
-        var d = document, s = d.createElement('script'); s.async = true;
-        s.src = '//' + "pknopf" + '.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', +new Date());
-        (d.head || d.body).appendChild(s);
-    })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-          </div>
-        
-      
-
+        </div>
     </div>
-  </div>
 </div>
-
-    <footer>
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-        <ul class="list-inline text-center footer-links">
-          
-          
-        </ul>
-        <p class="credits copyright text-muted">
-          © 2018
-
-          
-            &nbsp;&bull;&nbsp;
-            <a href="https://www.pknopf.com/">Paul Knopf</a>
-          
-        </p>
-        
-        <p class="credits theme-by text-muted">
-           
-          
-        </p>
-      </div>
-    </div>
-  </div>
+</main>
+<footer class="bg-light py-3 text-muted text-center">
+  <a href="https://github.com/pauldotknopf/pauldotknopf.github.io"><i class="fab fa-github"></i> source</a>
 </footer>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.js" integrity="sha384-/y1Nn9+QQAipbNQWU65krzJralCnuOasHncUFXGkdwntGeSvQicrYkiUBwsgUqc1" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/contrib/auto-render.min.js" integrity="sha384-dq1/gEHSxPZQ7DdrM82ID4YVol9BYyU7GbWlIwnwyPzotpoc57wDw/guX8EaYGPx" crossorigin="anonymous"></script>
-<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-<script src="https://www.pknopf.com/js/main.js"></script>
-<script src="https://www.pknopf.com/js/highlight.min.js"></script>
-<script> hljs.initHighlightingOnLoad(); </script>
-<script> renderMathInElement(document.body); </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/photoswipe.min.js" integrity="sha256-UplRCs9v4KXVJvVY+p+RSo5Q4ilAUXh7kpjyIP5odyc=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/photoswipe-ui-default.min.js" integrity="sha256-PWHOlUzc96pMc8ThwRIXPn8yH4NOLu42RQ0b9SpnpFk=" crossorigin="anonymous"></script>
-<script src="https://www.pknopf.com/js/load-photoswipe.js"></script>
-
-
-
-  </body>
+</body>
 </html>
-

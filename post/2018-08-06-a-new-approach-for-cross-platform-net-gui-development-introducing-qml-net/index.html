@@ -1,313 +1,74 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-
-  <title>A new approach for cross-platform .NET GUI development, introducing Qml.Net.</title>
-  <meta property="og:title" content="A new approach for cross-platform .NET GUI development, introducing Qml.Net." />
-  <meta name="twitter:title" content="A new approach for cross-platform .NET GUI development, introducing …" />
-  <meta name="description" content="Since Microsoft anounced .NET Core, there hasn&rsquo;t been a clear vision vision on what cross-platform GUI development would look like. Although they plan to support WPF in .NET Core 3.0, it will still only target Windows.
-There have been many different projects that have proped up that have attempted to fill the void, but (IMO) have come up short. They typically have one or more of the following issues:">
-  <meta property="og:description" content="Since Microsoft anounced .NET Core, there hasn&rsquo;t been a clear vision vision on what cross-platform GUI development would look like. Although they plan to support WPF in .NET Core 3.0, it will still only target Windows.
-There have been many different projects that have proped up that have attempted to fill the void, but (IMO) have come up short. They typically have one or more of the following issues:">
-  <meta name="twitter:description" content="Since Microsoft anounced .NET Core, there hasn&rsquo;t been a clear vision vision on what cross-platform GUI development would look like. Although they plan to support WPF in .NET Core 3.0, it will …">
-  <meta name="author" content="Paul Knopf"/>
-  <meta property="og:image" content="https://www.pknopf.com/img/avatar-icon.png" />
-  <meta name="twitter:image" content="https://www.pknopf.com/img/avatar-icon.png" />
-  <meta name="twitter:card" content="summary" />
-  <meta property="og:url" content="https://www.pknopf.com/post/2018-08-06-a-new-approach-for-cross-platform-net-gui-development-introducing-qml-net/" />
-  <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="Paul Knopf" />
-
-  <meta name="generator" content="Hugo 0.32.3" />
-  <link rel="canonical" href="https://www.pknopf.com/post/2018-08-06-a-new-approach-for-cross-platform-net-gui-development-introducing-qml-net/" />
-  <link rel="alternate" href="https://www.pknopf.com/index.xml" type="application/rss+xml" title="Paul Knopf">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://www.pknopf.com/css/main.css" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
-  <link rel="stylesheet" href="https://www.pknopf.com/css/pygment_highlights.css" />
-  <link rel="stylesheet" href="https://www.pknopf.com/css/highlight.min.css" />
-
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/photoswipe.min.css" integrity="sha256-sCl5PUOGMLfFYctzDW3MtRib0ctyUvI9Qsmq2wXOeBY=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/default-skin/default-skin.min.css" integrity="sha256-BFeI1V+Vh1Rk37wswuOYn5lsTcaU96hGaI7OUVCLjPc=" crossorigin="anonymous" />
-
-
-
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
-
-<div class="pswp__bg"></div>
-
-<div class="pswp__scroll-wrap">
-    
-    <div class="pswp__container">
-      <div class="pswp__item"></div>
-      <div class="pswp__item"></div>
-      <div class="pswp__item"></div>
-    </div>
-    
-    <div class="pswp__ui pswp__ui--hidden">
-    <div class="pswp__top-bar">
-      
-      <div class="pswp__counter"></div>
-      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
-      <button class="pswp__button pswp__button--share" title="Share"></button>
-      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
-      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
-      
-      
-      <div class="pswp__preloader">
-        <div class="pswp__preloader__icn">
-          <div class="pswp__preloader__cut">
-            <div class="pswp__preloader__donut"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-      <div class="pswp__share-tooltip"></div>
-    </div>
-    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-    </button>
-    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-    </button>
-    <div class="pswp__caption">
-      <div class="pswp__caption__center"></div>
-    </div>
-    </div>
-    </div>
-</div>
-
-<script>
-window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-ga('create', 'UA-112478642-1', 'auto');
-ga('send', 'pageview');
-</script>
-<script async src='//www.google-analytics.com/analytics.js'></script>
-
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>A new approach for cross-platform .NET GUI development, introducing Qml.Net. - Paul Knopf</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link href="/dist/styles.css" rel="stylesheet" type="text/css"/>
+  <script src="/dist/scripts.js"></script>
 </head>
-
-  <body>
-    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="https://www.pknopf.com/">Paul Knopf</a>
-    </div>
-
-    <div class="collapse navbar-collapse" id="main-navbar">
-      <ul class="nav navbar-nav navbar-right">
-        
-          
-            <li>
-              <a title="Blog" href="/">Blog</a>
-            </li>
-          
-        
-          
-            <li>
-              <a title="About" href="/page/about/">About</a>
-            </li>
-          
-        
-
-        
-
-        
+<body>
+<header>
+  <div class="navbar navbar-expand">
+    <div class="container">
+      <a href="/" class="navbar-brand d-flex">
+        <strong>paul knopf</strong>
+      </a>
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="/archive">archive</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/about">about</a>
+        </li>
       </ul>
     </div>
-
-    <div class="avatar-container">
-      <div class="avatar-img-border">
-        
-          <a title="Paul Knopf" href="https://www.pknopf.com/">
-            <img class="avatar-img" src="https://www.pknopf.com/img/avatar-icon.png" alt="Paul Knopf" />
-          </a>
-        
-      </div>
-    </div>
-
   </div>
-</nav>
-
-
-
-
-    
-
-
-
-
-
+</header>
+<main>
   
-
-  <header class="header-section ">
-    
-    <div class="intro-header no-img">
-      
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-            <div class="post-heading">
-              <h1>A new approach for cross-platform .NET GUI development, introducing Qml.Net.</h1>
-                
-                
-                  <span class="post-meta">
-  Posted on August 6, 2018
-  
-</span>
-
-
-                
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </header>
-
-
-    
-<div class="container" role="main">
-  <div class="row">
-    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-      <article role="main" class="blog-post">
-        
-
-<p>Since Microsoft anounced .NET Core, there hasn&rsquo;t been a clear vision vision on what cross-platform GUI development would look like. Although they plan to support WPF in .NET Core 3.0, it will still only target Windows.</p>
-
+<div class="container">
+    <div class="post">
+        <h1 class="title">
+            A new approach for cross-platform .NET GUI development, introducing Qml.Net.
+        </h1>
+        <p class="submitted">
+            posted on Aug 06, 2018
+        </p>
+        <div class="content">
+            <p>Since Microsoft anounced .NET Core, there hasn't been a clear vision vision on what cross-platform GUI development would look like. Although they plan to support WPF in .NET Core 3.0, it will still only target Windows.</p>
 <p>There have been many different projects that have proped up that have attempted to fill the void, but (IMO) have come up short. They typically have one or more of the following issues:</p>
-
 <ol>
 <li>Too young, not enough controls. Particularly with projects that render their own components.</li>
-<li>Lack of styling/customizations. Particularly with projects that wrap native controls which don&rsquo;t support advanced styling scenarios.</li>
-<li>Too &ldquo;PInvoke chatty&rdquo;. Some projects attempt to render their own controls in .NET which require many calls to correctly draw the 2D scenes. It is expensive to call into native libraries. It is because of this reason that Microsoft created <code>PresentationFramework.dll</code> for WPF which handles most of the DirectX calls while exposing the key peices needed to render controls in .NET/WPF.</li>
+<li>Lack of styling/customizations. Particularly with projects that wrap native controls which don't support advanced styling scenarios.</li>
+<li>Too &quot;PInvoke chatty&quot;. Some projects attempt to render their own controls in .NET which require many calls to correctly draw the 2D scenes. It is expensive to call into native libraries. It is because of this reason that Microsoft created <code>PresentationFramework.dll</code> for WPF which handles most of the DirectX calls while exposing the key peices needed to render controls in .NET/WPF.</li>
 </ol>
-
 <h1 id="using-an-existing-gui-framework">Using an existing GUI framework</h1>
-
-<p>It is always nice to stand on the shoulder of giants. Wouldn&rsquo;t you rather implement your GUI on something that has been battle tested in the field for years in many different fields?</p>
-
-<p><strong>GTK</strong> - It supports many platforms, including embedded architectures. It is also written in C which makes interopping with C# considerablly easier than C++. However, this isn&rsquo;t a good candidate for C#/.NET for a few reasons. While the controls look great under Linux, they look alien on OSX and Windows. Considering the APIs that would need to be exposed to .NET to build a fully-featured application, it would take a considerable amount of effort to develop/maintain and would increase your surface area for bugs. Also, it would suffer from the &ldquo;chatty PInvoke&rdquo; issue mentioned previously, especially when rendering your own controls.</p>
-
-<p><strong>Qt Widgets</strong> - This would also suffer similar problems that GTK faces. It is written in C++ which makes it particularly hard to interop with from C#. Qt Widgets is also considered the &ldquo;old-way&rdquo; of doing things. QML/QtQuick is the recommended approach by the Qt team for new projects.</p>
-
-<p><strong>Qt/QML/QtQuick</strong> - This is the best option. The UI is entirely written and defined in QML, which removes any &ldquo;chatty PInvoke&rdquo; issues. It would also not require you to wrap an extensive API since everything is done in QML. It has great styles that mimick native controls on each platform (Windows/OSX/Linux/Android/iOS).</p>
-
+<p>It is always nice to stand on the shoulder of giants. Wouldn't you rather implement your GUI on something that has been battle tested in the field for years in many different fields?</p>
+<p><strong>GTK</strong> - It supports many platforms, including embedded architectures. It is also written in C which makes interopping with C# considerablly easier than C++. However, this isn't a good candidate for C#/.NET for a few reasons. While the controls look great under Linux, they look alien on OSX and Windows. Considering the APIs that would need to be exposed to .NET to build a fully-featured application, it would take a considerable amount of effort to develop/maintain and would increase your surface area for bugs. Also, it would suffer from the &quot;chatty PInvoke&quot; issue mentioned previously, especially when rendering your own controls.</p>
+<p><strong>Qt Widgets</strong> - This would also suffer similar problems that GTK faces. It is written in C++ which makes it particularly hard to interop with from C#. Qt Widgets is also considered the &quot;old-way&quot; of doing things. QML/QtQuick is the recommended approach by the Qt team for new projects.</p>
+<p><strong>Qt/QML/QtQuick</strong> - This is the best option. The UI is entirely written and defined in QML, which removes any &quot;chatty PInvoke&quot; issues. It would also not require you to wrap an extensive API since everything is done in QML. It has great styles that mimick native controls on each platform (Windows/OSX/Linux/Android/iOS).</p>
 <h1 id="the-current-landscape">The current landscape</h1>
-
 <p><strong>GtkSharp</strong> - This is great wrapper. It still suffers from chatty PInvoke though when doing any custom rendering. It also looks alien on OSX and Windows.</p>
-
-<p><strong>QtSharp</strong> - This project attempts to wrap Qt and the Qt Widgets. It auto-generates it&rsquo;s C# wrappers which makes it easier to wrap the large API surface needed to build an application. However, it is still trying to wrap a C++ api (using MonoCpp), and because of this, it is plagued with issues (name mangling, object ownership semantics, the MOC/signal system, portability). It also attempts to wrap the entire Qt API, even when there are comparable .NET types/libraries. It also only supports Qt Widgets, which is considered the &ldquo;old way&rdquo; of doing things.</p>
-
-<h1 id="introducing-my-project-qml-net">Introducing my project, Qml.Net</h1>
-
+<p><strong>QtSharp</strong> - This project attempts to wrap Qt and the Qt Widgets. It auto-generates it's C# wrappers which makes it easier to wrap the large API surface needed to build an application. However, it is still trying to wrap a C++ api (using MonoCpp), and because of this, it is plagued with issues (name mangling, object ownership semantics, the MOC/signal system, portability). It also attempts to wrap the entire Qt API, even when there are comparable .NET types/libraries. It also only supports Qt Widgets, which is considered the &quot;old way&quot; of doing things.</p>
+<h1 id="introducing-my-project-qml.net">Introducing my project, Qml.Net</h1>
 <p><a href="https://github.com/pauldotknopf/Qml.Net">Qml.Net</a></p>
-
-<p>Qml.Net is a C# library with a native dependency that exposes the required types needed to host a QML engine. The PInvoke code is hand-crafted to to ensure proper memory mangement and owner-ship semantics. I&rsquo;d bet you could&rsquo;t generate a segfault, even if you wanted to.</p>
-
+<p>Qml.Net is a C# library with a native dependency that exposes the required types needed to host a QML engine. The PInvoke code is hand-crafted to to ensure proper memory mangement and owner-ship semantics. I'd bet you could't generate a segfault, even if you wanted to.</p>
 <p>You can register C# objects to be treated as QML components that you can interop with as if they are regular JS objects. These registered objects serve as the portal into which the QML world can interact with your .NET objects. This has the added benefit of enforcing you to keep to keep your business/UI concerns seperated cleanly along the tech stacks, and no chatty PInvoke calls for rendering. It truely is a mariage made in heaven!</p>
-
-<p>A pre-compiled portable installation of Qt and the native C wrapper is available for Windows, OSX and Linux. Developers shouldn&rsquo;t have to touch C/C++. All you need to know is QML (json-like), JavaScript and C#. Pluralsight has a great course for QML/QtQuick <a href="https://www.pluralsight.com/courses/qt-quick-fundamentals">here</a>.</p>
-
+<p>A pre-compiled portable installation of Qt and the native C wrapper is available for Windows, OSX and Linux. Developers shouldn't have to touch C/C++. All you need to know is QML (json-like), JavaScript and C#. Pluralsight has a great course for QML/QtQuick <a href="https://www.pluralsight.com/courses/qt-quick-fundamentals">here</a>.</p>
 <p>The best way to get an idea of what this all looks like is to check out <a href="https://github.com/pauldotknopf/Qml.Net.Examples">the examples</a>.</p>
-
-<p><img src="/img/qmlnet-demo.gif" alt="Demo" /></p>
-
-<p>I&rsquo;m really excited about this approach for building cross-platform apps with C#. Please give it a shot and leave me some feedback!</p>
-
-      </article>
-
-      <ul class="pager blog-pager">
-        
-          <li class="previous">
-            <a href="https://www.pknopf.com/post/2018-01-14-introducing_darch_a_tool_for_building_immutable_reproducable_stateless_linux_images_docker_for_base_metal/" data-toggle="tooltip" data-placement="top" title="Introducing Darch, a tool for building immutable, reproducable, and stateless bootable Linux images. Think Docker, but for bare-metal.">&larr; Previous Post</a>
-          </li>
-        
-        
-      </ul>
-
-      
-        
-          <div class="disqus-comments">
-            <div id="disqus_thread"></div>
-<script>
-    var disqus_config = function () {
-    
-    
-    
-    };
-    (function() {
-        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
-            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
-            return;
-        }
-        var d = document, s = d.createElement('script'); s.async = true;
-        s.src = '//' + "pknopf" + '.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', +new Date());
-        (d.head || d.body).appendChild(s);
-    })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-          </div>
-        
-      
-
-    </div>
-  </div>
+<div class="featured-image"><p><img src="/qmlnet-demo.gif" alt="Demo" /></p>
 </div>
+<p>I'm really excited about this approach for building cross-platform apps with C#. Please give it a shot and leave me some feedback!</p>
 
-    <footer>
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-        <ul class="list-inline text-center footer-links">
-          
-          
-        </ul>
-        <p class="credits copyright text-muted">
-          © 2018
-
-          
-            &nbsp;&bull;&nbsp;
-            <a href="https://www.pknopf.com/">Paul Knopf</a>
-          
-        </p>
-        
-        <p class="credits theme-by text-muted">
-           
-          
-        </p>
-      </div>
+        </div>
     </div>
-  </div>
+</div>
+</main>
+<footer class="bg-light py-3 text-muted text-center">
+  <a href="https://github.com/pauldotknopf/pauldotknopf.github.io"><i class="fab fa-github"></i> source</a>
 </footer>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.js" integrity="sha384-/y1Nn9+QQAipbNQWU65krzJralCnuOasHncUFXGkdwntGeSvQicrYkiUBwsgUqc1" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/contrib/auto-render.min.js" integrity="sha384-dq1/gEHSxPZQ7DdrM82ID4YVol9BYyU7GbWlIwnwyPzotpoc57wDw/guX8EaYGPx" crossorigin="anonymous"></script>
-<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-<script src="https://www.pknopf.com/js/main.js"></script>
-<script src="https://www.pknopf.com/js/highlight.min.js"></script>
-<script> hljs.initHighlightingOnLoad(); </script>
-<script> renderMathInElement(document.body); </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/photoswipe.min.js" integrity="sha256-UplRCs9v4KXVJvVY+p+RSo5Q4ilAUXh7kpjyIP5odyc=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/photoswipe-ui-default.min.js" integrity="sha256-PWHOlUzc96pMc8ThwRIXPn8yH4NOLu42RQ0b9SpnpFk=" crossorigin="anonymous"></script>
-<script src="https://www.pknopf.com/js/load-photoswipe.js"></script>
-
-
-
-  </body>
+</body>
 </html>
-
