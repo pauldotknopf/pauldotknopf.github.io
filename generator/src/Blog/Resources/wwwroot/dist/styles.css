@@ -9023,14 +9023,14 @@ readers do not read off random characters that represent icons */
   font-size: 1rem;
   color: #6c757d; }
 
-.hljs {
+.hljs, .highlight pre {
   display: block;
   overflow-x: auto;
   padding: 0.5em;
   background: #1E1E1E;
   color: #DCDCDC; }
 
-.hljs-keyword,
+.hljs-keyword, .pl-k,
 .hljs-literal,
 .hljs-symbol,
 .hljs-name {
@@ -9048,7 +9048,7 @@ readers do not read off random characters that represent icons */
 .hljs-class {
   color: #B8D7A3; }
 
-.hljs-string,
+.hljs-string, .pl-s,
 .hljs-meta-string {
   color: #D69D85; }
 
@@ -9059,6 +9059,7 @@ readers do not read off random characters that represent icons */
 .hljs-subst,
 .hljs-function,
 .hljs-title,
+.pl-en,
 .hljs-params,
 .hljs-formula {
   color: #DCDCDC; }
@@ -9114,6 +9115,11 @@ readers do not read off random characters that represent icons */
   background-color: #600;
   display: inline-block;
   width: 100%; }
+
+.highlight {
+  margin-bottom: 1rem; }
+  .highlight pre {
+    margin-bottom: 0; }
 
 code {
   font-family: 'Hack'; }

@@ -108,3 +108,23 @@
   display: inline-block;
   width: 100%;
 }
+
+.highlight {
+  margin-bottom: map-get($spacers, 3);
+  pre {
+    @extend .hljs;
+    margin-bottom: 0;
+  }
+}
+
+.pl-k {
+  @extend .hljs-keyword;
+}
+
+.pl-en {
+  @extend .hljs-title;
+}
+
+.pl-s {
+  @extend .hljs-string;
+}
