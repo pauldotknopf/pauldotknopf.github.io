@@ -44,6 +44,23 @@
         Console.WriteLine(<span class="hljs-string">"Test"</span>);
     }
 }</code></pre>
+<pre><code class="language-qml hljs"><span class="hljs-keyword">import</span> QtQuick <span class="hljs-number">2.7</span>
+<span class="hljs-keyword">import</span> QtQuick.Controls <span class="hljs-number">2.0</span>
+<span class="hljs-keyword">import</span> test <span class="hljs-number">1.1</span>
+
+<span class="hljs-title">ApplicationWindow</span> {
+    <span class="hljs-attribute">visible</span>: <span class="hljs-literal">true</span>
+    <span class="hljs-attribute">width</span>: <span class="hljs-number">640</span>
+    <span class="hljs-attribute">height</span>: <span class="hljs-number">480</span>
+    <span class="hljs-attribute">title</span>: qsTr(<span class="hljs-string">"Hello World"</span>)
+
+    <span class="hljs-title">NetObject</span> {
+      <span class="hljs-attribute">id:</span><span class="hljs-string"> test</span>
+      <span class="hljs-attribute">Component.onCompleted</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+          test.method()
+      }
+    }
+}</code></pre>
 <p>test</p>
 
         </div>
@@ -134,6 +151,23 @@
     <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">Test</span>(<span class="pl-k">string</span> <span class="pl-smi">parameter</span>)
     {
         <span class="pl-smi">Console</span>.<span class="pl-en">WriteLine</span>(<span class="pl-s"><span class="pl-pds">"</span>Test<span class="pl-pds">"</span></span>);
+    }
+}</pre></div>
+<div class="highlight highlight-source-qml"><pre><span class="pl-k">import</span> <span class="pl-en">QtQuick</span> <span class="pl-c1">2.7</span>
+<span class="pl-k">import</span> <span class="pl-en">QtQuick.Controls</span> <span class="pl-c1">2.0</span>
+<span class="pl-k">import</span> <span class="pl-en">test</span> <span class="pl-c1">1.1</span>
+
+<span class="pl-c1">ApplicationWindow</span> {
+    visible<span class="pl-k">:</span> <span class="pl-c1">true</span>
+    width<span class="pl-k">:</span> <span class="pl-c1">640</span>
+    height<span class="pl-k">:</span> <span class="pl-c1">480</span>
+    title<span class="pl-k">:</span> <span class="pl-en">qsTr</span>(<span class="pl-s"><span class="pl-pds">"</span>Hello World<span class="pl-pds">"</span></span>)
+
+    NetObject {
+      id<span class="pl-k">:</span> test
+      <span class="pl-smi">Component</span>.<span class="pl-smi">onCompleted</span><span class="pl-k">:</span> <span class="pl-k">function</span>() {
+          <span class="pl-smi">test</span>.<span class="pl-c1">method</span>()
+      }
     }
 }</pre></div>
                             </div>
