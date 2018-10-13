@@ -4041,7 +4041,7 @@ button.bg-dark:focus {
 .border-white {
   border-color: #fff !important; }
 
-.rounded, .featured-image img, .comment .comment-user img {
+.rounded, .hljs, .highlight pre, .featured-image img, .comment .comment-user img {
   border-radius: 0.25rem !important; }
 
 .rounded-top {
@@ -9023,99 +9023,65 @@ readers do not read off random characters that represent icons */
   font-size: 1rem;
   color: #6c757d; }
 
+/*
+
+Visual Studio-like style based on original C# coloring by Jason Diamond <jason@diamond.name>
+
+*/
 .hljs, .highlight pre {
   display: block;
   overflow-x: auto;
   padding: 0.5em;
-  background: #1E1E1E;
-  color: #DCDCDC;
+  background: #f8f9fa;
+  color: black;
   font-family: 'Hack'; }
 
+.hljs-comment,
+.hljs-quote,
+.hljs-variable {
+  color: #008000; }
+
 .hljs-keyword, .pl-k,
-.hljs-literal,
-.hljs-symbol,
-.hljs-name {
-  color: #569CD6; }
-
-.hljs-link {
-  color: #569CD6;
-  text-decoration: underline; }
-
+.hljs-selector-tag,
 .hljs-built_in,
-.hljs-type {
-  color: #4EC9B0; }
-
-.hljs-number,
-.hljs-class {
-  color: #B8D7A3; }
+.hljs-name,
+.hljs-tag {
+  color: #00f; }
 
 .hljs-string, .pl-s,
-.hljs-meta-string {
-  color: #D69D85; }
-
-.hljs-regexp,
-.hljs-template-tag {
-  color: #9A5334; }
-
-.hljs-subst,
-.hljs-function,
 .hljs-title,
 .pl-en,
-.hljs-params,
-.hljs-formula {
-  color: #DCDCDC; }
+.hljs-section,
+.hljs-attribute,
+.hljs-literal,
+.hljs-template-tag,
+.hljs-template-variable,
+.hljs-type,
+.hljs-addition {
+  color: #a31515; }
 
-.hljs-comment,
-.hljs-quote {
-  color: #57A64A;
-  font-style: italic; }
+.hljs-deletion,
+.hljs-selector-attr,
+.hljs-selector-pseudo,
+.hljs-meta {
+  color: #2b91af; }
 
 .hljs-doctag {
-  color: #608B4E; }
+  color: #808080; }
 
-.hljs-meta,
-.hljs-meta-keyword,
-.hljs-tag {
-  color: #9B9B9B; }
+.hljs-attr {
+  color: #f00; }
 
-.hljs-variable,
-.hljs-template-variable {
-  color: #BD63C5; }
-
-.hljs-attr,
-.hljs-attribute,
-.hljs-builtin-name {
-  color: #9CDCFE; }
-
-.hljs-section {
-  color: gold; }
+.hljs-symbol,
+.hljs-bullet,
+.hljs-link {
+  color: #00b0e8; }
 
 .hljs-emphasis {
   font-style: italic; }
 
 .hljs-strong {
   font-weight: bold; }
-
-/*.hljs-code {
-  font-family:'Monospace';
-}*/
-.hljs-bullet,
-.hljs-selector-tag,
-.hljs-selector-id,
-.hljs-selector-class,
-.hljs-selector-attr,
-.hljs-selector-pseudo {
-  color: #D7BA7D; }
-
-.hljs-addition {
-  background-color: #144212;
-  display: inline-block;
-  width: 100%; }
-
-.hljs-deletion {
-  background-color: #600;
-  display: inline-block;
-  width: 100%; }
 
 .highlight {
   margin-bottom: 1rem; }
