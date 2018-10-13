@@ -1,17 +1,48 @@
 .comment {
-    @extend .card;
-    .header {
-        @extend .card-header;
-    }
-    .body {
-        @extend .card-body;
-        > *:last-child {
-            margin-bottom: 0;
+    display: flex;
+    flex-direction: row;
+    .comment-user {
+        margin-right: map-get($spacers, 3);
+        img {
+            @extend .img-fluid, .rounded;
+            max-width: 50px;
         }
     }
-    .footer {
-        @extend .card-footer;
-        padding: 0;
+    .comment-main {
+        @extend .card;
+        flex: 1;
+        .header {
+            @extend .card-header;
+            font-size: $font-size-sm;
+            color: $text-muted;
+            .user {
+                color: darken($text-muted, 5%);
+                font-weight: bold;
+                @include hover {
+                    color: darken($text-muted, 5%);
+                }
+            }
+            .time {
+                color: $text-muted;
+                @include hover {
+                    color: $text-muted;
+                }
+            }
+        }
+        .body {
+            @extend .card-body;
+            > *:last-child {
+                margin-bottom: 0;
+            }
+        }
+        .footer {
+            @extend .card-footer;
+            padding: 0;
+            background: transparent;
+            .nav-link {
+                border-right: $card-border-width solid $card-border-color;
+            }
+        }
+        margin-bottom: map-get($spacers, 3);
     }
-    margin-bottom: map-get($spacers, 3);
 }

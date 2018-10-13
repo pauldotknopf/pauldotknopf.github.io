@@ -3,9 +3,13 @@ using Octokit;
 
 namespace Blog
 {
-    public class GitHubComment
+    public class GitHubComment : Comment
     {
+        public int Id { get; set; }
+        
         public string User { get; set; }
+        
+        public string UserAvatarUrl { get; set; }
         
         public DateTimeOffset CreatedAt { get; set; }
         

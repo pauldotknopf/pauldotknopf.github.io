@@ -27,7 +27,7 @@ namespace Blog
         [YamlMember(Alias = "comment_issue_id")]
         public int? CommentIssueID { get; set; }
         
-        public List<GitHubComment> Comments { get; set; }
+        public List<Comment> Comments { get; set; }
         
         public string Path { get; set; }
         

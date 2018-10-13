@@ -22,6 +22,7 @@
     <PackageReference Include="Statik.Files" Version="0.10.1" />
     <PackageReference Include="Statik.Mvc" Version="0.10.1" />
     <PackageReference Include="Statik.Markdown" Version="0.10.1" />
+    <PackageReference Include="System.Xml.XmlDocument" Version="4.3.0" />
     <PackageReference Include="YamlDotNet" Version="5.2.0" />
   </ItemGroup>
 

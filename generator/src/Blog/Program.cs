@@ -4,6 +4,9 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Xml.Linq;
+using System.Xml.Serialization;
+using Blog.Disqus;
 using Blog.Models;
 using Blog.Services;
 using Blog.Services.Impl;
@@ -13,6 +16,7 @@ using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Octokit;
+using Octokit.Internal;
 using Pek.Markdig.HighlightJs;
 using PowerArgs;
 using Statik;
@@ -33,11 +37,22 @@ namespace Blog
         private static IMarkdownRenderer _markdownRenderer;
         private static IPosts _posts;
         private static IPages _pages;
+        private static IDisqusCommentParser _disqusCommentParser;
+        private static GitHubClient _github;
         
         static async Task<int> Main(string[] args)
         {
             try
             {
+                var githubUsername = Environment.GetEnvironmentVariable("GITHUB_USERNAME");
+                var githubPassword = Environment.GetEnvironmentVariable("GITHUB_PASSWORD");
+                if (string.IsNullOrEmpty(githubUsername) || string.IsNullOrEmpty(githubPassword))
+                {
+                    throw new Exception("You must provide GITHUB_USERNAME and GITHUB_PASSWORD environment variable");
+                }
+                
+                _github = new GitHubClient(new ProductHeaderValue("pauldotknopf.github.io"), new InMemoryCredentialStore(new Credentials(githubUsername, githubPassword)));
+                _disqusCommentParser = new Disqus.Impl.DisqusCommentParser();
                 _contentDirectory = Directory.GetCurrentDirectory();
                 _markdownParser = new MarkdownParser();
                 _markdownRenderer = new MarkdownRenderer(new MarkdownPipelineBuilder()
@@ -159,24 +174,35 @@ namespace Blog
             {
                 if (post.CommentIssueID.HasValue)
                 {
-                    post.Comments = new List<GitHubComment>();
-                    var github = new GitHubClient(new ProductHeaderValue("pauldotknopf.github.io"));
-                    var issue = await github.Issue.Get("pauldotknopf", "pauldotknopf.github.io", post.CommentIssueID.Value);
-                    var comments = await github.Issue.Comment.GetAllForIssue("pauldotknopf", "pauldotknopf.github.io", post.CommentIssueID.Value);
+                    post.Comments = new List<Comment>();
+                    var issue = await _github.Issue.Get("pauldotknopf", "pauldotknopf.github.io", post.CommentIssueID.Value);
+                    var comments = await _github.Issue.Comment.GetAllForIssue("pauldotknopf", "pauldotknopf.github.io", post.CommentIssueID.Value);
                     foreach (var comment in comments)
                     {
-                        var body = await github.Miscellaneous.RenderArbitraryMarkdown(new NewArbitraryMarkdown(comment.Body, "gfm", "pauldotknopf/pauldotknopf.github.io"));
+                        if (comment.User.Login == "pauldotknopf" && comment.Body.StartsWith("---DISQUS---"))
+                        {
+                            // This is an import from disqus.
+                            var lines = comment.Body.Split(Environment.NewLine).ToList();
+                            lines = lines.Skip(2).Take(lines.Count - 3).ToList();
+                            var xml = string.Join(Environment.NewLine, lines);
+                            foreach (var disqusComment in _disqusCommentParser.ParseComments(xml))
+                            {
+                                post.Comments.Add(disqusComment);
+                            }
+                            continue;
+                        }
+                        var body = await _github.Miscellaneous.RenderArbitraryMarkdown(new NewArbitraryMarkdown(comment.Body, "gfm", "pauldotknopf/pauldotknopf.github.io"));
                         post.Comments.Add(new GitHubComment
                         {
+                            Id = comment.Id,
                             CreatedAt = comment.CreatedAt,
                             UpdatedAt = comment.UpdatedAt,
                             User = comment.User.Login,
+                            UserAvatarUrl = comment.User.AvatarUrl,
                             Body = body,
                             Reactions = comment.Reactions
                         });
                     }
-                    Console.WriteLine(issue.Id);
-                    Console.WriteLine(comments.Count);
                 }
                 
             }
