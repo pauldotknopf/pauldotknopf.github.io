@@ -1,7 +1,6 @@
 ---
 title: "An immutable, reproducible and inheritable Linux operating system."
 date: 2017-09-20T14:50:41-04:00
-disqus_identifier: an_immutable_reproducible_and_inheritable_linux_operating_system
 comment_issue_id: 4
 ---
 

@@ -13,9 +13,10 @@ namespace Blog.Services.Impl
             _posts = posts.OrderByDescending(x => x.Date).ToList();
         }
 
-        public PagedList<Post> GetPosts(int pageIndex, int pageSize)
+        public PagedList<Post> GetPosts(int pageIndex, int pageSize, bool onlyListed = true)
         {
             var posts = _posts
+                .Where(x => !onlyListed || x.Listed)
                 .Skip(pageIndex * pageSize)
                 .Take(pageSize).ToList();
 

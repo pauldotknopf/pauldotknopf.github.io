@@ -4,6 +4,6 @@ namespace Blog.Services
 {
     public interface IPosts
     {
-        PagedList<Post> GetPosts(int pageIndex, int pageSize);
+        PagedList<Post> GetPosts(int pageIndex, int pageSize, bool onlyListed = true);
     }
 }

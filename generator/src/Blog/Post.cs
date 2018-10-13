@@ -6,6 +6,11 @@ namespace Blog
 {
     public class Post
     {
+        public Post()
+        {
+            Listed = true;
+        }
+        
         [YamlMember(Alias = "title")]
         public string Title { get; set; }
         
@@ -15,9 +20,6 @@ namespace Blog
         [YamlMember(Alias = "summary")]
         public string Summary { get; set; }
         
-        [YamlMember(Alias = "disqus_identifier")]
-        public string DisqusIdentifier { get; set; }
-        
         [YamlMember(Alias = "slug")]
         public string Slug { get; set; }
         
@@ -26,6 +28,9 @@ namespace Blog
         
         [YamlMember(Alias = "comment_issue_id")]
         public int? CommentIssueID { get; set; }
+        
+        [YamlMember(Alias = "listed")]
+        public bool Listed { get; set; }
         
         public List<GitHubComment> Comments { get; set; }
         

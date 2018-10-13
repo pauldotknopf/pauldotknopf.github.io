@@ -231,7 +231,7 @@ namespace Blog
                 pageIndex++;
             } while (posts.HasNextPage);
 
-            posts = _posts.GetPosts(0, int.MaxValue);
+            posts = _posts.GetPosts(0, int.MaxValue, false);
             foreach (var post in posts)
             {
                 _webBuilder.RegisterMvc(post.Path, new
