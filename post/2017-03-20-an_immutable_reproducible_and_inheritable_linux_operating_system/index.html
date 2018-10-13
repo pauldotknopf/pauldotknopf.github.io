@@ -37,7 +37,7 @@
             posted on Sep 20, 2017
         </p>
         <div class="content">
-            <p><em><strong>Be warned</strong>! This is just &quot;thought-expirement&quot; post. Nothing has been tried or tested.</em></p>
+            <p><em><strong>Be warned</strong>! This is just &quot;thought-experiment&quot; post. Nothing has been tried or tested.</em></p>
 <h1 id="my-problem">My problem</h1>
 <p>I have multiple computers. Each system has a different OS (or version) and configuration. One has Ubuntu 14, the others have Ubuntu 16. Some have had their packages updated, some have been neglected. Some are using NVIDIA graphics, others onboard Intel graphics.</p>
 <p>The context switching from machine-to-machine for simple tasks is mind numbing.</p>
@@ -156,7 +156,7 @@
 <p>To use boot these <code>squashfs</code> images, we would have to install Arch the normal way. Then customize the initcpio with some <a href="https://wiki.archlinux.org/index.php/mkinitcpio#Runtime_hooks">runtime hooks</a> that will mount <code>squashfs</code> images, overlay <code>tempfs</code> on <code>/</code>, <code>chroot</code> into the new root, and call <code>init</code>.</p>
 <h2 id="image-storage">Image storage</h2>
 <p>The docker files that build my layers will be checked into a GitHub repository. Travis-CI will monitor checkins, rebuild and deploy my images/layers to Docker Hub. I will use Docker Hub to make my builds available easily to all my machines.</p>
-<p>I can also imagine many people using this approach, allowing people to quickly boot into stranger's operating systems to play around and expirement. For example:</p>
+<p>I can also imagine many people using this approach, allowing people to quickly boot into stranger's operating systems to play around and experiment. For example:</p>
 <pre><code class="language-bash hljs"><span class="hljs-comment"># Checkout and build some guy named Steve's gaming build.</span>
 build steve/gaming
 <span class="hljs-comment"># And reboot into it!</span>
