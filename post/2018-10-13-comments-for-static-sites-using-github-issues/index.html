@@ -61,7 +61,7 @@
 <h2 id="utterances">Utterances</h2>
 <p><a href="https://utteranc.es/" target="_blank" class="btn btn-light">Website</a></p>
 <p>This looked even more appealing than Staticman. It uses GitHub Issues. Since I'm a developer, I'd love to be able to use <a href="https://github.github.com/gfm/">GitHub Flavored Markdown</a>. It also gives you authentication and notifications.</p>
-<p>This products requires an external server to be up and online at all times. And while they do promise to be always free without ads, they don't promise to be always <em>available</em>. And while they are open-source and I could always decide host my own Utterances server/bot, I'd prefer to host nothing at all. This isn't a super deal breaker, because in the end, all content is stored in GitHub Issues.</p>
+<p>This product requires an external server to be up and online at all times. And while they do promise to be always free without ads, they don't promise to be always <em>available</em>. And while they are open-source and I could always decide to host my own Utterances server/bot, I'd prefer to host nothing at all. This isn't a super deal breaker, because in the end, all content is stored in GitHub Issues.</p>
 <h2 id="gitment">Gitment</h2>
 <p><a href="https://github.com/imsun/gitment" target="_blank" class="btn btn-light">Website</a></p>
 <p>Gitment is similar to Utterances. It uses GitHub Issues as well. It doesn't seem to be under active development, but maybe it's &quot;done&quot;?</p>
@@ -100,12 +100,12 @@
 <p>I can then render the content how I want (in Razor, see <a href="https://github.com/pauldotknopf/pauldotknopf.github.io/blob/b5d615711a14f69c09f098f4a2373cecc2f4cf6f/generator/src/Blog/Resources/Views/Blog/Post.cshtml#L18">here</a>).</p>
 <p>A few drawbacks:</p>
 <ul>
-<li>No ability to comment directly from the blog post. I don't really mind this, since I don't like asking users for OAuth permissions anyway. Instead, I guide them directly to GitHub for the comments.</li>
+<li>No ability to comment directly from the blog post. I don't really mind this since I don't like asking users for OAuth permissions anyway. Instead, I guide them directly to GitHub for the comments.</li>
 <li>Out-of-date data. Since we render the comments on the server side, we wouldn't capture any new comments or new edits immediately. I use a cron-job in Travis CI to rebuild my site every 24-hours to help alleviate this issue. I wish there was some (easy) way to trigger a Travis CI build each time a comment is posted or updated on a GitHub Issue.</li>
 </ul>
-<p>There is no harm in switching to Utterances in the future. It is a lot easier to implement, but I'm more partial too having smaller dependencies and fewer external services.</p>
+<p>There is no harm in switching to Utterances in the future. It is a lot easier to implement, but I'm more partial to having smaller dependencies and fewer external services.</p>
 <p>You can play around with <a href="/post/2018-10-10-test-github-comments">this</a> blog post.</p>
-<p>In the end though, my blog doesn't get much traffic. Who cares? :-)</p>
+<p>In the end, my blog doesn't get much traffic. Who cares? :-)</p>
 <p>Titty sprinkles.</p>
 
         </div>
