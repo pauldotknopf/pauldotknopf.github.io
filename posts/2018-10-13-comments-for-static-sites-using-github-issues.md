@@ -91,6 +91,8 @@ A few drawbacks:
 
 There is no harm in switching to Utterances in the future. It is a lot easier to implement, but I'm more partial too having smaller dependencies and fewer external services.
 
+You can play around with [this](2018-10-10-test-github-comments.md) blog post.
+
 In the end though, my blog doesn't get much traffic. Who cares? :-)
 
 Titty sprinkles.
