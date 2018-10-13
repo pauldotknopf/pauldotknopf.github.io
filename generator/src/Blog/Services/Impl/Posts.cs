@@ -20,7 +20,7 @@ namespace Blog.Services.Impl
                 .Skip(pageIndex * pageSize)
                 .Take(pageSize).ToList();
 
-            var count = _posts.Count;
+            var count = posts.Count;
             
             return new PagedList<Post>(posts, pageIndex, (int)Math.Ceiling(count / (decimal)pageSize) - 1, pageSize, count);
         }
