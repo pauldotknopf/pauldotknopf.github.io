@@ -1,0 +1,81 @@
+==================================================================
+https://keybase.io/pauldotknopf
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of https://pknopf.com
+  * I am pauldotknopf (https://keybase.io/pauldotknopf) on keybase.
+  * I have a public key with fingerprint 855B 7B78 BF57 C3AA B320  810E 2593 9644 282F A48F
+
+To do so, I am signing this object:
+
+{
+  "body": {
+    "key": {
+      "eldest_kid": "010162d08f1b3c49b619771a4a278eb70084bcc7b08b203b71ade22145ea1043e66c0a",
+      "fingerprint": "855b7b78bf57c3aab320810e25939644282fa48f",
+      "host": "keybase.io",
+      "key_id": "25939644282fa48f",
+      "kid": "010162d08f1b3c49b619771a4a278eb70084bcc7b08b203b71ade22145ea1043e66c0a",
+      "uid": "ce4766c3681772d59c476edc2b5eb319",
+      "username": "pauldotknopf"
+    },
+    "merkle_root": {
+      "ctime": 1539465549,
+      "hash_meta": "7f2e1036534d157bf9e0bd1da4c8f88410ce9d77761e511f2bd94113ee5a47d9",
+      "seqno": 3791468
+    },
+    "revoke": {
+      "sig_ids": [
+        "ebbfe7c26e3686bb993e8c52093c526dab00dd1e9e14ed9b1a3bdf75f229b1590f"
+      ]
+    },
+    "service": {
+      "hostname": "pknopf.com",
+      "protocol": "https:"
+    },
+    "type": "web_service_binding",
+    "version": 1
+  },
+  "ctime": 1539465582,
+  "expire_in": 157680000,
+  "prev": "74ea60eedb3437b76123877791166edbfc9f880666e29afaa5fb8ead2417856d",
+  "seqno": 24,
+  "tag": "signature"
+}
+
+which yields the signature:
+
+-----BEGIN PGP MESSAGE-----
+Version: Keybase OpenPGP v2.0.80
+Comment: https://keybase.io/crypto
+
+yMK7AnicrZNraB1FFMdvGtuSWxRroB9iVdgmxWha57UzOxdKsJUWH1xBWiKk7e3M
+ztlkvY+93d1cE2OEFHyU2DYgaEFBrNhgrY8v4seGS6Cgxn6qUl9cYmvFaH2A0Ba1
+zl4sgvjR/bDLOfs/5/znNzMLN3bm8h0PPvr9lUNHK/mOj5rjY7nhpqpNOjoyE05h
+0ilD+wMVA0laKofGKTgII8yJQV6ANfWZ1BxLIbBiiggPtEDIY9r3hUaeJohq+8sA
+IZi5oDBiFDj3kXIGnCCsjUBcj8Naatt6rquFFp4OXOFTpTQlyMMIiCup5IwRjwSK
+eYEtHI2SrMKa0yqBzWFkczYote39h/5/9j3WbucDEzZDuYeFIMaVvo3B+ES7oCmW
+mTCBuKaqYNV1NVYxUVquRfXAmRpwqhCXK1CKoyjNAPtpmMmwSyXjrsukXaRKRktV
+SJWtFgEBjCh3KTPYFTqQgLTBRjHfCzyPYeSDNEIIjsHFOCDaSIYxBXAVEybzksD+
+WuQUqJCYcc86iKERlSEbnoQjFl3iFIYd0DoA4RMOdl1caykpeL5LkKT2zY3SCBmD
+QQJmYKTGimoTCDcgxAauRIGzZyobFjdCv90826vrDNqr3+xHVeunHkdp5EcVmx9N
+03pSyKikE/VM+Djo0t8tSjqsGXtObEUD4iSMapaSVf4LmEcGHBivhzGUwkzhCu4h
++2RzoJERZKA4AjCaMmqPGceEehaYxJjbXdOBLy1IxG1ApAqUcgPtgTKEYeG53PxD
+kDDrU43YnpZbTaVjMThTzfndN+Q68rlVK1dkFyiX77r5+rVa7lx97YHF+PW1Yv7d
+3l9muobuXcU/+MLcPlfc+9P5Q286f65ZOXtk029fV55Y8XJ+76WxpdKm/aXLF3oO
+NvzvNjz5ce+a+277sPX8qf5xEYvWe4/Nzva1bjnzzvDk8kQTLmzv/nn777WZi7Mz
++vObOt+4epY/vKHrwKvFyYl9V167Y2p418xXxfF1e95fu+/kxjPFOxeqfd1Xc+uj
++T+Wu3d8OrTlcrH/xZ67lo8VT26j/U8vrn/2hD66Y2FnY5Cff+oR/4cDq48X5o70
+DQ4efujHddO/PtPdkp/kDr59+tyWocXppUt3v/VS/8XeY02y9dtvXml99tzxW89+
+ef+pjahnaVt999w90yfOHX7h9K6t1zqdvwBXxX6o
+=cLZj
+-----END PGP MESSAGE-----
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/pauldotknopf
+
+==================================================================
