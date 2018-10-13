@@ -1,17 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Xml.Linq;
-using System.Xml.Serialization;
-using Blog.Disqus;
-using Blog.Models;
 using Blog.Services;
 using Blog.Services.Impl;
 using Markdig;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
@@ -20,7 +13,6 @@ using Octokit.Internal;
 using Pek.Markdig.HighlightJs;
 using PowerArgs;
 using Statik;
-using Statik.Embedded;
 using Statik.Files;
 using Statik.Markdown;
 using Statik.Markdown.Impl;
@@ -37,7 +29,6 @@ namespace Blog
         private static IMarkdownRenderer _markdownRenderer;
         private static IPosts _posts;
         private static IPages _pages;
-        private static IDisqusCommentParser _disqusCommentParser;
         private static GitHubClient _github;
         
         static async Task<int> Main(string[] args)
@@ -52,7 +43,6 @@ namespace Blog
                 }
                 
                 _github = new GitHubClient(new ProductHeaderValue("pauldotknopf.github.io"), new InMemoryCredentialStore(new Credentials(githubUsername, githubPassword)));
-                _disqusCommentParser = new Disqus.Impl.DisqusCommentParser();
                 _contentDirectory = Directory.GetCurrentDirectory();
                 _markdownParser = new MarkdownParser();
                 _markdownRenderer = new MarkdownRenderer(new MarkdownPipelineBuilder()
@@ -174,34 +164,26 @@ namespace Blog
             {
                 if (post.CommentIssueID.HasValue)
                 {
-                    post.Comments = new List<Comment>();
-                    var issue = await _github.Issue.Get("pauldotknopf", "pauldotknopf.github.io", post.CommentIssueID.Value);
+                    post.Comments = new List<GitHubComment>();
                     var comments = await _github.Issue.Comment.GetAllForIssue("pauldotknopf", "pauldotknopf.github.io", post.CommentIssueID.Value);
                     foreach (var comment in comments)
                     {
-                        if (comment.User.Login == "pauldotknopf" && comment.Body.StartsWith("---DISQUS---"))
-                        {
-                            // This is an import from disqus.
-                            var lines = comment.Body.Split(Environment.NewLine).ToList();
-                            lines = lines.Skip(2).Take(lines.Count - 3).ToList();
-                            var xml = string.Join(Environment.NewLine, lines);
-                            foreach (var disqusComment in _disqusCommentParser.ParseComments(xml))
-                            {
-                                post.Comments.Add(disqusComment);
-                            }
-                            continue;
-                        }
                         var body = await _github.Miscellaneous.RenderArbitraryMarkdown(new NewArbitraryMarkdown(comment.Body, "gfm", "pauldotknopf/pauldotknopf.github.io"));
+                        // The API returns an "UpdatedAt", even if it isn't updated.
                         post.Comments.Add(new GitHubComment
                         {
                             Id = comment.Id,
                             CreatedAt = comment.CreatedAt,
-                            UpdatedAt = comment.UpdatedAt,
+                            // The API returns UpdatedAt, even if the comment wasn't updated.
+                            UpdatedAt = comment.UpdatedAt.HasValue
+                                ? (comment.UpdatedAt.Value == comment.CreatedAt ? (DateTimeOffset?)null : comment.UpdatedAt.Value)
+                                : null,
                             User = comment.User.Login,
                             UserAvatarUrl = comment.User.AvatarUrl,
                             Body = body,
                             Reactions = comment.Reactions
                         });
+                        
                     }
                 }
                 

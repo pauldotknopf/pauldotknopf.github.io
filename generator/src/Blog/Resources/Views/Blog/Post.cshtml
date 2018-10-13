@@ -20,105 +20,80 @@
             {
                 foreach (var comment in Model.Post.Comments)
                 {
-                    if (comment is GitHubComment gitHubComment)
-                    {
-                        var userUrl = $"https://github.com/{gitHubComment.User}";
-                        var commentUrl = $"https://github.com/pauldotknopf/pauldotknopf.github.io/issues/{Model.Post.CommentIssueID.Value}#issuecomment-{gitHubComment.Id}";
-                        <div class="comment">
-                            <div class="comment-user">
-                                <a href="@userUrl" target="_blank">
-                                    <img src="@gitHubComment.UserAvatarUrl"/>
-                                </a>
+                    var userUrl = $"https://github.com/{comment.User}";
+                    var commentUrl = $"https://github.com/pauldotknopf/pauldotknopf.github.io/issues/{Model.Post.CommentIssueID.Value}#issuecomment-{comment.Id}";
+                    <div class="comment">
+                        <div class="comment-user">
+                            <a href="@userUrl" target="_blank">
+                                <img src="@comment.UserAvatarUrl"/>
+                            </a>
+                        </div>
+                        <div class="comment-main">
+                            <div class="header">
+                                <a href="@userUrl" target="_blank" class="user">@comment.User</a> commented
+                                <a href="@commentUrl" target="_blank" class="time">
+                                    <relative-time datetime="@comment.CreatedAt.ToString("O")">
+                                        @comment.CreatedAt.ToString("MMM dd, yyyy")
+                                    </relative-time>
+                                </a>&nbsp;@(comment.UpdatedAt.HasValue ? "(edited)" : "")
                             </div>
-                            <div class="comment-main">
-                                <div class="header">
-                                    <a href="@userUrl" target="_blank" class="user">@gitHubComment.User</a> commented
-                                    <a href="@commentUrl" target="_blank" class="time">
-                                        <relative-time datetime="@gitHubComment.CreatedAt.ToString("O")">
-                                            @gitHubComment.CreatedAt.ToString("MMM dd, yyyy")
-                                        </relative-time>
-                                    </a>&nbsp;@(gitHubComment.UpdatedAt.HasValue ? "(edited)" : "")
-                                </div>
-                                <div class="body">
-                                    @Html.Raw(gitHubComment.Body)
-                                </div>
-                                <div class="footer">
-                                    <ul class="nav">
-                                        @if (gitHubComment.Reactions.Plus1 > 0)
-                                        {
-                                            <li class="nav-item">
-                                                <a class="nav-link active" href="#">
-                                                    <g-emoji alias="+1" fallback-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f44d.png" class="emoji">👍</g-emoji> @gitHubComment.Reactions.Plus1
-                                                </a>
-                                            </li>
-                                        }
-                                        @if (gitHubComment.Reactions.Minus1 > 0)
-                                        {
-                                            <li class="nav-item">
-                                                <a class="nav-link active" href="#">
-                                                    <g-emoji alias="-1" fallback-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f44e.png" class="emoji">👎</g-emoji> @gitHubComment.Reactions.Minus1
-                                                </a>
-                                            </li>
-                                        }
-                                        @if (gitHubComment.Reactions.Laugh > 0)
-                                        {
-                                            <li class="nav-item">
-                                                <a class="nav-link active" href="#">
-                                                    <g-emoji alias="smile" fallback-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f604.png" class="emoji">😄</g-emoji> @gitHubComment.Reactions.Laugh
-                                                </a>
-                                            </li>
-                                        }
-                                        @if (gitHubComment.Reactions.Hooray > 0)
-                                        {
-                                            <li class="nav-item">
-                                                <a class="nav-link active" href="#">
-                                                    <g-emoji alias="tada" fallback-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f389.png" class="emoji">🎉</g-emoji> @gitHubComment.Reactions.Hooray
-                                                </a>
-                                            </li>
-                                        }
-                                        @if (gitHubComment.Reactions.Confused > 0)
-                                        {
-                                            <li class="nav-item">
-                                                <a class="nav-link active" href="#">
-                                                    <g-emoji alias="thinking_face" fallback-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f615.png" class="emoji">😕</g-emoji> @gitHubComment.Reactions.Confused
-                                                </a>
-                                            </li>
-                                        }
-                                        @if (gitHubComment.Reactions.Heart > 0)
-                                        {
-                                            <li class="nav-item">
-                                                <a class="nav-link active" href="#">
-                                                    <g-emoji alias="heart" fallback-src="https://assets-cdn.github.com/images/icons/emoji/unicode/2764.png" class="emoji">❤️</g-emoji> @gitHubComment.Reactions.Heart
-                                                </a>
-                                            </li>
-                                        }
-                                    </ul>
-                                </div>
+                            <div class="body">
+                                @Html.Raw(comment.Body)
+                            </div>
+                            <div class="footer">
+                                <ul class="nav">
+                                    @if (comment.Reactions.Plus1 > 0)
+                                    {
+                                        <li class="nav-item">
+                                            <a class="nav-link active" href="#">
+                                                <g-emoji alias="+1" fallback-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f44d.png" class="emoji">👍</g-emoji> @comment.Reactions.Plus1
+                                            </a>
+                                        </li>
+                                    }
+                                    @if (comment.Reactions.Minus1 > 0)
+                                    {
+                                        <li class="nav-item">
+                                            <a class="nav-link active" href="#">
+                                                <g-emoji alias="-1" fallback-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f44e.png" class="emoji">👎</g-emoji> @comment.Reactions.Minus1
+                                            </a>
+                                        </li>
+                                    }
+                                    @if (comment.Reactions.Laugh > 0)
+                                    {
+                                        <li class="nav-item">
+                                            <a class="nav-link active" href="#">
+                                                <g-emoji alias="smile" fallback-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f604.png" class="emoji">😄</g-emoji> @comment.Reactions.Laugh
+                                            </a>
+                                        </li>
+                                    }
+                                    @if (comment.Reactions.Hooray > 0)
+                                    {
+                                        <li class="nav-item">
+                                            <a class="nav-link active" href="#">
+                                                <g-emoji alias="tada" fallback-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f389.png" class="emoji">🎉</g-emoji> @comment.Reactions.Hooray
+                                            </a>
+                                        </li>
+                                    }
+                                    @if (comment.Reactions.Confused > 0)
+                                    {
+                                        <li class="nav-item">
+                                            <a class="nav-link active" href="#">
+                                                <g-emoji alias="thinking_face" fallback-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f615.png" class="emoji">😕</g-emoji> @comment.Reactions.Confused
+                                            </a>
+                                        </li>
+                                    }
+                                    @if (comment.Reactions.Heart > 0)
+                                    {
+                                        <li class="nav-item">
+                                            <a class="nav-link active" href="#">
+                                                <g-emoji alias="heart" fallback-src="https://assets-cdn.github.com/images/icons/emoji/unicode/2764.png" class="emoji">❤️</g-emoji> @comment.Reactions.Heart
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
                             </div>
                         </div>
-                    }else if (comment is DisqusComment disqusComment)
-                    {
-                        <div class="comment">
-                            <div class="comment-user">
-                                <a href="https://disqus.com/by/@disqusComment.UserName/" target="_blank">
-                                    <img src="https://disqus.com/api/users/avatars/@(disqusComment.UserName).jpg"/>
-                                </a>
-                            </div>
-                            <div class="comment-main">
-                                <div class="header">
-                                    <a href="https://disqus.com/by/@disqusComment.UserName/" target="_blank" class="user">@disqusComment.Name</a> commented
-                                    <span class="time">
-                                        <relative-time datetime="@disqusComment.CreatedAt.ToString("O")">
-                                            @disqusComment.CreatedAt.ToString("MMM dd, yyyy")
-                                        </relative-time>
-                                    </span>
-                                </div>
-                                <div class="body">
-                                    @Html.Raw(disqusComment.Body)
-                                </div>
-                            </div>
-                        </div>
-                    }
+                    </div>
                 }
             }
             else

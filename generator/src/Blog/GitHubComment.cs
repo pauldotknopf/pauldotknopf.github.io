@@ -3,7 +3,7 @@ using Octokit;
 
 namespace Blog
 {
-    public class GitHubComment : Comment
+    public class GitHubComment
     {
         public int Id { get; set; }
         
