@@ -4,7 +4,7 @@ date: 2017-09-20T14:50:41-04:00
 comment_issue_id: 4
 ---
 
-***Be warned**! This is just "thought-expirement" post. Nothing has been tried or tested.*
+***Be warned**! This is just "thought-experiment" post. Nothing has been tried or tested.*
 
 # My problem
 
@@ -174,7 +174,7 @@ To use boot these ```squashfs``` images, we would have to install Arch the norma
 
 The docker files that build my layers will be checked into a GitHub repository. Travis-CI will monitor checkins, rebuild and deploy my images/layers to Docker Hub. I will use Docker Hub to make my builds available easily to all my machines.
 
-I can also imagine many people using this approach, allowing people to quickly boot into stranger's operating systems to play around and expirement. For example:
+I can also imagine many people using this approach, allowing people to quickly boot into stranger's operating systems to play around and experiment. For example:
 
 ```bash
 # Checkout and build some guy named Steve's gaming build.
