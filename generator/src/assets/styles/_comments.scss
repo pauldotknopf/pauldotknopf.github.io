@@ -34,6 +34,8 @@
             > *:last-child {
                 margin-bottom: 0;
             }
+
+            @import "comments.permalink";
         }
         .footer {
             @extend .card-footer;

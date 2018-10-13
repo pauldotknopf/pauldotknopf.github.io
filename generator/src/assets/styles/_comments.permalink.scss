@@ -1,0 +1,81 @@
+// permalink code block styles
+
+.rounded-1 {
+    border-radius: $border-radius !important;
+}
+
+.lh-condensed {
+    line-height: $line-height-base * .8 !important;
+}
+
+.f6 {
+    font-size: 12px !important;
+}
+
+.blob-wrapper-embedded {
+    max-height: 240px;
+}
+
+.blob-wrapper {
+    border-bottom-right-radius: $border-radius;
+    border-bottom-left-radius: $border-radius;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+
+    > table {
+        overflow: visible;
+    }
+}
+
+.blob-num {
+    width: 1%;
+    min-width: 50px;
+    padding-right: 10px;
+    padding-left: 10px;
+    font-family: 'Hack';
+    font-size: $font-size-sm;
+    line-height: $line-height-base;
+    color: $text-muted;
+    text-align: right;
+    white-space: nowrap;
+    vertical-align: top;
+    cursor: pointer;
+    user-select: none;
+
+    &::before {
+        content: attr(data-line-number);
+    }
+}
+
+.blob-code-inner {
+    overflow: visible;
+    font-family: 'Hack';
+    font-size: $font-size-sm;
+    color: $text-muted;
+    word-wrap: normal;
+    white-space: pre;
+}
+
+.blob-code {
+    position: relative;
+    padding-right: 10px;
+    padding-left: 10px;
+    line-height: $line-height-base;
+    vertical-align: top;
+}
+
+.bg-white {
+    background-color: theme-color("white") !important;
+}
+
+.bg-gray-light {
+    background-color: theme-color("light") !important;
+}
+
+.text-gray-light {
+    color: $text-muted;
+}
+
+.commit-tease-sha {
+    color: darken($text-muted, 10%);
+}

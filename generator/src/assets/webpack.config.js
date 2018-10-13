@@ -8,7 +8,7 @@ var options = {
 };
 
 module.exports = {
-  mode: 'development',
+  mode: 'production',
   entry: {
       styles: './styles.scss',
       scripts: './scripts.js'
