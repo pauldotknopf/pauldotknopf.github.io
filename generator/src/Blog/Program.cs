@@ -13,6 +13,7 @@ using Octokit.Internal;
 using Pek.Markdig.HighlightJs;
 using PowerArgs;
 using Statik;
+using Statik.Embedded;
 using Statik.Files;
 using Statik.Markdown;
 using Statik.Markdown.Impl;
@@ -57,8 +58,8 @@ namespace Blog
                     services.AddSingleton(_markdownRenderer);
                     services.Configure<RazorViewEngineOptions>(options =>
                     {
-                        //options.FileProviders.Add(new EmbeddedFileProvider(typeof(Program).Assembly, "Blog.Resources"));
-                        options.FileProviders.Add(new PhysicalFileProvider("/Users/pknopf/git/pauldotknopf.github.io/generator/src/Blog/Resources"));
+                        options.FileProviders.Add(new EmbeddedFileProvider(typeof(Program).Assembly, "Blog.Resources"));
+                        //options.FileProviders.Add(new PhysicalFileProvider("/Users/pknopf/git/pauldotknopf.github.io/generator/src/Blog/Resources"));
                     });
                 });
                 
@@ -91,8 +92,8 @@ namespace Blog
 
         private static void RegisterResources()
         {
-            //_webBuilder.RegisterFileProvider(new EmbeddedFileProvider(typeof(Program).Assembly, "Blog.Resources.wwwroot"));
-            _webBuilder.RegisterFileProvider(new PhysicalFileProvider("/Users/pknopf/git/pauldotknopf.github.io/generator/src/Blog/Resources/wwwroot"));
+            _webBuilder.RegisterFileProvider(new EmbeddedFileProvider(typeof(Program).Assembly, "Blog.Resources.wwwroot"));
+            //_webBuilder.RegisterFileProvider(new PhysicalFileProvider("/Users/pknopf/git/pauldotknopf.github.io/generator/src/Blog/Resources/wwwroot"));
             var staticDirectory = Path.Combine(_contentDirectory, "static");
             if (Directory.Exists(staticDirectory))
             {
@@ -183,10 +184,8 @@ namespace Blog
                             Body = body,
                             Reactions = comment.Reactions
                         });
-                        
                     }
                 }
-                
             }
             
             _posts = new Posts(posts);
