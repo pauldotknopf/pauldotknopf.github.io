@@ -30,7 +30,7 @@ I can see this as a powerful tool for many use-cases, but not for blog comments,
 
 This looked even more appealing than Staticman. It uses GitHub Issues. Since I'm a developer, I'd love to be able to use [GitHub Flavored Markdown](https://github.github.com/gfm/). It also gives you authentication and notifications.
 
-This products requires an external server to be up and online at all times. And while they do promise to be always free without ads, they don't promise to be always *available*. And while they are open-source and I could always decide host my own Utterances server/bot, I'd prefer to host nothing at all. This isn't a super deal breaker, because in the end, all content is stored in GitHub Issues.
+This product requires an external server to be up and online at all times. And while they do promise to be always free without ads, they don't promise to be always *available*. And while they are open-source and I could always decide to host my own Utterances server/bot, I'd prefer to host nothing at all. This isn't a super deal breaker, because in the end, all content is stored in GitHub Issues.
 
 ## Gitment
 
@@ -86,13 +86,13 @@ Since I am querying the comments on the server, I can use authenticated GitHub r
 I can then render the content how I want (in Razor, see [here](https://github.com/pauldotknopf/pauldotknopf.github.io/blob/b5d615711a14f69c09f098f4a2373cecc2f4cf6f/generator/src/Blog/Resources/Views/Blog/Post.cshtml#L18)).
 
 A few drawbacks:
-* No ability to comment directly from the blog post. I don't really mind this, since I don't like asking users for OAuth permissions anyway. Instead, I guide them directly to GitHub for the comments.
+* No ability to comment directly from the blog post. I don't really mind this since I don't like asking users for OAuth permissions anyway. Instead, I guide them directly to GitHub for the comments.
 * Out-of-date data. Since we render the comments on the server side, we wouldn't capture any new comments or new edits immediately. I use a cron-job in Travis CI to rebuild my site every 24-hours to help alleviate this issue. I wish there was some (easy) way to trigger a Travis CI build each time a comment is posted or updated on a GitHub Issue.
 
-There is no harm in switching to Utterances in the future. It is a lot easier to implement, but I'm more partial too having smaller dependencies and fewer external services.
+There is no harm in switching to Utterances in the future. It is a lot easier to implement, but I'm more partial to having smaller dependencies and fewer external services.
 
 You can play around with [this](2018-10-10-test-github-comments.md) blog post.
 
-In the end though, my blog doesn't get much traffic. Who cares? :-)
+In the end, my blog doesn't get much traffic. Who cares? :-)
 
 Titty sprinkles.
