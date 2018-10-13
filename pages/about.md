@@ -15,6 +15,6 @@ My name is Paul Knopf. I am a software engineer for a medical device company bui
 
 :::text-center
 
-<a href="https://resume.pknopf.com/" class="btn btn-primary"><i class="fas fa-file"></i> Resume</a> <a href="https://github.com/pauldotknopf" class="btn btn-primary"><i class="fab fa-github"></i> GitHub</a> <a href="https://twitter.com/pauldotknopf" class="btn btn-primary"><i class="fab fa-twitter"></i> Twitter</a>
+<a href="https://resume.pknopf.com/" class="btn btn-light"><i class="fas fa-file"></i> Resume</a> <a href="https://github.com/pauldotknopf" class="btn btn-light"><i class="fab fa-github"></i> GitHub</a> <a href="https://twitter.com/pauldotknopf" class="btn btn-light"><i class="fab fa-twitter"></i> Twitter</a>
 
 :::
