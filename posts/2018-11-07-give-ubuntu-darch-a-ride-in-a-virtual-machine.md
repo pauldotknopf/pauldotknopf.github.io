@@ -29,3 +29,53 @@ qemu-img convert -O vmdk boot.img boot.vmdk
 <div class="alert alert-warning">
   Be sure to allocate at least 4GB of memory to your VM.
 </div>
+
+In the initial grub entries, you will see Debian. This is your base OS. You won't boot into in most of the time. It could be any OS, it just needs Darch installed on it. Consider it your recovery OS in case of emergencies. It is where we will build our first Darch image.
+
+Boot into the Debian install and login with the user "darch" and password "darch".
+
+In your home directory is an ```example-recipes``` directory. Within this directory is some example recipes (go figure) to build and boot an Ubuntu image. Take a look at the commands ```./build``` script. These are the esential commands to build your Ubuntu image.
+
+```bash
+# Pull down our base ubuntu image.
+sudo darch images pull godarch/ubuntu:cosmic
+
+# Build our recipes.
+sudo darch recipes build $(sudo darch recipes build-dep custom)
+
+# Stage them for booting.
+sudo darch stage upload custom --force
+```
+
+After running these commands, you can now restart your VM to boot into a fresh Ubuntu image.
+
+**TADA!!**
+
+*Now what?*
+
+Well, a few things. First, take note that in your Ubuntu image, anything you ```apt-get install``` is completely wiped on a fresh boot.
+
+*WTF!?!*
+
+Yeah, I know, but this ensures that you have a stable and clean operating system at all times. You can play with any package/configuration without fear that you'll break anything permantently (just reboot if you do).
+
+*What if there is a package/configuration that I **do** want to persist*
+
+This is where your personalized recipes come into play. For example, take a look at [my recipes](https://github.com/pauldotknopf/darch-recipes). In in my "development" image, I install things like git, KeyBase, Docker, etc.
+
+Try it yourself. Inside of ```~/example-recipes```, there is a ```custom``` recipe. I placed this here specifically for you to play and experiment with. Modify ```./custom/script``` to perform any operation you'd like. Configure the timezone? Install a package? Enable DHCP? Whatever.
+
+Instead of running ```./build``` again (which will work), let's build *only* your Ubuntu derived ```custom``` recipe so that we can avoid having to build Ubuntu again.
+
+```
+sudo darch recipes build custom
+sudo darch stage upload custom --force
+```
+
+Reboot again to see your changes permanantly backed into your build.
+
+That is pretty much it!
+
+Another cool thing worth mentioning is that you can configure your recipes to be auto-built and deployed to Docker Hub via Travis CI. This works great for me because I can commit/push any change I want, and I will eventually be able to pull it (```darch images pull my/image```) and boot it. I have multiple machines (and a laptop) that all pull off of the same Docker Hub feed. This means I have multiple machines running of the *same exact bits*.
+
+Apart from hardware issues, I will never have to worry about a broken Linux install again. Clean and stable.
