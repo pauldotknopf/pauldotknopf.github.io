@@ -25,3 +25,7 @@ qemu-img convert -O vdi boot.img boot.vdi
 # VMWare
 qemu-img convert -O vmdk boot.img boot.vmdk
 ```
+
+<div class="alert alert-warning">
+  Be sure to allocate at least 4GB of memory to your VM.
+</div>
