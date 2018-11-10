@@ -45,8 +45,8 @@
             posted on Nov 09, 2018
         </p>
         <div class="content">
-            <p>I've been using <a href="https://godarch.com">Darch</a> for a while now as my daily driver. I think it is a wonderful tool that many people would enjoy using if they would only give it a shot. I also understand that it is difficult to get an environment setup appropriatly to evaluate Darch, considering it's integration with the bootloader/grub.</p>
-<p>The goal of this post is to provide guidance to quickly setup a local VM (using your choise of a hypervisor) with a working Darch environment. I will then walk you through the process of building and booting into Ubuntu.</p>
+            <p>I've been using <a href="https://godarch.com">Darch</a> for a while now as my daily driver. I think it is a wonderful tool that many people would enjoy using if they would only give it a shot. I also understand that it is difficult to get an environment setup appropriately to evaluate Darch, considering it's integration with the bootloader/grub.</p>
+<p>The goal of this post is to provide guidance to quickly setup a local VM (using your choice of a hypervisor) with a working Darch environment. I will then walk you through the process of building and booting into Ubuntu.</p>
 <p>Generating a raw non-EUFI msdos partitioned disk image file (named <code>boot.img</code>) with Darch installed is very simple.</p>
 <pre><code class="language-bash hljs">mkdir darch-vm
 <span class="hljs-built_in">cd</span> darch-vm
@@ -75,7 +75,7 @@ sudo darch stage upload custom --force</code></pre>
 <p><em>Now what?</em></p>
 <p>Well, a few things. First, take note that in your Ubuntu image, anything you <code>apt-get install</code> is completely wiped on a fresh boot.</p>
 <p><em>WTF!?!</em></p>
-<p>Yeah, I know, but this ensures that you have a reproducable, stable and clean operating system at <em>all</em> times. You can play with any package/configuration without fear that you'll break anything permantently (just reboot if you do).</p>
+<p>Yeah, I know, but this ensures that you have a reproducible, stable and clean operating system at <em>all</em> times. You can play with any package/configuration without fear that you'll break anything permanently (just reboot if you do).</p>
 <p><em>Everything gets discarded though? What about my home directory?</em></p>
 <p>Darch supports hooks and comes with some out of the box for some common use cases. For example, the VM you are using has a fstab hook pre-configured for you that will auto mount a partition to your home directory. There are other hooks for custom <code>/etc/hostname</code> values for different images, restoring local ssh server fingerprints, etc.</p>
 <p><em>What if there is a package/configuration that I want to persist?</em></p>
@@ -86,9 +86,9 @@ sudo darch stage upload custom --force</code></pre>
 <pre><code>sudo darch recipes build custom
 sudo darch stage upload custom --force
 </code></pre>
-<p>Reboot again to see your changes permanantly baked into your image.</p>
+<p>Reboot again to see your changes permanently baked into your image.</p>
 <p>That is pretty much it!</p>
-<p>Apart from hardware issues, I will never have to worry about a broken Linux install again. Clean, stable and reproducable!</p>
+<p>Apart from hardware issues, I will never have to worry about a broken Linux install again. Clean, stable and reproducible!</p>
 <p>Another cool thing worth mentioning is that you can configure your recipes to be auto-built and deployed to Docker Hub via Travis CI. This works great for me because I can commit/push any change I want, and I will eventually be able to pull it (<code>darch images pull my/image</code>) and boot it. I have multiple machines (and a laptop) that all pull off of the same Docker Hub feed. This means I have multiple machines running of the <em>same exact bits</em>.</p>
 <p>Darch supports building images for Debian (stable and testing), Ubuntu, Arch and VoidLinux. Reach out if you'd like to see other distributions supported.</p>
 <p>Visit <a href="https://godarch.com/">godarch.com</a> to learn more.</p>
