@@ -9,7 +9,7 @@ comment_issue_id: 8
 
 The goal of this post is to provide the guidance to quickly setup a local VM (using your choise of a hypervisor) to setup a working Darch environment. I will then walk you through the process of building and booting into Ubuntu.
 
-The generation of a raw non-EUFI msdos partitioned disk image file (named ```boot.img```) with Darch installed is very simple.
+To generate a raw non-EUFI msdos partitioned disk image file (named ```boot.img```) with Darch installed is very simple.
 
 ```bash
 mkdir darch-vm
@@ -34,7 +34,7 @@ In the initial grub entries, you will see Debian. This is your base OS. You won'
 
 Boot into the Debian install and login with the user "darch" and password "darch".
 
-In your home directory is an ```example-recipes``` directory. Within this directory is some example recipes (go figure) to build and boot an Ubuntu image. Take a look at the commands ```./build``` script. These are the esential commands to build your Ubuntu image.
+In your home directory is an ```example-recipes``` directory. Within this directory is some example recipes (go figure) to build and boot an Ubuntu image. Take a look at the commands in the ```./build``` script. These are the esential commands to build your Ubuntu image.
 
 ```bash
 # Pull down our base ubuntu image.
@@ -57,15 +57,21 @@ Well, a few things. First, take note that in your Ubuntu image, anything you ```
 
 *WTF!?!*
 
-Yeah, I know, but this ensures that you have a stable and clean operating system at all times. You can play with any package/configuration without fear that you'll break anything permantently (just reboot if you do).
+Yeah, I know, but this ensures that you have a reproducable, stable and clean operating system at *all* times. You can play with any package/configuration without fear that you'll break anything permantently (just reboot if you do).
 
-*What if there is a package/configuration that I **do** want to persist*
+*Everything gets discarded though? What about my home directory?*
+
+Darch supports hooks and comes with some out of the box for some common use cases. For example, the VM you are using has a fstab hook pre-configured for you that will auto mount a partition to your home directory. There are other hooks for custom ```/etc/hostname``` values for different images, restoring local ssh server fingerprints, etc. 
+
+*What if there is a package/configuration that I want to persist?*
 
 This is where your personalized recipes come into play. For example, take a look at [my recipes](https://github.com/pauldotknopf/darch-recipes). In in my "development" image, I install things like git, KeyBase, Docker, etc.
 
-Try it yourself. Inside of ```~/example-recipes```, there is a ```custom``` recipe. I placed this here specifically for you to play and experiment with. Modify ```./custom/script``` to perform any operation you'd like. Configure the timezone? Install a package? Enable DHCP? Whatever.
+Try it yourself.
 
-Instead of running ```./build``` again (which will work), let's build *only* your Ubuntu derived ```custom``` recipe so that we can avoid having to build Ubuntu again.
+Inside of ```~/example-recipes```, there is a ```custom``` recipe. I placed this here specifically for you to play and experiment with. Modify ```./custom/script``` to perform any operation you'd like. Configure the timezone? Install a package? Enable DHCP? Whatever.
+
+Also, instead of running ```./build``` again (which will work), let's build *only* your Ubuntu derived ```custom``` recipe so that we can avoid having to build Ubuntu again.
 
 ```
 sudo darch recipes build custom
