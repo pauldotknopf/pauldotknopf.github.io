@@ -42,7 +42,7 @@
             Give Ubuntu/Darch a quick ride in a virtual machine.
         </h1>
         <p class="submitted">
-            posted on Nov 07, 2018
+            posted on Nov 09, 2018
         </p>
         <div class="content">
             <p>I've been using <a href="https://godarch.com">Darch</a> for a while now as my daily driver. I think it is a wonderful tool that many people would enjoy using if they would only give it a shot. I also understand that it is difficult to get an environment setup appropriatly to evaluate Darch, considering it's integration with the bootloader/grub.</p>
@@ -86,10 +86,12 @@ sudo darch stage upload custom --force</code></pre>
 <pre><code>sudo darch recipes build custom
 sudo darch stage upload custom --force
 </code></pre>
-<p>Reboot again to see your changes permanantly backed into your build.</p>
+<p>Reboot again to see your changes permanantly baked into your image.</p>
 <p>That is pretty much it!</p>
+<p>Apart from hardware issues, I will never have to worry about a broken Linux install again. Clean, stable and reproducable!</p>
 <p>Another cool thing worth mentioning is that you can configure your recipes to be auto-built and deployed to Docker Hub via Travis CI. This works great for me because I can commit/push any change I want, and I will eventually be able to pull it (<code>darch images pull my/image</code>) and boot it. I have multiple machines (and a laptop) that all pull off of the same Docker Hub feed. This means I have multiple machines running of the <em>same exact bits</em>.</p>
-<p>Apart from hardware issues, I will never have to worry about a broken Linux install again. Clean and stable.</p>
+<p>Darch supports building images for Debian (stable and testing), Ubuntu, Arch and VoidLinux. Reach out if you'd like to see other distributions supported.</p>
+<p>Visit <a href="https://godarch.com/">godarch.com</a> to learn more.</p>
 
         </div>
             <hr />
