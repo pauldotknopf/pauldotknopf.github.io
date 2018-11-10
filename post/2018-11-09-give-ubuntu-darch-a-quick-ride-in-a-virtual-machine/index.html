@@ -61,7 +61,7 @@ qemu-img convert -O vmdk boot.img boot.vmdk</code></pre>
 </div>
 <p>In the initial grub entries, you will see Debian. This is your base OS. You won't boot into it most of the time. It could be any OS, it just needs Darch installed on it. Consider it your recovery OS in case of emergencies. It is where we will build our first Darch image.</p>
 <p>Boot into the Debian install and login with the user &quot;darch&quot; and password &quot;darch&quot;.</p>
-<p>In your home directory is an <code>example-recipes</code> directory. Within this directory is some example recipes (go figure) to build and boot an Ubuntu image. Take a look at the commands in the <code>./build</code> script. These are the essential commands to build your Ubuntu image.</p>
+<p>In your home directory is an <code>example-recipes</code> directory. Within this directory are some example recipes (go figure) to build and boot an Ubuntu image. Take a look at the commands in the <code>./build</code> script. These are the essential commands to build your Ubuntu image.</p>
 <pre><code class="language-bash hljs"><span class="hljs-comment"># Pull down our base ubuntu image.</span>
 sudo darch images pull godarch/ubuntu:cosmic
 
