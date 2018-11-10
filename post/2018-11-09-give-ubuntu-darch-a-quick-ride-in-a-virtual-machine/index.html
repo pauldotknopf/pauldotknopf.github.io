@@ -47,7 +47,7 @@
         <div class="content">
             <p>I've been using <a href="https://godarch.com">Darch</a> for a while now as my daily driver. I think it is a wonderful tool that many people would enjoy using if they would only give it a shot. I also understand that it is difficult to get an environment setup appropriatly to evaluate Darch, considering it's integration with the bootloader/grub.</p>
 <p>The goal of this post is to provide the guidance to quickly setup a local VM (using your choise of a hypervisor) to setup a working Darch environment. I will then walk you through the process of building and booting into Ubuntu.</p>
-<p>To generate a raw non-EUFI msdos partitioned disk image file (named <code>boot.img</code>) with Darch installed is very simple.</p>
+<p>Generating a raw non-EUFI msdos partitioned disk image file (named <code>boot.img</code>) with Darch installed is very simple.</p>
 <pre><code class="language-bash hljs">mkdir darch-vm
 <span class="hljs-built_in">cd</span> darch-vm
 curl -s https://raw.githubusercontent.com/godarch/darch/develop/scripts/gen-bootable-image.sh | sudo bash /dev/stdin</code></pre>
