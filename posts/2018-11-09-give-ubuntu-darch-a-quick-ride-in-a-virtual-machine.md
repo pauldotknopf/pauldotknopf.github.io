@@ -8,7 +8,7 @@ comment_issue_id: 8
 
 The goal of this post is to provide the guidance to quickly setup a local VM (using your choise of a hypervisor) to setup a working Darch environment. I will then walk you through the process of building and booting into Ubuntu.
 
-To generate a raw non-EUFI msdos partitioned disk image file (named ```boot.img```) with Darch installed is very simple.
+Generating a raw non-EUFI msdos partitioned disk image file (named ```boot.img```) with Darch installed is very simple.
 
 ```bash
 mkdir darch-vm
