@@ -4,9 +4,9 @@ date: 2018-11-09
 comment_issue_id: 8
 ---
 
- I've been using [Darch](https://godarch.com) for a while now as my daily driver. I think it is a wonderful tool that many people would enjoy using if they would only give it a shot. I also understand that it is difficult to get an environment setup appropriatly to evaluate Darch, considering it's integration with the bootloader/grub.
+ I've been using [Darch](https://godarch.com) for a while now as my daily driver. I think it is a wonderful tool that many people would enjoy using if they would only give it a shot. I also understand that it is difficult to get an environment setup appropriately to evaluate Darch, considering it's integration with the bootloader/grub.
 
-The goal of this post is to provide guidance to quickly setup a local VM (using your choise of a hypervisor) with a working Darch environment. I will then walk you through the process of building and booting into Ubuntu.
+The goal of this post is to provide guidance to quickly setup a local VM (using your choice of a hypervisor) with a working Darch environment. I will then walk you through the process of building and booting into Ubuntu.
 
 Generating a raw non-EUFI msdos partitioned disk image file (named ```boot.img```) with Darch installed is very simple.
 
@@ -56,7 +56,7 @@ Well, a few things. First, take note that in your Ubuntu image, anything you ```
 
 *WTF!?!*
 
-Yeah, I know, but this ensures that you have a reproducable, stable and clean operating system at *all* times. You can play with any package/configuration without fear that you'll break anything permantently (just reboot if you do).
+Yeah, I know, but this ensures that you have a reproducible, stable and clean operating system at *all* times. You can play with any package/configuration without fear that you'll break anything permanently (just reboot if you do).
 
 *Everything gets discarded though? What about my home directory?*
 
@@ -77,11 +77,11 @@ sudo darch recipes build custom
 sudo darch stage upload custom --force
 ```
 
-Reboot again to see your changes permanantly baked into your image.
+Reboot again to see your changes permanently baked into your image.
 
 That is pretty much it!
 
-Apart from hardware issues, I will never have to worry about a broken Linux install again. Clean, stable and reproducable!
+Apart from hardware issues, I will never have to worry about a broken Linux install again. Clean, stable and reproducible!
 
 Another cool thing worth mentioning is that you can configure your recipes to be auto-built and deployed to Docker Hub via Travis CI. This works great for me because I can commit/push any change I want, and I will eventually be able to pull it (```darch images pull my/image```) and boot it. I have multiple machines (and a laptop) that all pull off of the same Docker Hub feed. This means I have multiple machines running of the *same exact bits*.
 
