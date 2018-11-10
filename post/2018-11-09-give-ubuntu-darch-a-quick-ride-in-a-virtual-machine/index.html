@@ -46,12 +46,12 @@
         </p>
         <div class="content">
             <p>I've been using <a href="https://godarch.com">Darch</a> for a while now as my daily driver. I think it is a wonderful tool that many people would enjoy using if they would only give it a shot. I also understand that it is difficult to get an environment setup appropriatly to evaluate Darch, considering it's integration with the bootloader/grub.</p>
-<p>The goal of this post is to provide the guidance to quickly setup a local VM (using your choise of a hypervisor) to setup a working Darch environment. I will then walk you through the process of building and booting into Ubuntu.</p>
+<p>The goal of this post is to provide guidance to quickly setup a local VM (using your choise of a hypervisor) with a working Darch environment. I will then walk you through the process of building and booting into Ubuntu.</p>
 <p>Generating a raw non-EUFI msdos partitioned disk image file (named <code>boot.img</code>) with Darch installed is very simple.</p>
 <pre><code class="language-bash hljs">mkdir darch-vm
 <span class="hljs-built_in">cd</span> darch-vm
 curl -s https://raw.githubusercontent.com/godarch/darch/develop/scripts/gen-bootable-image.sh | sudo bash /dev/stdin</code></pre>
-<p>The <code>boot.img</code> file can be <code>dd</code>'d directly to a disk. Or, you can create a disk image suitable for importing into a hypervisor with the following commands.</p>
+<p>The <code>boot.img</code> file can be <code>dd</code>'d directly to a disk. Or, you can create a disk image that is suitable for importing into a hypervisor with the following commands.</p>
 <pre><code class="language-bash hljs"><span class="hljs-comment"># VirtualBox</span>
 qemu-img convert -O vdi boot.img boot.vdi
 <span class="hljs-comment"># VMWare</span>
@@ -59,9 +59,9 @@ qemu-img convert -O vmdk boot.img boot.vmdk</code></pre>
 <div class="alert alert-warning">
   Be sure to allocate at least 4GB of memory to your VM.
 </div>
-<p>In the initial grub entries, you will see Debian. This is your base OS. You won't boot into in most of the time. It could be any OS, it just needs Darch installed on it. Consider it your recovery OS in case of emergencies. It is where we will build our first Darch image.</p>
+<p>In the initial grub entries, you will see Debian. This is your base OS. You won't boot into it most of the time. It could be any OS, it just needs Darch installed on it. Consider it your recovery OS in case of emergencies. It is where we will build our first Darch image.</p>
 <p>Boot into the Debian install and login with the user &quot;darch&quot; and password &quot;darch&quot;.</p>
-<p>In your home directory is an <code>example-recipes</code> directory. Within this directory is some example recipes (go figure) to build and boot an Ubuntu image. Take a look at the commands in the <code>./build</code> script. These are the esential commands to build your Ubuntu image.</p>
+<p>In your home directory is an <code>example-recipes</code> directory. Within this directory is some example recipes (go figure) to build and boot an Ubuntu image. Take a look at the commands in the <code>./build</code> script. These are the essential commands to build your Ubuntu image.</p>
 <pre><code class="language-bash hljs"><span class="hljs-comment"># Pull down our base ubuntu image.</span>
 sudo darch images pull godarch/ubuntu:cosmic
 
@@ -70,7 +70,7 @@ sudo darch recipes build $(sudo darch recipes build-dep custom)
 
 <span class="hljs-comment"># Stage them for booting.</span>
 sudo darch stage upload custom --force</code></pre>
-<p>After running these commands, you can now restart your VM to boot into a fresh Ubuntu image.</p>
+<p>After running these commands, you can now restart your VM and boot into a fresh Ubuntu image.</p>
 <p><strong>TADA!!</strong></p>
 <p><em>Now what?</em></p>
 <p>Well, a few things. First, take note that in your Ubuntu image, anything you <code>apt-get install</code> is completely wiped on a fresh boot.</p>
