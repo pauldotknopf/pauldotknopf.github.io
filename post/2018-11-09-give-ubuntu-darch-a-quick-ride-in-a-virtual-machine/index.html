@@ -47,6 +47,14 @@
         <div class="content">
             <p>I've been using <a href="https://godarch.com">Darch</a> for a while now as my daily driver. I think it is a wonderful tool that many people would enjoy using if they would only give it a shot. I also understand that it is difficult to get an environment setup appropriately to evaluate Darch, considering it's integration with the bootloader/grub.</p>
 <p>The goal of this post is to provide guidance to quickly setup a local VM (using your choice of a hypervisor) with a working Darch environment. I will then walk you through the process of building and booting into Ubuntu.</p>
+<h1 id="getting-a-bootable-machine">Getting a bootable machine</h1>
+<h2 id="option-1-download-pre-built-vm-images">Option 1: Download pre-built VM images</h2>
+<ul>
+<li><a href="https://github.com/godarch/darch/releases/download/v0.26.4/boot.img.bz2">boot.img.bz2</a> - A raw disk image.</li>
+<li><a href="https://github.com/godarch/darch/releases/download/v0.26.4/boot.vdi">boot.vdi</a> - A disk image for VirtualBox.</li>
+<li><a href="https://github.com/godarch/darch/releases/download/v0.26.4/boot.vmdk">boot.vmdk</a> - A disk image for VMWare.</li>
+</ul>
+<h2 id="option-2-generate-locally-from-scratch-linux-only">Option 2: Generate locally, from scratch (Linux-only)</h2>
 <p>Generating a raw non-EUFI msdos partitioned disk image file (named <code>boot.img</code>) with Darch installed is very simple.</p>
 <pre><code class="language-bash hljs">mkdir darch-vm
 <span class="hljs-built_in">cd</span> darch-vm
@@ -59,6 +67,7 @@ qemu-img convert -O vmdk boot.img boot.vmdk</code></pre>
 <div class="alert alert-warning">
   Be sure to allocate at least 4GB of memory to your VM.
 </div>
+<h1 id="building-your-first-image">Building your first image</h1>
 <p>In the initial grub entries, you will see Debian. This is your base OS. You won't boot into it most of the time. It could be any OS, it just needs Darch installed on it. Consider it your recovery OS in case of emergencies. It is where we will build our first Darch image.</p>
 <p>Boot into the Debian install and login with the user &quot;darch&quot; and password &quot;darch&quot;.</p>
 <p>In your home directory is an <code>example-recipes</code> directory. Within this directory are some example recipes (go figure) to build and boot an Ubuntu image. Take a look at the commands in the <code>./build</code> script. These are the essential commands to build your Ubuntu image.</p>
@@ -71,7 +80,7 @@ sudo darch recipes build $(sudo darch recipes build-dep custom)
 <span class="hljs-comment"># Stage them for booting.</span>
 sudo darch stage upload custom --force</code></pre>
 <p>After running these commands, you can now restart your VM and boot into a fresh Ubuntu image.</p>
-<p><strong>TADA!!</strong></p>
+<h2 id="tada">TADA!!</h2>
 <p><em>Now what?</em></p>
 <p>Well, a few things. First, take note that in your Ubuntu image, anything you <code>apt-get install</code> is completely wiped on a fresh boot.</p>
 <p><em>WTF!?!</em></p>
@@ -81,6 +90,7 @@ sudo darch stage upload custom --force</code></pre>
 <p><em>What if there is a package/configuration that I want to persist?</em></p>
 <p>This is where your personalized recipes come into play. For example, take a look at <a href="https://github.com/pauldotknopf/darch-recipes">my recipes</a>. In in my &quot;development&quot; image, I install things like git, KeyBase, Docker, etc.</p>
 <p>Try it yourself.</p>
+<h1 id="customize-your-recipe">Customize your recipe</h1>
 <p>Inside of <code>~/example-recipes</code>, there is a <code>custom</code> recipe. I placed this here specifically for you to play and experiment with. Modify <code>./custom/script</code> to perform any operation you'd like. Configure the timezone? Install a package? Enable DHCP? Whatever.</p>
 <p>Also, instead of running <code>./build</code> again (which will work), let's build <em>only</em> your Ubuntu derived <code>custom</code> recipe so that we can avoid having to build Ubuntu again.</p>
 <pre><code>sudo darch recipes build custom
@@ -91,7 +101,7 @@ sudo darch stage upload custom --force
 <p>Apart from hardware issues, I will never have to worry about a broken Linux install again. Clean, stable and reproducible!</p>
 <p>Another cool thing worth mentioning is that you can configure your recipes to be auto-built and deployed to Docker Hub via Travis CI. This works great for me because I can commit/push any change I want, and I will eventually be able to pull it (<code>darch images pull my/image</code>) and boot it. I have multiple machines (and a laptop) that all pull off of the same Docker Hub feed. This means I have multiple machines running of the <em>same exact bits</em>.</p>
 <p>Darch supports building images for Debian (stable and testing), Ubuntu, Arch and VoidLinux. Reach out if you'd like to see other distributions supported.</p>
-<p>Visit <a href="https://godarch.com/">godarch.com</a> to learn more.</p>
+<p>Visit <a href="https://godarch.com/">godarch.com</a> to learn more!</p>
 
         </div>
             <hr />
