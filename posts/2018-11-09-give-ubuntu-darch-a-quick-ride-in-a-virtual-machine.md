@@ -33,7 +33,7 @@ In the initial grub entries, you will see Debian. This is your base OS. You won'
 
 Boot into the Debian install and login with the user "darch" and password "darch".
 
-In your home directory is an ```example-recipes``` directory. Within this directory is some example recipes (go figure) to build and boot an Ubuntu image. Take a look at the commands in the ```./build``` script. These are the essential commands to build your Ubuntu image.
+In your home directory is an ```example-recipes``` directory. Within this directory are some example recipes (go figure) to build and boot an Ubuntu image. Take a look at the commands in the ```./build``` script. These are the essential commands to build your Ubuntu image.
 
 ```bash
 # Pull down our base ubuntu image.
