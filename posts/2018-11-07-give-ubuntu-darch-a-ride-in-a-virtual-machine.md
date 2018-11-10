@@ -61,7 +61,7 @@ Yeah, I know, but this ensures that you have a reproducable, stable and clean op
 
 *Everything gets discarded though? What about my home directory?*
 
-Darch supports hooks and comes with some out of the box for some common use cases. For example, the VM you are using has a fstab hook pre-configured for you that will auto mount a partition to your home directory. There are other hooks for custom ```/etc/hostname``` values for different images, restoring local ssh server fingerprints, etc. 
+Darch supports hooks and comes with some out of the box for some common use cases. For example, the VM you are using has a fstab hook pre-configured for you that will auto mount a partition to your home directory. There are other hooks for custom ```/etc/hostname``` values for different images, restoring local ssh server fingerprints, etc.
 
 *What if there is a package/configuration that I want to persist?*
 
@@ -78,10 +78,14 @@ sudo darch recipes build custom
 sudo darch stage upload custom --force
 ```
 
-Reboot again to see your changes permanantly backed into your build.
+Reboot again to see your changes permanantly baked into your image.
 
 That is pretty much it!
 
+Apart from hardware issues, I will never have to worry about a broken Linux install again. Clean, stable and reproducable!
+
 Another cool thing worth mentioning is that you can configure your recipes to be auto-built and deployed to Docker Hub via Travis CI. This works great for me because I can commit/push any change I want, and I will eventually be able to pull it (```darch images pull my/image```) and boot it. I have multiple machines (and a laptop) that all pull off of the same Docker Hub feed. This means I have multiple machines running of the *same exact bits*.
 
-Apart from hardware issues, I will never have to worry about a broken Linux install again. Clean and stable.
+Darch supports building images for Debian (stable and testing), Ubuntu, Arch and VoidLinux. Reach out if you'd like to see other distributions supported.
+
+Visit [godarch.com](https://godarch.com/) to learn more.
