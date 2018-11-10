@@ -1,5 +1,4 @@
 ---
-listed: false
 title: "Give Ubuntu/Darch a quick ride in a virtual machine."
 date: 2018-11-09
 comment_issue_id: 8
