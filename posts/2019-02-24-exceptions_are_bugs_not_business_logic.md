@@ -6,6 +6,12 @@ listed: false
 
 # Exceptions are bugs, not business logic!
 
+# Magic values
+
+## Masks the issue, unnecessary code, results in NullReferenceException.
+
+# Ensure your catch handlers never throw.
+
 # When is it appropriate to catch exceptions?
 
 1. When wrapping the exceptions with another exception to give it more context.
