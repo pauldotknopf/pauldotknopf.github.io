@@ -79,9 +79,9 @@ Cake has it's problems that any task runner/lib could have, but there is one lar
 * In order to run ```cake.exe```, you need to bootstrap your build, which can fail for various reasons.
 * The DSL for Cake also has it's own dependency resolver, which is also a common source of failure/fustrations.
 
-These class of issues are entirely moot when you use something like ```NUKE``` since you are just dealing with a standard .NET Core console application, like any other. The preprocessor made sense back in the day when msbuild was a mess, and when developers just wanted a single file with a single command. But those days are over and .NET Core is here.
-
 Take a look at all [the reported issues](https://github.com/cake-build/cake/issues?q=is%3Aissue) of Cake. While you peruse each issue, ask yourself, *"is this issue a result of the preprocessor?"*
+
+These class of issues are entirely moot when you use something like ```NUKE``` since you are just dealing with a standard .NET Core console application, like any other. The preprocessor made sense back in the day when msbuild was a mess, and when developers just wanted a single file with a single command. But those days are over and .NET Core is here.
 
 I believe the maintainers of Cake recognized this disadvantage when .NET Core initially came on the scene, and started the [Frosting](https://github.com/cake-build/frosting) project. My memory says that this project had been de facto abandoned, however, it has had some recent commits. Either way, they aren't promoting it. Maybe someone can enlighten me here? Regardless, I wish it had picked up more stream than it did.
 
