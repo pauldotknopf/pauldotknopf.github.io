@@ -77,7 +77,7 @@ Cake has it's problems that any task runner/lib could have, but there is one lar
 
 * The ```*.cake``` files aren't valid C# files. That means that ```cake.exe``` must interpret them, dynamically compile them, and then execute them. When you do this, you loose support for the standard toolchain (```dotnet```), and built in IDE support (with debugging!). Wouldn't you want to open your build projects in Visual Studio? Launch a debugger with F5?
 * In order to run ```cake.exe```, you need to bootstrap your build, which can fail for various reasons.
-* The DSL for Cake also has it's own dependency resolver, which is also common source of failure/fustrations.
+* The DSL for Cake also has it's own dependency resolver, which is also a common source of failure/fustrations.
 
 These class of issues are entirely moot when you use something like ```NUKE``` since you are just dealing with a standard .NET Core console application, like any other. The preprocessor made sense back in the day when msbuild was a mess, and when developers just wanted a single file with a single command. But those days are over and .NET Core is here.
 
