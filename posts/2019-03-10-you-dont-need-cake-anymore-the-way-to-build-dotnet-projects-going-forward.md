@@ -36,7 +36,7 @@ Since .NET Core has been released, many projects have attempted to fill this new
 
 Using ```Bullseye``` and ```SimpleExec```, your ```Program.cs``` (similar to ```build.cake```) would look as follows:
 
-```c#
+```csharp
 using static Bullseye.Targets;
 using static SimpleExec.Command;
 
@@ -85,7 +85,7 @@ I believe the maintainers of Cake recognized this disadvantage when .NET Core in
 
 Another thing is that a common theme within the Cake ecosystem is to wrap every shelled command into a fluent/typed interface. *But why?* Consider the two following examples.
 
-```c#
+```csharp
 NpmInstall(settings => settings.AddPackage("gulp").InstallGlobally());
 ```
 ```bash
