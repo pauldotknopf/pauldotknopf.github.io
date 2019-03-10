@@ -98,16 +98,17 @@
         }
     }
 }</code></pre>
+<p>All the goodness of targets, but with a regular old .NET project supported by any IDE/debugger!</p>
 <p>Now this is rather rudementary, but NUKE takes this multiple steps even further. It is pretty much in feature-parity with Cake in terms of the functionality it provides. I'll leave it to you to <a href="https://nuke.build/">see for yourself</a>, if you wish.</p>
 <h1 id="but-who-cares-why-not-cake">But who cares? Why not Cake?</h1>
 <p>Cake has it's problems that any task runner/lib could have, but there is one large class of issues that simply will not happen with the <em>others</em> (NUKE, Bullseye, etc) because of one thing, <em>preprocessing</em>.</p>
 <ul>
 <li>The <code>*.cake</code> files aren't valid C# files. That means that <code>cake.exe</code> must interpret them, dynamically compile them, and then execute them. When you do this, you loose support for the standard toolchain (<code>dotnet</code>), and built in IDE support (with debugging!). Wouldn't you want to open your build projects in Visual Studio? Launch a debugger with F5?</li>
 <li>In order to run <code>cake.exe</code>, you need to bootstrap your build, which can fail for various reasons.</li>
-<li>The DSL for Cake also has it's own dependency resolver, which is also common source of failure/fustrations.</li>
+<li>The DSL for Cake also has it's own dependency resolver, which is also a common source of failure/fustrations.</li>
 </ul>
-<p>These class of issues are entirely moot when you use something like <code>NUKE</code> since you are just dealing with a standard .NET Core console application, like any other. The preprocessor made sense back in the day when msbuild was a mess, and when developers just wanted a single file with a single command. But those days are over and .NET Core is here.</p>
 <p>Take a look at all <a href="https://github.com/cake-build/cake/issues?q=is%3Aissue">the reported issues</a> of Cake. While you peruse each issue, ask yourself, <em>&quot;is this issue a result of the preprocessor?&quot;</em></p>
+<p>These class of issues are entirely moot when you use something like <code>NUKE</code> since you are just dealing with a standard .NET Core console application, like any other. The preprocessor made sense back in the day when msbuild was a mess, and when developers just wanted a single file with a single command. But those days are over and .NET Core is here.</p>
 <p>I believe the maintainers of Cake recognized this disadvantage when .NET Core initially came on the scene, and started the <a href="https://github.com/cake-build/frosting">Frosting</a> project. My memory says that this project had been de facto abandoned, however, it has had some recent commits. Either way, they aren't promoting it. Maybe someone can enlighten me here? Regardless, I wish it had picked up more stream than it did.</p>
 <p>Another thing is that a common theme within the Cake ecosystem is to wrap every shelled command into a fluent/typed interface. <em>But why?</em> Consider the two following examples.</p>
 <pre><code class="language-csharp hljs">NpmInstall(settings =&gt; settings.AddPackage(<span class="hljs-string">"gulp"</span>).InstallGlobally());</code></pre>
