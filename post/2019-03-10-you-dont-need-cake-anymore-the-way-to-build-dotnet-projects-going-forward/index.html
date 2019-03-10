@@ -1,0 +1,157 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>You don&#x2019;t need Cake anymore; the way to build .NET projects going forward. - Paul Knopf</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link href="/dist/styles.css" rel="stylesheet" type="text/css"/>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-112478642-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-112478642-1');
+  </script>
+</head>
+<body>
+<header class="bg-light mb-3">
+  <div class="navbar navbar-expand">
+    <div class="container">
+      <a href="/" class="navbar-brand d-flex">
+        <strong>paul knopf</strong>
+      </a>
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="/archive">archive</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/about">about</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</header>
+<main>
+  
+<div class="container">
+    <div class="post">
+        <h1 class="title">
+            You don&#x2019;t need Cake anymore; the way to build .NET projects going forward.
+        </h1>
+        <p class="submitted">
+            posted on Mar 10, 2019
+        </p>
+        <div class="content">
+            <h2 id="the-perfect-void">The perfect void</h2>
+<p>Early on in the .NET realm, developers got creative with their build processes. Some used MSBuild proj files (like me, eww), some used Ruby's Rake system, etc, etc. <em>Feel free to share what you used, before Cake, in the comments. I'm super curious!</em></p>
+<p>The .NET community hadn't landed on a &quot;recommended&quot; approach. Then, in 2014 (when the first NuGet package was published), <a href="https://cakebuild.net/">Cake</a> came on the scene and that changed. It filled a perfect void.</p>
+<ul>
+<li>.NET developers didn't need to learn Make/Bash/PowerShell/etc, all they needed was C#!</li>
+<li>Only one simple script is needed (aside from bootstrapping), executed with a simple command.</li>
+<li>Cross platform.</li>
+<li>Any .NET library could be referenced, bringing an immense amount of power to the build process.</li>
+</ul>
+<p>Because .NET developers were starved for something that felt like <em>home</em>, they (rightfully, IMO) were willing to power through the rough edges the Cake brought to the table.</p>
+<p>Cake became the &quot;go to&quot; for build processes. The community grew, plugins were built, and all was happy!</p>
+<h2 id="here-comes.net-core">Here comes .NET Core</h2>
+<p>But as with all great tools, the technology around them catches up. Enter, .NET Core:</p>
+<ul>
+<li>.NET Core is available on all platforms.</li>
+<li>The <code>.csproj</code> format is now simplified, making executing simple a <code>Program.cs</code> file as simple as <code>dotnet run</code>.</li>
+<li>Because it's <code>.csproj</code>, you can reference any .NET Standard library.</li>
+</ul>
+<p>Many of the pain points that .NET developers experienced before Cake are now addressed directly in the toolchain, but there is one thing that Cake does well that cannot be replaced by .NET Core alone, <em>targets</em>.</p>
+<p>Since .NET Core has been released, many projects have attempted to fill this new void.</p>
+<ul>
+<li><a href="https://github.com/adamralph/bullseye">Bullseye</a> - A .NET library for describing and running targets and their dependencies. Used in conjunction with <a href="https://github.com/adamralph/simple-exec">SimpleExec</a>, it can be really powerful.</li>
+<li><a href="https://nuke.build/">NUKE</a> - Build Automation System for C#/.NET</li>
+</ul>
+<p>Using <code>Bullseye</code> and <code>SimpleExec</code>, your <code>Program.cs</code> (similar to <code>build.cake</code>) would look as follows:</p>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">using</span> <span class="hljs-keyword">static</span> Bullseye.Targets;
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">static</span> SimpleExec.Command;
+
+<span class="hljs-keyword">namespace</span> <span class="hljs-title">Build</span>
+{
+    <span class="hljs-keyword">static</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Program</span>
+    {
+        <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Main</span>(<span class="hljs-params"><span class="hljs-keyword">string</span>[] args</span>)
+        </span>{
+            Target(<span class="hljs-string">"clean"</span>, () =&gt;
+            {
+                Run(<span class="hljs-string">"rm"</span>, <span class="hljs-string">"-r ./output"</span>);
+            });
+            
+            Target(<span class="hljs-string">"build"</span>, () =&gt;
+            {
+                Run(<span class="hljs-string">"dotnet"</span>, <span class="hljs-string">"build"</span>);
+            });
+            
+            Target(<span class="hljs-string">"publish"</span>, DependsOn(<span class="hljs-string">"clean"</span>), () =&gt;
+            {
+                Run(<span class="hljs-string">"dotnet"</span>, <span class="hljs-string">"publish -o ./output"</span>);
+            });
+            
+            RunTargetsAndExit(args);
+        }
+    }
+}</code></pre>
+<p>Now this is rather rudementary, but NUKE takes this multiple steps even further. It is pretty much in feature-parity with Cake in terms of the functionality it provides. I'll leave it to you to <a href="https://nuke.build/">see for yourself</a>, if you wish.</p>
+<h2 id="but-who-cares-why-not-cake">But who cares? Why not Cake?</h2>
+<p>Cake has it's problems that any task runner/lib could have, but there is one large class of issues that simply will not happen with the <em>others</em> (NUKE, Bullseye, etc) because of one thing, <em>preprocessing</em>.</p>
+<ul>
+<li>The <code>*.cake</code> files aren't valid C# files. That means that <code>cake.exe</code> must interpret them, dynamically compile them, and then execute them. When you do this, you loose support for the standard toolchain (<code>dotnet</code>), and built in IDE support (with debugging!). Wouldn't you want to open your build projects in Visual Studio? Launch a debugger with F5?</li>
+<li>In order to run <code>cake.exe</code>, you need to bootstrap your build, which can fail for various reasons.</li>
+<li>The DSL for Cake also has it's own dependency resolver, which is also common source of failure/fustrations.</li>
+</ul>
+<p>These class of issues are entirely moot when you use something like <code>NUKE</code> since you are just dealing with a standard .NET Core console application, like any other. The preprocessor made sense back in the day when msbuild was a mess, and when developers just wanted a single file with a single command. But those days are over and .NET Core is here.</p>
+<p>Take a look at all <a href="https://github.com/cake-build/cake/issues?q=is%3Aissue">the reported issues</a> of Cake. While you peruse each issue, ask yourself, <em>&quot;is this issue a result of the preprocessor?&quot;</em></p>
+<p>I believe the maintainers of Cake recognized this disadvantage when .NET Core initially came on the scene, and started the <a href="https://github.com/cake-build/frosting">Frosting</a> project. My memory says that this project had been de facto abandoned, however, it has had some recent commits. Either way, they aren't promoting it. Maybe someone can enlighten me here? Regardless, I wish it had picked up more stream than it did.</p>
+<p>Another thing is that a common theme within the Cake ecosystem is to wrap every shelled command into a fluent/typed interface. <em>But why?</em> Consider the two following examples.</p>
+<pre><code class="language-csharp hljs">NpmInstall(settings =&gt; settings.AddPackage(<span class="hljs-string">"gulp"</span>).InstallGlobally());</code></pre>
+<pre><code class="language-bash hljs">npm install gulp -g</code></pre>
+<p>Do you really need to make the <code>npm</code> command type-safe? Which one looks nicer? What happens if the wrappers don't wrap a certain flag? What if your version of <code>npm</code> doesn't match the supported version that the wrappers shell out to? Is it really so hard to just invoke <code>npm</code> directly? Take a look at <a href="https://github.com/cake-contrib/Cake.Npm/issues?q=is%3Aissue+">the issues</a> associated with this wrapper, and think to yourself, <em>&quot;how many of these issues are a result of my insisting on keeping things type safe?&quot;</em></p>
+<h2 id="counter-arguements">Counter arguements</h2>
+<blockquote>
+<p>But Cake has an extensive amount of modules/plugins!</p>
+</blockquote>
+<p>Yes, it does. There is an extensive amount of projects integrated into Cake. However...</p>
+<p><em>Do you need a plugin?</em> Consider the <code>npm</code> plugin/wrapper mentioned above. You could do with out it.</p>
+<p><em>Are there CLI alternatives for what you are doing?</em> There likely is. Consider the <a href="https://github.com/cake-contrib/Cake.Slack"><code>Cake.Slack</code></a> integration and it's CLI alternative, <a href="https://github.com/rockymadden/slack-cli"><code>slack-cli</code></a>. Or, consider using a pure .NET lib to integrate with the Slack API directly (see <a href="https://github.com/Inumedia/SlackAPI">here</a>). I mean, this is just a .NET project, reference your libs and get on with your business!</p>
+<p>And here is a less productive counter arguement. Why does <code>Cake.Slack</code> <em>even exist?</em> Why can't the users of Cake just reference the C# API directly in a Cake target? What exactly does <code>Cake.Slack</code> provide <em>as an integration</em>? IMO, it's a useless merging of two unlrelated concepts. The Cake ecosystem is full of examples like this.</p>
+<blockquote>
+<p>But my build system is really complex, Cake helps!</p>
+</blockquote>
+<p>I've heard this before, but it simply doesn't make sense.</p>
+<p>Have you ever been writing a C# project and thought to yourself &quot;I wish I was using Cake right now, then I could do X&quot;. Probably not. But you've likely been in a <code>build.cake</code> and thought the opposite!</p>
+<p>Take a look at <a href="https://github.com/FakeItEasy/FakeItEasy/blob/f6a2ed3ad9af70175c9766beff75bcde55824bcb/tools/FakeItEasy.Build/Program.cs">FakeItEasy</a> or <a href="https://github.com/qmlnet/qmlnet/blob/cebef7514f00a6c1273f263afc910edfda522d46/build/scripts/Program.cs">Qml.Net</a> for some more complicated scenarios.</p>
+<blockquote>
+<p>It works great for me, I'm comfortable with it.</p>
+</blockquote>
+<p>I'd argue that because of the preprocessor it burdens you with, unless it provides strategic value that you couldn't do with out, you shouldn't use it. Think about the others on your team that aren't comfortable with it. You'd be just as comfortable writing a regular C# project. Even more so, considering you'd have complete IDE and debugger support!</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Most of the things that people attribute to Cake are things they do <em>in</em> Cake, and not <em>because</em> of Cake. When all the smoke and mirrors are gone, Cake is just a target runner with a preprocessor. The &quot;plugins&quot; and &quot;features&quot; most people refer to are mirrages.</p>
+<p>What feature of Cake is an <em>absolute must</em> for you? I'd really like to hear some examples that don't have an equally viable approach using pure .NET libs or shelling out to a command. I'd also wager that most CLI/lib alternatives would be more supported than what you'd get with a Cake plugin/module.</p>
+<p>I know, I know, &quot;to each his own&quot;. You are right. I can't argue with that if that is where the arguement stops.</p>
+<p>What are your thoughts?</p>
+
+        </div>
+            <hr />
+            <h3>Comments</h3>
+                <p class="text-muted">
+                    There are no comments yet.
+                </p>
+            <p class="text-center">
+                <a class="btn btn-primary btn-light btn-lg" target="_blank" href="https://github.com/pauldotknopf/pauldotknopf.github.io/issues/10#new_comment_field"><i class="fab fa-github"></i> Join the discussion at GitHub</a>
+            </p>
+    </div>
+</div>
+</main>
+<footer class="bg-light py-3 mt-5 text-muted text-center">
+  <a href="https://github.com/pauldotknopf/pauldotknopf.github.io"><i class="fab fa-github"></i> source</a>
+</footer>
+<script src="/dist/scripts.js"></script>
+</body>
+</html>
