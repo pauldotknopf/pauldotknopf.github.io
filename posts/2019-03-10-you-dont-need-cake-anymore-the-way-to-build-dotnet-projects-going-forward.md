@@ -4,7 +4,7 @@ date: 2019-03-10
 comment_issue_id: 10
 ---
 
-## The perfect void
+# The perfect void
 
 Early on in the .NET realm, developers got creative with their build processes. Some used MSBuild proj files (like me, eww), some used Ruby's Rake system, etc, etc. *Feel free to share what you used, before Cake, in the comments. I'm super curious!*
 
@@ -19,7 +19,7 @@ Because .NET developers were starved for something that felt like *home*, they (
 
 Cake became the "go to" for build processes. The community grew, plugins were built, and all was happy!
 
-## Here comes .NET Core
+# Here comes .NET Core
 
 But as with all great tools, the technology around them catches up. Enter, .NET Core:
 
@@ -69,7 +69,7 @@ namespace Build
 
 Now this is rather rudementary, but NUKE takes this multiple steps even further. It is pretty much in feature-parity with Cake in terms of the functionality it provides. I'll leave it to you to [see for yourself](https://nuke.build/), if you wish.
 
-## But who cares? Why not Cake?
+# But who cares? Why not Cake?
 
 Cake has it's problems that any task runner/lib could have, but there is one large class of issues that simply will not happen with the *others* (NUKE, Bullseye, etc) because of one thing, *preprocessing*.
 
@@ -94,7 +94,7 @@ npm install gulp -g
 
 Do you really need to make the ```npm``` command type-safe? Which one looks nicer? What happens if the wrappers don't wrap a certain flag? What if your version of ```npm``` doesn't match the supported version that the wrappers shell out to? Is it really so hard to just invoke ```npm``` directly? Take a look at [the issues](https://github.com/cake-contrib/Cake.Npm/issues?q=is%3Aissue+) associated with this wrapper, and think to yourself, *"how many of these issues are a result of my insisting on keeping things type safe?"*
 
-## Counter arguements
+# Counter arguements
 
 > But Cake has an extensive amount of modules/plugins!
 
@@ -118,7 +118,7 @@ Take a look at [FakeItEasy](https://github.com/FakeItEasy/FakeItEasy/blob/f6a2ed
 
 I'd argue that because of the preprocessor it burdens you with, unless it provides strategic value that you couldn't do with out, you shouldn't use it. Think about the others on your team that aren't comfortable with it. You'd be just as comfortable writing a regular C# project. Even more so, considering you'd have complete IDE and debugger support!
 
-## Conclusion
+# Conclusion
 
 Most of the things that people attribute to Cake are things they do *in* Cake, and not *because* of Cake. When all the smoke and mirrors are gone, Cake is just a target runner with a preprocessor. The "plugins" and "features" most people refer to are mirrages.
 
