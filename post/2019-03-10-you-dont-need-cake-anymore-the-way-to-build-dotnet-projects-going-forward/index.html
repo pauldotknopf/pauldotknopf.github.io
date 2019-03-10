@@ -115,22 +115,16 @@
 <pre><code class="language-bash hljs">npm install gulp -g</code></pre>
 <p>Do you really need to make the <code>npm</code> command type-safe? Which one looks nicer? What happens if the wrappers don't wrap a certain flag? What if your version of <code>npm</code> doesn't match the supported version that the wrappers shell out to? Is it really so hard to just invoke <code>npm</code> directly? Take a look at <a href="https://github.com/cake-contrib/Cake.Npm/issues?q=is%3Aissue+">the issues</a> associated with this wrapper, and think to yourself, <em>&quot;how many of these issues are a result of my insisting on keeping things type safe?&quot;</em></p>
 <h1 id="counter-arguements">Counter arguements</h1>
-<blockquote>
-<p>But Cake has an extensive amount of modules/plugins!</p>
-</blockquote>
+<h2 id="but-cake-has-an-extensive-amount-of-modulesplugins">But Cake has an extensive amount of modules/plugins!</h2>
 <p>Yes, it does. There is an extensive amount of projects integrated into Cake. However...</p>
 <p><em>Do you need a plugin?</em> Consider the <code>npm</code> plugin/wrapper mentioned above. You could do with out it.</p>
 <p><em>Are there CLI alternatives for what you are doing?</em> There likely is. Consider the <a href="https://github.com/cake-contrib/Cake.Slack"><code>Cake.Slack</code></a> integration and it's CLI alternative, <a href="https://github.com/rockymadden/slack-cli"><code>slack-cli</code></a>. Or, consider using a pure .NET lib to integrate with the Slack API directly (see <a href="https://github.com/Inumedia/SlackAPI">here</a>). I mean, this is just a .NET project, reference your libs and get on with your business!</p>
 <p>And here is a less productive counter arguement. Why does <code>Cake.Slack</code> <em>even exist?</em> Why can't the users of Cake just reference the C# API directly in a Cake target? What exactly does <code>Cake.Slack</code> provide <em>as an integration</em>? IMO, it's a useless merging of two unlrelated concepts. The Cake ecosystem is full of examples like this.</p>
-<blockquote>
-<p>But my build system is really complex, Cake helps!</p>
-</blockquote>
+<h2 id="but-my-build-system-is-really-complex-cake-helps">But my build system is really complex, Cake helps!</h2>
 <p>I've heard this before, but it simply doesn't make sense.</p>
 <p>Have you ever been writing a C# project and thought to yourself &quot;I wish I was using Cake right now, then I could do X&quot;. Probably not. But you've likely been in a <code>build.cake</code> and thought the opposite!</p>
 <p>Take a look at <a href="https://github.com/FakeItEasy/FakeItEasy/blob/f6a2ed3ad9af70175c9766beff75bcde55824bcb/tools/FakeItEasy.Build/Program.cs">FakeItEasy</a> or <a href="https://github.com/qmlnet/qmlnet/blob/cebef7514f00a6c1273f263afc910edfda522d46/build/scripts/Program.cs">Qml.Net</a> for some more complicated scenarios.</p>
-<blockquote>
-<p>It works great for me, I'm comfortable with it.</p>
-</blockquote>
+<h2 id="it-works-great-for-me-im-comfortable-with-it">It works great for me, I'm comfortable with it.</h2>
 <p>I'd argue that because of the preprocessor it burdens you with, unless it provides strategic value that you couldn't do with out, you shouldn't use it. Think about the others on your team that aren't comfortable with it. You'd be just as comfortable writing a regular C# project. Even more so, considering you'd have complete IDE and debugger support!</p>
 <h1 id="conclusion">Conclusion</h1>
 <p>Most of the things that people attribute to Cake are things they do <em>in</em> Cake, and not <em>because</em> of Cake. When all the smoke and mirrors are gone, Cake is just a target runner with a preprocessor. The &quot;plugins&quot; and &quot;features&quot; most people refer to are mirrages.</p>
