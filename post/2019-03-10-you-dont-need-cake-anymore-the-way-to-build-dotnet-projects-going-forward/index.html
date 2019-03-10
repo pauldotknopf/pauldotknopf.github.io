@@ -45,7 +45,7 @@
             posted on Mar 10, 2019
         </p>
         <div class="content">
-            <h2 id="the-perfect-void">The perfect void</h2>
+            <h1 id="the-perfect-void">The perfect void</h1>
 <p>Early on in the .NET realm, developers got creative with their build processes. Some used MSBuild proj files (like me, eww), some used Ruby's Rake system, etc, etc. <em>Feel free to share what you used, before Cake, in the comments. I'm super curious!</em></p>
 <p>The .NET community hadn't landed on a &quot;recommended&quot; approach. Then, in 2014 (when the first NuGet package was published), <a href="https://cakebuild.net/">Cake</a> came on the scene and that changed. It filled a perfect void.</p>
 <ul>
@@ -56,7 +56,7 @@
 </ul>
 <p>Because .NET developers were starved for something that felt like <em>home</em>, they (rightfully, IMO) were willing to power through the rough edges the Cake brought to the table.</p>
 <p>Cake became the &quot;go to&quot; for build processes. The community grew, plugins were built, and all was happy!</p>
-<h2 id="here-comes.net-core">Here comes .NET Core</h2>
+<h1 id="here-comes.net-core">Here comes .NET Core</h1>
 <p>But as with all great tools, the technology around them catches up. Enter, .NET Core:</p>
 <ul>
 <li>.NET Core is available on all platforms.</li>
@@ -99,7 +99,7 @@
     }
 }</code></pre>
 <p>Now this is rather rudementary, but NUKE takes this multiple steps even further. It is pretty much in feature-parity with Cake in terms of the functionality it provides. I'll leave it to you to <a href="https://nuke.build/">see for yourself</a>, if you wish.</p>
-<h2 id="but-who-cares-why-not-cake">But who cares? Why not Cake?</h2>
+<h1 id="but-who-cares-why-not-cake">But who cares? Why not Cake?</h1>
 <p>Cake has it's problems that any task runner/lib could have, but there is one large class of issues that simply will not happen with the <em>others</em> (NUKE, Bullseye, etc) because of one thing, <em>preprocessing</em>.</p>
 <ul>
 <li>The <code>*.cake</code> files aren't valid C# files. That means that <code>cake.exe</code> must interpret them, dynamically compile them, and then execute them. When you do this, you loose support for the standard toolchain (<code>dotnet</code>), and built in IDE support (with debugging!). Wouldn't you want to open your build projects in Visual Studio? Launch a debugger with F5?</li>
@@ -113,7 +113,7 @@
 <pre><code class="language-csharp hljs">NpmInstall(settings =&gt; settings.AddPackage(<span class="hljs-string">"gulp"</span>).InstallGlobally());</code></pre>
 <pre><code class="language-bash hljs">npm install gulp -g</code></pre>
 <p>Do you really need to make the <code>npm</code> command type-safe? Which one looks nicer? What happens if the wrappers don't wrap a certain flag? What if your version of <code>npm</code> doesn't match the supported version that the wrappers shell out to? Is it really so hard to just invoke <code>npm</code> directly? Take a look at <a href="https://github.com/cake-contrib/Cake.Npm/issues?q=is%3Aissue+">the issues</a> associated with this wrapper, and think to yourself, <em>&quot;how many of these issues are a result of my insisting on keeping things type safe?&quot;</em></p>
-<h2 id="counter-arguements">Counter arguements</h2>
+<h1 id="counter-arguements">Counter arguements</h1>
 <blockquote>
 <p>But Cake has an extensive amount of modules/plugins!</p>
 </blockquote>
@@ -131,7 +131,7 @@
 <p>It works great for me, I'm comfortable with it.</p>
 </blockquote>
 <p>I'd argue that because of the preprocessor it burdens you with, unless it provides strategic value that you couldn't do with out, you shouldn't use it. Think about the others on your team that aren't comfortable with it. You'd be just as comfortable writing a regular C# project. Even more so, considering you'd have complete IDE and debugger support!</p>
-<h2 id="conclusion">Conclusion</h2>
+<h1 id="conclusion">Conclusion</h1>
 <p>Most of the things that people attribute to Cake are things they do <em>in</em> Cake, and not <em>because</em> of Cake. When all the smoke and mirrors are gone, Cake is just a target runner with a preprocessor. The &quot;plugins&quot; and &quot;features&quot; most people refer to are mirrages.</p>
 <p>What feature of Cake is an <em>absolute must</em> for you? I'd really like to hear some examples that don't have an equally viable approach using pure .NET libs or shelling out to a command. I'd also wager that most CLI/lib alternatives would be more supported than what you'd get with a Cake plugin/module.</p>
 <p>I know, I know, &quot;to each his own&quot;. You are right. I can't argue with that if that is where the arguement stops.</p>
