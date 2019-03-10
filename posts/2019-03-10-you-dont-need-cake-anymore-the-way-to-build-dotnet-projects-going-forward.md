@@ -98,7 +98,7 @@ Do you really need to make the ```npm``` command type-safe? Which one looks nice
 
 # Counter arguements
 
-> But Cake has an extensive amount of modules/plugins!
+## But Cake has an extensive amount of modules/plugins!
 
 Yes, it does. There is an extensive amount of projects integrated into Cake. However...
 
@@ -108,7 +108,7 @@ Yes, it does. There is an extensive amount of projects integrated into Cake. How
 
 And here is a less productive counter arguement. Why does ```Cake.Slack``` *even exist?* Why can't the users of Cake just reference the C# API directly in a Cake target? What exactly does ```Cake.Slack``` provide *as an integration*? IMO, it's a useless merging of two unlrelated concepts. The Cake ecosystem is full of examples like this.
 
-> But my build system is really complex, Cake helps!
+## But my build system is really complex, Cake helps!
 
 I've heard this before, but it simply doesn't make sense.
 
@@ -116,7 +116,7 @@ Have you ever been writing a C# project and thought to yourself "I wish I was us
 
 Take a look at [FakeItEasy](https://github.com/FakeItEasy/FakeItEasy/blob/f6a2ed3ad9af70175c9766beff75bcde55824bcb/tools/FakeItEasy.Build/Program.cs) or [Qml.Net](https://github.com/qmlnet/qmlnet/blob/cebef7514f00a6c1273f263afc910edfda522d46/build/scripts/Program.cs) for some more complicated scenarios.
 
-> It works great for me, I'm comfortable with it.
+## It works great for me, I'm comfortable with it.
 
 I'd argue that because of the preprocessor it burdens you with, unless it provides strategic value that you couldn't do with out, you shouldn't use it. Think about the others on your team that aren't comfortable with it. You'd be just as comfortable writing a regular C# project. Even more so, considering you'd have complete IDE and debugger support!
 
