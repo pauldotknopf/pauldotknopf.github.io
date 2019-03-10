@@ -67,6 +67,8 @@ namespace Build
 }
 ```
 
+All the goodness of targets, but with a regular old .NET project supported by any IDE/debugger!
+
 Now this is rather rudementary, but NUKE takes this multiple steps even further. It is pretty much in feature-parity with Cake in terms of the functionality it provides. I'll leave it to you to [see for yourself](https://nuke.build/), if you wish.
 
 # But who cares? Why not Cake?
