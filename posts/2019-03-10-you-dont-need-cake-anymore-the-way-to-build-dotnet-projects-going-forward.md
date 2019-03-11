@@ -128,4 +128,6 @@ What feature of Cake is an *absolute must* for you? I'd really like to hear some
 
 I know, I know, "to each his own". You are right. I can't argue with that if that is where the arguement stops.
 
+I'm also aware that many people have spent many hours on Cake. I'm not in any way disparaging them. I've had many nice things to say about it, even in this post. But all great tools get obsoleted with time. Don't take it personal.
+
 What are your thoughts?
