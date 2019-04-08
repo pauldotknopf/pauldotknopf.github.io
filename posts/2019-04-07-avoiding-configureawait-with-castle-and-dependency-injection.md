@@ -1,7 +1,7 @@
 ---
-title: "You don’t need Cake anymore; the way to build .NET projects going forward."
-date: 2019-03-10
-comment_issue_id: 10
+title: "Avoiding ConfigureAwait with Castle and Dependency Injection."
+date: 2019-04-07
+comment_issue_id: 11
 ---
 
 # The problem
