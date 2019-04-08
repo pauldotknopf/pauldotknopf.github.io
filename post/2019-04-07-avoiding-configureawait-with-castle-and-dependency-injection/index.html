@@ -1,0 +1,188 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Avoiding ConfigureAwait with Castle and Dependency Injection. - Paul Knopf</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link href="/dist/styles.css" rel="stylesheet" type="text/css"/>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-112478642-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-112478642-1');
+  </script>
+</head>
+<body>
+<header class="bg-light mb-3">
+  <div class="navbar navbar-expand">
+    <div class="container">
+      <a href="/" class="navbar-brand d-flex">
+        <strong>paul knopf</strong>
+      </a>
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="/archive">archive</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/about">about</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</header>
+<main>
+  
+<div class="container">
+    <div class="post">
+        <h1 class="title">
+            Avoiding ConfigureAwait with Castle and Dependency Injection.
+        </h1>
+        <p class="submitted">
+            posted on Apr 07, 2019
+        </p>
+        <div class="content">
+            <h1 id="the-problem">The problem</h1>
+<p>In a desktop application I'm building for work, we have a custom <code>SynchronizationContext</code> which dispatches all continuations to the UI thread. This makes things easier to reason with during development, since we are always on the same thread.</p>
+<p>We developed a large chunk of our application with this approach. It was fine for a while, but as the number of continuations in our service layer increased, we began to notice some drawbacks using with this approach.</p>
+<p>Inside of our service layer, we were using <code>async/await</code> for things that have no concern/knowledge of a GUI. HOwever, every continuation was still happening on the UI thread. As our service layer grew, animations that were once super smooth started to quickly become very choppy. Non-UI related code was being run on the UI for no good reason.</p>
+<h1 id="the-solution">The solution</h1>
+<p>We needed a way to trigger each method in our service layer to popup off the current gui-<code>SynchronizationContext</code> and onto the thread pool. We immediately came up with a few solutions.</p>
+<ol>
+<li>Litter our service layer with <code>.ConfigureAwait(false)</code>.</li>
+<li>Update our UI layer to clear/restore the <code>SynchronizationContext</code> whenever we call our service methods.</li>
+</ol>
+<p>I didn't like either of these approaches because they required changing many lines of code and were (human) error prone. So I sought out another approach that will prevent us from changing any code, while also ensuring that <em>every</em> service method is not continuated on the UI thread. Consider the following:</p>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title">IService</span>
+{
+    <span class="hljs-function">Task <span class="hljs-title">RunMethod</span>(<span class="hljs-params"></span>)</span>;
+}
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Service</span> : <span class="hljs-title">IService</span>
+{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">async</span> Task <span class="hljs-title">RunMethod</span>(<span class="hljs-params"></span>)
+    </span>{
+        <span class="hljs-keyword">await</span> Task.Yield();
+        Thread.Sleep(TimeSpan.FromSeconds(<span class="hljs-number">5</span>));
+    }
+}
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">MyViewModel</span>
+{
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> IService _service;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MyViewModel</span>(<span class="hljs-params">IService service</span>)
+    </span>{
+        _service = service;
+    }
+    
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">async</span> Task <span class="hljs-title">OnButtonClicked</span>(<span class="hljs-params"></span>)
+    </span>{
+        <span class="hljs-keyword">await</span> _service.RunMethod();
+    }
+}</code></pre>
+<p>If this code were to be called, as is, when <code>OnButtonClicked &gt; RunMethod</code> is called, <code>Thread.Sleep</code> would eventually be ran on the UI thread. Not good!</p>
+<p>I need a way to wrap an instance of <code>IService</code> in another implementation of <code>IService</code> that simply clears the <code>SynchronizationContext</code> before called the inner <code>IService</code>. Consider the following:</p>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">NoSyncServiceWrapper</span> : <span class="hljs-title">IService</span>
+{
+    <span class="hljs-keyword">private</span> IService _inner;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">NoSyncServiceWrapper</span>(<span class="hljs-params">IService inner</span>)
+    </span>{
+        _inner = inner;
+    }
+    
+    <span class="hljs-function"><span class="hljs-keyword">public</span> Task <span class="hljs-title">RunMethod</span>(<span class="hljs-params"></span>)
+    </span>{
+        <span class="hljs-keyword">var</span> oldContext = SynchronizationContext.Current;
+        SynchronizationContext.SetSynchronizationContext(<span class="hljs-literal">null</span>);
+        <span class="hljs-keyword">try</span>
+        {
+            <span class="hljs-keyword">return</span> _inner.RunMethod()
+        }
+        <span class="hljs-keyword">finally</span>
+        {
+            SynchronizationContext.SetSynchronizationContext(oldContext);
+        }
+    }
+}</code></pre>
+<p>Now, if I pass <code>NoSyncServiceWrapper</code> to the <code>MyViewModel</code>, the concern of <code>SynchronizationContext</code> will be in neither my service layer or my UI layer. No code needs to be changed!</p>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">var</span> service = <span class="hljs-keyword">new</span> Service();
+<span class="hljs-keyword">var</span> viewModel = <span class="hljs-keyword">new</span> MyViewModel(<span class="hljs-keyword">new</span> NoSyncServiceWrapper(service));
+<span class="hljs-keyword">await</span> viewModel.OnButtonClicked(); <span class="hljs-comment">// Never blocking the UI thread!</span></code></pre>
+<p>The only problem now is that I have to manage a separate implementation of every service/method pair with this boiler plate code. Yeah.. I'd rather not..</p>
+<h1 id="using-castle-to-dynamically-generate-the-wrappers">Using Castle to dynamically generate the wrappers.</h1>
+<p><a href="https://www.nuget.org/packages/castle.core/"><code>Castle.Core</code></a> supports wrapping an instance of an interface with a dynamic implementation of the interface to perform some pre-post logic on the given instance. This is ideal for things like logging/profiling, and in our case, clearing/restoring the <code>SynchronizationContext</code>. It is actually pretty simple!</p>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">class</span> <span class="hljs-title">ProxyWrapper</span>
+{
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">readonly</span> ProxyGenerator _proxyGenerator = <span class="hljs-keyword">new</span> ProxyGenerator();
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">readonly</span> SyncContextInterceptor _syncContextInterceptor = <span class="hljs-keyword">new</span> SyncContextInterceptor();
+    
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">object</span> <span class="hljs-title">WrapService</span>(<span class="hljs-params">Type serviceType, <span class="hljs-keyword">object</span> instance</span>)
+    </span>{
+        <span class="hljs-keyword">return</span> _proxyGenerator.CreateInterfaceProxyWithTargetInterface(serviceType,
+            instance,
+            <span class="hljs-keyword">new</span> ProxyGenerationOptions(),
+            _syncContextInterceptor);
+    }
+    
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">class</span> <span class="hljs-title">SyncContextInterceptor</span> : <span class="hljs-title">IInterceptor</span>
+    {
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Intercept</span>(<span class="hljs-params">IInvocation invocation</span>)
+        </span>{
+            <span class="hljs-keyword">var</span> syncContext = SynchronizationContext.Current;
+            SynchronizationContext.SetSynchronizationContext(<span class="hljs-literal">null</span>);
+            <span class="hljs-keyword">try</span>
+            {
+                invocation.Proceed();
+            }
+            <span class="hljs-keyword">finally</span>
+            {
+                SynchronizationContext.SetSynchronizationContext(syncContext);
+            }
+        }
+    }
+}</code></pre>
+<p>Now, all we need to do is this:</p>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">var</span> service = <span class="hljs-keyword">new</span> Service();
+<span class="hljs-keyword">var</span> wrappingService = ProxyWrapper.WrapService(<span class="hljs-keyword">typeof</span>(IService), service);
+<span class="hljs-keyword">var</span> viewModel = <span class="hljs-keyword">new</span> MyViewModel(wrappingService);
+<span class="hljs-keyword">await</span> viewModel.OnButtonClicked(); <span class="hljs-comment">// Never blocking the UI thread!</span></code></pre>
+<h1 id="using-dependency-injection">Using Dependency Injection</h1>
+<p>Ideally, you'd want your proxies configured/wrapped in your container. Most containers support intercepting/replacing services before they are given to constructors. I am using Microsoft's <code>Microsoft.Extensions.DependencyInjection</code>, which unfortunately doesn't support it (see <a href="https://github.com/aspnet/Extensions/issues/1294">this</a> issue). So instead, I have to get creative when registering my services.</p>
+<pre><code class="language-csharp hljs"><span class="hljs-keyword">var</span> services = <span class="hljs-keyword">new</span> ServiceCollection();
+services.AddTransient&lt;MyViewModel&gt;();
+services.AddTransient(<span class="hljs-keyword">typeof</span>(IService), provider =&gt;
+{
+    <span class="hljs-keyword">var</span> instance = ActivatorUtilities.CreateInstance(provider, <span class="hljs-keyword">typeof</span>(Service));
+    <span class="hljs-keyword">return</span> ProxyWrapper.WrapService(<span class="hljs-keyword">typeof</span>(IService), instance;
+});
+
+<span class="hljs-keyword">var</span> provider = services.BuildServiceProvider();
+
+<span class="hljs-keyword">var</span> viewModel = provider.GetService&lt;MyViewModel&gt;();
+<span class="hljs-keyword">await</span> viewModel.OnButtonClicked(); <span class="hljs-comment">// Never blocking the UI thread!</span></code></pre>
+<h1 id="conclusion">Conclusion</h1>
+<p>Using <code>Castle.Core</code> to dynamically wrap my service layer to clear the <code>SynchronizationContext</code> allowed me to leave my existing code-base largely unmodified. Using dependency injection, I was able wrap the services in a way which is transparent to my entire service layer.</p>
+
+        </div>
+            <hr />
+            <h3>Comments</h3>
+                <p class="text-muted">
+                    There are no comments yet.
+                </p>
+            <p class="text-center">
+                <a class="btn btn-primary btn-light btn-lg" target="_blank" href="https://github.com/pauldotknopf/pauldotknopf.github.io/issues/11#new_comment_field"><i class="fab fa-github"></i> Join the discussion at GitHub</a>
+            </p>
+    </div>
+</div>
+</main>
+<footer class="bg-light py-3 mt-5 text-muted text-center">
+  <a href="https://github.com/pauldotknopf/pauldotknopf.github.io"><i class="fab fa-github"></i> source</a>
+</footer>
+<script src="/dist/scripts.js"></script>
+</body>
+</html>
