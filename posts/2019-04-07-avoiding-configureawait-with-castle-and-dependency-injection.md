@@ -140,7 +140,7 @@ await viewModel.OnButtonClicked(); // Never blocking the UI thread!
 
 # Using Dependency Injection
 
-Ideally, you'd want your proxies configured/wrapped in your container. Most containers support intercepting/replacing services before they are given to contructors. I am using Microsoft's ```Microsoft.Extensions.DependencyInjection```, which unfortunately doesn't support it (see [this](https://github.com/aspnet/Extensions/issues/1294) issue). So instead, I have to get creative when registering my services.
+Ideally, you'd want your proxies configured/wrapped in your container. Most containers support intercepting/replacing services before they are given to constructors. I am using Microsoft's ```Microsoft.Extensions.DependencyInjection```, which unfortunately doesn't support it (see [this](https://github.com/aspnet/Extensions/issues/1294) issue). So instead, I have to get creative when registering my services.
 
 ```c#
 var services = new ServiceCollection();
