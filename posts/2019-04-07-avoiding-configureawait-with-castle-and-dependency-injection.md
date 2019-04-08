@@ -21,7 +21,7 @@ We needed a way to trigger each method in our service layer to popup off the cur
 
 I didn't like either of these approaches because they required changing many lines of code and were (human) error prone. So I sought out another approach that will prevent us from changing any code, while also ensuring that *every* service method is not continuated on the UI thread. Consider the following:
 
-```c#
+```csharp
 public interface IService
 {
     Task RunMethod();
@@ -56,7 +56,7 @@ If this code were to be called, as is, when ```OnButtonClicked > RunMethod``` is
 
 I need a way to wrap an instance of ```IService``` in another implementation of ```IService``` that simply clears the ```SynchronizationContext``` before called the inner ```IService```. Consider the following:
 
-```c#
+```csharp
 public class NoSyncServiceWrapper : IService
 {
     private IService _inner;
@@ -84,7 +84,7 @@ public class NoSyncServiceWrapper : IService
 
 Now, if I pass ```NoSyncServiceWrapper``` to the ```MyViewModel```, the concern of ```SynchronizationContext``` will be in neither my service layer or my UI layer. No code needs to be changed!
 
-```c#
+```csharp
 var service = new Service();
 var viewModel = new MyViewModel(new NoSyncServiceWrapper(service));
 await viewModel.OnButtonClicked(); // Never blocking the UI thread!
@@ -96,7 +96,7 @@ The only problem now is that I have to manage a separate implementation of every
 
 [```Castle.Core```](https://www.nuget.org/packages/castle.core/) supports wrapping an instance of an interface with a dynamic implementation of the interface to perform some pre-post logic on the given instance. This is ideal for things like logging/profiling, and in our case, clearing/restoring the ```SynchronizationContext```. It is actually pretty simple!
 
-```c#
+```csharp
 public static class ProxyWrapper
 {
     private static readonly ProxyGenerator _proxyGenerator = new ProxyGenerator();
@@ -131,7 +131,7 @@ public static class ProxyWrapper
 
 Now, all we need to do is this:
 
-```c#
+```csharp
 var service = new Service();
 var wrappingService = ProxyWrapper.WrapService(typeof(IService), service);
 var viewModel = new MyViewModel(wrappingService);
@@ -142,7 +142,7 @@ await viewModel.OnButtonClicked(); // Never blocking the UI thread!
 
 Ideally, you'd want your proxies configured/wrapped in your container. Most containers support intercepting/replacing services before they are given to constructors. I am using Microsoft's ```Microsoft.Extensions.DependencyInjection```, which unfortunately doesn't support it (see [this](https://github.com/aspnet/Extensions/issues/1294) issue). So instead, I have to get creative when registering my services.
 
-```c#
+```csharp
 var services = new ServiceCollection();
 services.AddTransient<MyViewModel>();
 services.AddTransient(typeof(IService), provider =>
