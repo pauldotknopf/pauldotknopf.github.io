@@ -9015,6 +9015,11 @@ readers do not read off random characters that represent icons */
   color: #6c757d;
   font-size: 1rem; }
 
+.post blockquote {
+  border-left: 0.5em solid #f8f9fa;
+  color: #6c757d;
+  padding: 0 1em; }
+
 .archive-year .year {
   font-size: 1rem;
   color: #6c757d; }
@@ -9170,6 +9175,10 @@ code {
       color: #6c757d; }
     .comment .comment-main .body .commit-tease-sha {
       color: #545b62; }
+    .comment .comment-main .body blockquote {
+      border-left: 0.5em solid #f8f9fa;
+      color: #6c757d;
+      padding: 0 1em; }
     .comment .comment-main .footer {
       padding: 0;
       background: transparent; }

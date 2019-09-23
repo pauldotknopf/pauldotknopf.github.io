@@ -12,6 +12,11 @@
         color: $text-muted;
         font-size: $font-size-base;
     }
+    blockquote {
+        border-left: .5em solid theme-color("light");
+        color: $text-muted;
+        padding: 0 1em;
+    }
 }
 
 .archive-year {

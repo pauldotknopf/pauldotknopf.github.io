@@ -79,3 +79,9 @@
 .commit-tease-sha {
     color: darken($text-muted, 10%);
 }
+
+blockquote {
+    border-left: .5em solid theme-color("light");
+    color: $text-muted;
+    padding: 0 1em;
+}
