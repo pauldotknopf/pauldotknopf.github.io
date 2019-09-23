@@ -53,7 +53,7 @@
 <li>Micro ORM - <a href="https://github.com/ServiceStack/ServiceStack.OrmLite">ServiceStack.OrmLite</a> - For the sake of argument, I could easily have chosen other solutions, such as Dapper or PetaPoco, but I'm a fan of the API/features that ServiceStack.OrmLite provides. <em><strong>NOTE</strong>: OrmLite is free for open-source, but paid for closed-source.</em></li>
 </ul>
 <h1 id="surface-areaexposure">Surface area/exposure</h1>
-<p>As with picking any dependency on your project, you must step back and take a 20,000-foot view of things to determine it's impact on your solution. One way to do this is to consider the size of the dependency via the lines-of-code.</p>
+<p>As with picking any dependency on your project, you must step back and take a 20,000-foot view of things to determine its impact on your solution. One way to do this is to consider the size of the dependency via the lines-of-code.</p>
 <p>Using <code>cloc</code>, here is the overview of the size of each codebase.</p>
 <div class="featured-image"><p><img src="/ef-vs-ss.png" alt="Entity Framework vs ServiceStack.OrmLite lines of code" /></p>
 </div>
@@ -115,7 +115,7 @@
 <li>Graph persistence</li>
 <li>...the list goes on</li>
 </ul>
-<p>In my opinion, each of these features is unlikely to address a business concern directory. However, they are still typically highly valued by developers for various reasons.</p>
+<p>In my opinion, each of these features is unlikely to address a business concern directly. However, they are still typically highly valued by developers for various reasons.</p>
 <p>These features must each be carefully considered. Even if you won't use/benefit from a feature, there is still a cost with having it exist at all.</p>
 <p>With that said, let me try to address a few of these features.</p>
 <h2 id="migrations">Migrations</h2>
@@ -219,7 +219,7 @@
        migrator.Migrate();
     }
 }</code></pre>
-<p>With less than 100 lines of code, you now have a solution that will have near-zero issues. And if there happens to be an issue, there is a good chance that any developer could fix it within minutes. There is no learning curve. No documentation to read. No CLIs to invoke. No hidden tax bill that will payed in the future.</p>
+<p>With less than 100 lines of code, you now have a solution that will have near-zero issues. And if there happens to be an issue, there is a good chance that any developer could fix it within minutes. There is no learning curve. No documentation to read. No CLIs to invoke. No hidden tax bill that will paid in the future.</p>
 <h2 id="change-tracking">Change tracking</h2>
 <blockquote>
 <p><a href="https://twitter.com/ardave2002/status/1175119821261819905?s=20">@ardave2002</a>: I find having a giant ball of mutable state with change detection via virtual proxy that spans my application from one edge to the other to provide huge benefits to my ability to reason about code &lt;/s&gt;</p>
@@ -234,7 +234,7 @@
 <p>This is just a really bad idea. Define your query model upfront and fully load it to avoid unintended side effects that only show themselves when unbounded collections inevitably grow.</p>
 <h1 id="misc">Misc</h1>
 <p>What happens when things just are performant with EF? It's great that it allows you to analyze the SQL being executed, but at that point, you are still at the mercy of the underlying SQL generation. You may decide to jump out of EF in these cases and just execute raw SQL, but why even subject yourself to this?</p>
-<p>I also don't like hearing the caveats of &quot;if you know how to use it&quot; or &quot;when used right&quot; when describing features of EF. I'm uncomfortable with the idea of playing hot potato with loaded guns, hoping every person catches the gun <em>just right</em>. Not everyone is as knowledgable as you. Code reviews are a good thing, but <em>depending</em> upon them isn't a good idea. Things get past code reviews. All developers suck, including me and you. Why even risk it?</p>
+<p>I also don't like hearing the caveats of &quot;if you know how to use it&quot; or &quot;when used right&quot; when describing features of EF. I'm uncomfortable with the idea of playing hot potato with loaded guns, hoping every person catches the gun <em>just right</em>. Not everyone is as knowledgeable as you. Code reviews are a good thing, but <em>depending</em> upon them isn't a good idea. Things get past code reviews. All developers suck, including me and you. Why even risk it?</p>
 <h1 id="final-words">Final words</h1>
 <p>An ORM should only serve to give you a type-safe approach to writing SQL. Anything else is a tax that gets compounded as your project evolves.</p>
 <p>You could use EF and everything turns out just fine, but the standard deviation between success and failure is wide. When you choose a micro ORM, that standard deviation is much smaller.</p>
@@ -244,9 +244,69 @@
         </div>
             <hr />
             <h3>Comments</h3>
-                <p class="text-muted">
-                    There are no comments yet.
-                </p>
+                    <div class="comment">
+                        <div class="comment-user">
+                            <a href="https://github.com/Lux44" target="_blank">
+                                <img src="https://avatars3.githubusercontent.com/u/8456057?v=4"/>
+                            </a>
+                        </div>
+                        <div class="comment-main">
+                            <div class="header">
+                                <a href="https://github.com/Lux44" target="_blank" class="user">Lux44</a> commented
+                                <a href="https://github.com/pauldotknopf/pauldotknopf.github.io/issues/12#issuecomment-533975148" target="_blank" class="time">
+                                    <relative-time datetime="2019-09-23T06:34:38.0000000&#x2B;00:00">
+                                        Sep 23, 2019
+                                    </relative-time>
+                                </a>&nbsp;
+                            </div>
+                            <div class="body">
+                                <p>Thank you for not advocating building queries from strings :).</p>
+<p>Change tracking downside of Entity Framework could have an easy enough workaround: use new DBContext for applying changes, then effects are more obvious.</p>
+<p>What doesn't have an easy workaround: startup time of Entity Framework, which is quite noticeable in  desktop apps.</p>
+<p>Right now is not really a great time to look at EF bug list, or jump into EF, for that matter. The query translator got rewritten, but hasn't really stabilized, as the issue list rightfully indicates. Their test coverage for new/rewritten parts is also not great. "Please try again with nightly builds" has been the standard response for over a month now. Let's hope by the time 3.1 releases in November things have stabilized.</p>
+                            </div>
+                            <div class="footer">
+                                <ul class="nav">
+                                                                                                                                                                                                                    </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comment">
+                        <div class="comment-user">
+                            <a href="https://github.com/lufthavn" target="_blank">
+                                <img src="https://avatars2.githubusercontent.com/u/7838029?v=4"/>
+                            </a>
+                        </div>
+                        <div class="comment-main">
+                            <div class="header">
+                                <a href="https://github.com/lufthavn" target="_blank" class="user">lufthavn</a> commented
+                                <a href="https://github.com/pauldotknopf/pauldotknopf.github.io/issues/12#issuecomment-533988580" target="_blank" class="time">
+                                    <relative-time datetime="2019-09-23T07:30:46.0000000&#x2B;00:00">
+                                        Sep 23, 2019
+                                    </relative-time>
+                                </a>&nbsp;
+                            </div>
+                            <div class="body">
+                                <p>I stumbled into this article on reddit, and really liked it. I agree with a lot of what you're saying. <g-emoji class="g-emoji" alias="blush" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f60a.png">😊</g-emoji><br>
+However, the quote you've included in the "Change Tracking" paragraph feels like a straw man. I agree that it can be dangerous to throw around change tracking entities to every corner of your system, and thus lose sight of what actually happening in your system, but I feel like most people know this shouldn't be done, and that if you have this problem in your code base, it might be a code smell.<br>
+Currently I like to implement a command-handler approach in my system, where a command corresponds to a particular business concern, and has only one handler, where I centralize the preparation and execution of my business logic.<br>
+I agree that the change tracking gets in the way when all you need is to load read-only data for display. Not only that but if you're eager loading, and have only a couple of nested collections in your entities, the amount of data EF is querying the database for can get huge. We recently had to debug this problem where I work. A request for ~1000 entities could result in result sets of well over 100,000 lines. Surely this could be optimized in EF, but when I encounter something like this, I like to take a step back and evaluate the tool we're using.<br>
+If you're querying read-only data from the database, what exactly do you need an ORM for? I'd advocate for introducing a micro-ORM (Dapper is my current favorite, but I might check out ServiceStack.OrmLite soon <g-emoji class="g-emoji" alias="wink" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f609.png">😉</g-emoji>). Nobody says you can't use more than one data-access library in your solution.<br>
+This approach of using full-fledged ORMs to retrieve and save business entities in your command handlers, and using bare metal ADO.net or a micro-ORM to very efficiently query for read-only data goes very well with the architectural pattern of CQRS, and is why I recommend it a lot to developers who are dealing with large systems and complex domains.</p>
+<p>Anyway, the blog post was great, and I generally I agree with you. <g-emoji class="g-emoji" alias="blush" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f60a.png">😊</g-emoji> Just don't write ORMs off right of the bat, and consider them as a tool as you would any other dependency in your system.<br>
+Hope this brain dump makes to sense anybody. <g-emoji class="g-emoji" alias="sweat_smile" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f605.png">😅</g-emoji></p>
+                            </div>
+                            <div class="footer">
+                                <ul class="nav">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" href="#">
+                                                <g-emoji alias="+1" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f44d.png" class="emoji">👍</g-emoji> 1
+                                            </a>
+                                        </li>
+                                                                                                                                                                                                                    </ul>
+                            </div>
+                        </div>
+                    </div>
             <p class="text-center">
                 <a class="btn btn-primary btn-light btn-lg" target="_blank" href="https://github.com/pauldotknopf/pauldotknopf.github.io/issues/12#new_comment_field"><i class="fab fa-github"></i> Join the discussion at GitHub</a>
             </p>
