@@ -55,7 +55,7 @@
 <h1 id="surface-areaexposure">Surface area/exposure</h1>
 <p>As with picking any dependency on your project, you must step back and take a 20,000-foot view of things to determine its impact on your solution. One way to do this is to consider the size of the dependency via the lines-of-code.</p>
 <p>Using <code>cloc</code>, here is the overview of the size of each codebase.</p>
-<div class="featured-image"><p><img src="/ef-vs-ss.png" alt="Entity Framework vs ServiceStack.OrmLite lines of code" /></p>
+<div class="featured-image"><p><img src="/ef-vs-ss.jpg" alt="Entity Framework vs ServiceStack.OrmLite lines of code" /></p>
 </div>
 <p>Purely considering lines-of-code can be a fool's errand, but there is more to the story here. As the saying goes &quot;more money, more problems&quot;, right? As you increase your surface area (including your dependency graph), you increase your chances of running into bugs/issues. As you sit on top of more layers of abstraction and indirection, the problems that you begin to run into begin to get more cryptic and harder to isolate/fix.</p>
 <p>You can get a sense of this by spending a few minutes on the issue pages for each ORM (<a href="https://forums.servicestack.net/c/ormlite">here</a> and <a href="https://github.com/aspnet/EntityFrameworkCore/issues?q=label%3Atype-bug+">here</a>). You'll find that the issues in OrmLite are generally about the problem-domain (getting data in-and-out of the database) or the underlying ADO provider, whereas the issues in EF generally involve the layers/types that are involved in the abstractions.</p>
@@ -306,6 +306,109 @@ Hope this brain dump makes to sense anybody. <g-emoji class="g-emoji" alias="swe
                                                 <g-emoji alias="+1" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f44d.png" class="emoji">👍</g-emoji> 1
                                             </a>
                                         </li>
+                                                                                                                                                                                                                    </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comment">
+                        <div class="comment-user">
+                            <a href="https://github.com/sharpninja" target="_blank">
+                                <img src="https://avatars1.githubusercontent.com/u/16146732?v=4"/>
+                            </a>
+                        </div>
+                        <div class="comment-main">
+                            <div class="header">
+                                <a href="https://github.com/sharpninja" target="_blank" class="user">sharpninja</a> commented
+                                <a href="https://github.com/pauldotknopf/pauldotknopf.github.io/issues/12#issuecomment-534077664" target="_blank" class="time">
+                                    <relative-time datetime="2019-09-23T12:30:08.0000000&#x2B;00:00">
+                                        Sep 23, 2019
+                                    </relative-time>
+                                </a>&nbsp;
+                            </div>
+                            <div class="body">
+                                <p>This blog post is good up to a certain level of application complexity.  Most large enterprise projects are going to be dealing with data sets with millions of rows of data, with billions of relational outcomes.  Advocating eager loading in such a scenario is non-sense.  EF allows you to cherry pick relationships to eager load when using lazy loading by default.  If you are using a webserver and constantly eager loading large graphs then you are placing a huge burden on the server to load data that gets dumped in the garbage when the controller returns.  If it's a desktop app, you may get away with it for a while, but eventually your app will be holding a couple of gigs of data in RAM and user experience will suffer.  On mobile, you should be just as strict with memory usage as on a REST server.</p>
+<p>EF was designed to work in all these scenarios and when used correctly, does so admirably.  Enterprise code bases need consistency and reliability as their top concerns for maintainability.  Designing a system under the assumption that only you or someone of your skill level will be maintaining code is both arrogant and dangerous.</p>
+                            </div>
+                            <div class="footer">
+                                <ul class="nav">
+                                                                                                                                                                                                                    </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comment">
+                        <div class="comment-user">
+                            <a href="https://github.com/Grauenwolf" target="_blank">
+                                <img src="https://avatars0.githubusercontent.com/u/10627661?v=4"/>
+                            </a>
+                        </div>
+                        <div class="comment-main">
+                            <div class="header">
+                                <a href="https://github.com/Grauenwolf" target="_blank" class="user">Grauenwolf</a> commented
+                                <a href="https://github.com/pauldotknopf/pauldotknopf.github.io/issues/12#issuecomment-534173305" target="_blank" class="time">
+                                    <relative-time datetime="2019-09-23T16:18:12.0000000&#x2B;00:00">
+                                        Sep 23, 2019
+                                    </relative-time>
+                                </a>&nbsp;
+                            </div>
+                            <div class="body">
+                                <p>There's other options for ORMs.</p>
+<p>For example, Tortuga Chain (which I work on) using database reflection. Rather than just assuming the class exactly matches the table or doing everything using SQL string literals, it compares the table and class definitions at runtime. This dramatically reduces the boilerplate, especially when you don't want every column.</p>
+                            </div>
+                            <div class="footer">
+                                <ul class="nav">
+                                                                                                                                                                                                                    </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comment">
+                        <div class="comment-user">
+                            <a href="https://github.com/Grauenwolf" target="_blank">
+                                <img src="https://avatars0.githubusercontent.com/u/10627661?v=4"/>
+                            </a>
+                        </div>
+                        <div class="comment-main">
+                            <div class="header">
+                                <a href="https://github.com/Grauenwolf" target="_blank" class="user">Grauenwolf</a> commented
+                                <a href="https://github.com/pauldotknopf/pauldotknopf.github.io/issues/12#issuecomment-534173775" target="_blank" class="time">
+                                    <relative-time datetime="2019-09-23T16:19:30.0000000&#x2B;00:00">
+                                        Sep 23, 2019
+                                    </relative-time>
+                                </a>&nbsp;
+                            </div>
+                            <div class="body">
+                                <p>Another is SQL Alchemy which allows you to build complex SQL expressions using an object model. Unfortunately it is Python only at this time.</p>
+                            </div>
+                            <div class="footer">
+                                <ul class="nav">
+                                                                                                                                                                                                                    </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comment">
+                        <div class="comment-user">
+                            <a href="https://github.com/Grauenwolf" target="_blank">
+                                <img src="https://avatars0.githubusercontent.com/u/10627661?v=4"/>
+                            </a>
+                        </div>
+                        <div class="comment-main">
+                            <div class="header">
+                                <a href="https://github.com/Grauenwolf" target="_blank" class="user">Grauenwolf</a> commented
+                                <a href="https://github.com/pauldotknopf/pauldotknopf.github.io/issues/12#issuecomment-534178201" target="_blank" class="time">
+                                    <relative-time datetime="2019-09-23T16:30:47.0000000&#x2B;00:00">
+                                        Sep 23, 2019
+                                    </relative-time>
+                                </a>&nbsp;
+                            </div>
+                            <div class="body">
+                                <p>Regarding boilerplate, consider this line:</p>
+<p>Consider this line:</p>
+<pre><code>dataSource.Update("dbo.Person", new { ID = personId, Name = "Another Name"}).Exceute();
+</code></pre>
+<p>Why can't all ORMs do this? Why do they usually require manually dealing with connections/contexts and an extra round trip to the database just to perform a simple update?</p>
+<p>In my opinion, the only time I should see a <code>using</code> statement in my DB code is when I actually need a transaction. And that should only be needed if I'm updating multiple records.</p>
+                            </div>
+                            <div class="footer">
+                                <ul class="nav">
                                                                                                                                                                                                                     </ul>
                             </div>
                         </div>
