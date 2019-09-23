@@ -86,7 +86,7 @@
             db.CreateTable&lt;Person&gt;();
 
             <span class="hljs-keyword">var</span> person = <span class="hljs-keyword">new</span> Person { Name = <span class="hljs-string">"Paul"</span> };
-            <span class="hljs-keyword">var</span> personId = db.Insert(person); <span class="hljs-comment">// Id is also auto set.</span>
+            <span class="hljs-keyword">var</span> personId = db.Save(person); <span class="hljs-comment">// Id is also auto set.</span>
 
             <span class="hljs-keyword">using</span> (<span class="hljs-keyword">var</span> trans = db.OpenTransaction(IsolationLevel.ReadCommitted))
             { 
@@ -103,6 +103,8 @@
     }
 }</code></pre>
 <p>Any business requirement can be achieved with the above code. There is little in the way to prevent you from defining your solution/architecture how you'd like. OrmLite (micro ORMs) focus on exactly what is needed to solve your problem. Nothing more, nothing less. This brings me to my next point.</p>
+<p>Heavy ORMs impose artificial abstractions that force you into a unique style of development that's introducing a further disconnect and layer of indirection between your code and your database, requiring the usage the usage of augmented and proxied EF-specific models. Using this abstraction isn't going to make you a better OOP of FP programmer or make you more knowledable about SQL or any RDBMS-specific features.</p>
+<p>Sitting on EF's layers limits your ability to clearly perdict the behavior and functionality of each query, instead relying on EF-specific behavior. This makes it harder to reason about your code as you'll need to keep a hidden context of the incidental complexity in EF's behavior when reviewing code. You'd have to know exactly EF does, when it does it and why it does it when diagnosting unwanted behavior like unintended data access.</p>
 <h1 id="missing-features">Missing features</h1>
 <p>I believe I've set a high bar up until this point when it comes to choosing EF over OrmLite, but this doesn't factor the additional features that developers have come to love with EF.</p>
 <ul>
@@ -116,7 +118,8 @@
 <li>...the list goes on</li>
 </ul>
 <p>In my opinion, each of these features is unlikely to address a business concern directly. However, they are still typically highly valued by developers for various reasons.</p>
-<p>These features must each be carefully considered. Even if you won't use/benefit from a feature, there is still a cost with having it exist at all.</p>
+<p>These features must each be carefully considered. Even if you won't use/benefit from a feature, there is still a cost with having it exist at all. They typically only exist in heavy ORMs (EF) found in enterprise languages (Java/.NET).</p>
+<p>I'd prefer to code againt clean APIs that lerverage the DB's underlying functionality and features.</p>
 <p>With that said, let me try to address a few of these features.</p>
 <h2 id="migrations">Migrations</h2>
 <p>Migrations are a requirement of just about every solution. A few things to consider.</p>
