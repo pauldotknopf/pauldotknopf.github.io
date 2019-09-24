@@ -413,6 +413,44 @@ Hope this brain dump makes to sense anybody. <g-emoji class="g-emoji" alias="swe
                             </div>
                         </div>
                     </div>
+                    <div class="comment">
+                        <div class="comment-user">
+                            <a href="https://github.com/mythz" target="_blank">
+                                <img src="https://avatars1.githubusercontent.com/u/89361?v=4"/>
+                            </a>
+                        </div>
+                        <div class="comment-main">
+                            <div class="header">
+                                <a href="https://github.com/mythz" target="_blank" class="user">mythz</a> commented
+                                <a href="https://github.com/pauldotknopf/pauldotknopf.github.io/issues/12#issuecomment-534266575" target="_blank" class="time">
+                                    <relative-time datetime="2019-09-23T20:17:52.0000000&#x2B;00:00">
+                                        Sep 23, 2019
+                                    </relative-time>
+                                </a>&nbsp;(edited)
+                            </div>
+                            <div class="body">
+                                <p>This is the same Update query in OrmLite:</p>
+<div class="highlight highlight-source-cs"><pre><span class="pl-smi">db</span>.<span class="pl-en">UpdateOnly</span>(() <span class="pl-k">=&gt;</span> <span class="pl-k">new</span> <span class="pl-en">Person</span> { <span class="pl-smi">Id</span> <span class="pl-k">=</span> <span class="pl-smi">personId</span>, <span class="pl-smi">Name</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>Another Name<span class="pl-pds">"</span></span> });</pre></div>
+<p>Which if you prefer you could also update from an anonymous object or untyped Dictionary, e.g:</p>
+<div class="highlight highlight-source-cs"><pre><span class="pl-smi">db</span>.<span class="pl-en">Update</span>&lt;<span class="pl-en">Person</span>&gt;(<span class="pl-k">new</span>  { <span class="pl-smi">Id</span> <span class="pl-k">=</span> <span class="pl-smi">personId</span>, <span class="pl-smi">Name</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>Another Name<span class="pl-pds">"</span></span> });
+
+<span class="pl-smi">db</span>.<span class="pl-en">Update</span>&lt;<span class="pl-en">Person</span>&gt;(<span class="pl-k">new</span> <span class="pl-en">Dictionary</span>&lt;<span class="pl-k">string</span>,<span class="pl-k">object</span>&gt; { 
+    [<span class="pl-s"><span class="pl-pds">"</span>Id<span class="pl-pds">"</span></span>] <span class="pl-k">=</span> <span class="pl-smi">personId</span>, 
+    [<span class="pl-s"><span class="pl-pds">"</span>Name<span class="pl-pds">"</span></span>] <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>Another Name<span class="pl-pds">"</span></span> 
+});</pre></div>
+<p>Other <a href="https://github.com/ServiceStack/ServiceStack.OrmLite#update">Update Examples in OrmLite</a>.</p>
+                            </div>
+                            <div class="footer">
+                                <ul class="nav">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" href="#">
+                                                <g-emoji alias="+1" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f44d.png" class="emoji">👍</g-emoji> 1
+                                            </a>
+                                        </li>
+                                                                                                                                                                                                                    </ul>
+                            </div>
+                        </div>
+                    </div>
             <p class="text-center">
                 <a class="btn btn-primary btn-light btn-lg" target="_blank" href="https://github.com/pauldotknopf/pauldotknopf.github.io/issues/12#new_comment_field"><i class="fab fa-github"></i> Join the discussion at GitHub</a>
             </p>
