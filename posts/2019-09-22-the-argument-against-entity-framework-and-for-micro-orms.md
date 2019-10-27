@@ -255,3 +255,5 @@ You could use EF and everything turns out just fine, but the standard deviation 
 Quite frankly, you'd be hard-pressed to ever find a business requirement that *only* EF could solve. The features that EF provides and OrmLite doesn't are welcomed by developers as being time-saving nice-to-haves. However, when you factor in the taxing nature of using such a large framework like EF, you'll spend more time using it than if you were to just keep things minimal and bare-metal. This is especially true for larger projects involving people with ranging experiences.
 
 If you'd like to add anything, please comment. I love the discussion.
+
+**Update**: I created [SharpDataAccess](https://github.com/pauldotknopf/sharp-data-access). It is a thin layer that sits on top of ServiceStack.OrmLite that adds migrations and ambient connections/transactions.
