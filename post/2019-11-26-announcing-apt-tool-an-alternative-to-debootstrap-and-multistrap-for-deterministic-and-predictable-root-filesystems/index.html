@@ -1,0 +1,128 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Announcing apt-tool: an alternative to debootstrap and multistrap for deterministic and predictable root filesystems. - Paul Knopf</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link href="/dist/styles.css" rel="stylesheet" type="text/css"/>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-112478642-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-112478642-1');
+  </script>
+</head>
+<body>
+<header class="bg-light mb-3">
+  <div class="navbar navbar-expand">
+    <div class="container">
+      <a href="/" class="navbar-brand d-flex">
+        <strong>paul knopf</strong>
+      </a>
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="/archive">archive</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/about">about</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</header>
+<main>
+  
+<div class="container">
+    <div class="post">
+        <h1 class="title">
+            Announcing apt-tool: an alternative to debootstrap and multistrap for deterministic and predictable root filesystems.
+        </h1>
+        <p class="submitted">
+            posted on Nov 26, 2019
+        </p>
+        <div class="content">
+            <p><a href="https://github.com/pauldotknopf/apt-tool">GitHub Project: AptTool</a></p>
+<h1 id="overview">Overview</h1>
+<p>The <code>apt-tool</code> command is a tool to generate root filesystems from configuration files.</p>
+<p>It differs from <code>debootstrap</code> and <code>multistrap</code> in many ways, but the key difference is that <code>apt-tool</code> behaves more like what you'd see in tools like <code>npm</code> and it's <code>packages.json</code>/<code>packages-lock.json</code> pair.</p>
+<p>The idea is that once you generate <code>apt-tools</code>'s <code>image-lock.json</code> file from it's <code>image.json</code> file, all consecutive builds of the root filesystem will be completely perdictable.</p>
+<h1 id="why">Why?</h1>
+<p>Think about Linux devices/appliances. Each update to your appliance is typically and entire root filesystem and configuration. At this point, your operating system isn't just a vehicle that <em>runs</em> your application, your operating system <em>is</em> your application.</p>
+<p>With your applications (Python/C#/etc), you typically would have a build server that produces the same outputs from the same inputs. In other words, you need to be able to recompile older versions years later and have some confidence that the output is the same.</p>
+<p>Since your operating system is now considered your <em>application</em>, you'd need the same perdictability in your outputs. If you have a git repository that produces your root file system with <code>debootstrap</code> or <code>multistrap</code>,  each build from the same commit (even days later) could have updated packages that aren't captured. I realize that you typically want package updates, but it's better that each update is captured via a git commit (updating the <code>image-lock.json</code> file) for identifying issues that may arrise down the road via ```git-bisect``.`</p>
+<p>Also, I found <code>debootstrap</code> and <code>multistrap</code> to be problematic. Their outputs are unpredictable, <code>debootstrap</code> doesn't support multi apt repositories, <code>multistrap</code> doesn't configure packages properly (errors during install), and they don't leverage <code>dpkg</code> as much as they should.</p>
+<p>In the end, it just made sense for me to write my own tool. It also uses <code>dpkg</code> and <code>apt</code> as much as possible to ensure a bug-free experience.</p>
+<h1 id="overview-1">Overview</h1>
+<p>It uses .NET, so install using the following command.</p>
+<pre><code>sudo dotnet tool install AptTool --tool-path /usr/local/bin/
+</code></pre>
+<p>Check out a full example <a href="https://github.com/pauldotknopf/apt-tool-example">here</a>. NOTE: This example will also build a bootable .img file with the generate rootfs.</p>
+<p>The idea is simple though.</p>
+<p><strong><code>image.json</code></strong>:</p>
+<pre><code class="language-json hljs">{
+    <span class="hljs-attr">"packages"</span>: {
+        <span class="hljs-attr">"locales"</span>: <span class="hljs-string">"latest"</span>,
+        <span class="hljs-attr">"grub-efi-amd64"</span>: <span class="hljs-string">"latest"</span>,
+        <span class="hljs-attr">"linux-image-amd64"</span>: <span class="hljs-string">"latest"</span>,
+        <span class="hljs-attr">"network-manager"</span>: <span class="hljs-string">"latest"</span>
+    },
+    <span class="hljs-attr">"repositories"</span>: [
+        {
+            <span class="hljs-attr">"uri"</span>: <span class="hljs-string">"http://deb.debian.org/debian"</span>,
+            <span class="hljs-attr">"distribution"</span>: <span class="hljs-string">"buster"</span>,
+            <span class="hljs-attr">"components"</span>: [
+                <span class="hljs-string">"main"</span>,
+                <span class="hljs-string">"contrib"</span>,
+                <span class="hljs-string">"non-free"</span>
+            ]
+        }
+    ]
+}</code></pre>
+<p>Then, you need to generate the <code>image-lock.json</code>:</p>
+<pre><code>apt-tool install
+</code></pre>
+<p><strong><code>image-lock.json</code></strong>:</p>
+<pre><code class="language-json hljs">{
+  "installedPackages": {
+    "gcc-8-base": {
+      "version": "8.3.0-6",
+      "architecture": "amd64"
+    },
+    "libc6": {
+      "version": "2.28-10",
+      "architecture": "amd64"
+    },
+    "libgcc1": {
+      "version": "1:8.3.0-6",
+      "architecture": "amd64"
+    },
+    ...
+  }
+}</code></pre>
+<p>Now, we can generate a root file system.</p>
+<pre><code>sudo apt-tool generate-rootfs
+</code></pre>
+<p>A stage2 script is placed in <code>/stage2/stage2.sh</code> that needs to be run afterwards via chroot. This can be ran automatically by using the <code>--run-stage2</code> flag.</p>
+
+        </div>
+            <hr />
+            <h3>Comments</h3>
+                <p class="text-muted">
+                    There are no comments yet.
+                </p>
+            <p class="text-center">
+                <a class="btn btn-primary btn-light btn-lg" target="_blank" href="https://github.com/pauldotknopf/pauldotknopf.github.io/issues/13#new_comment_field"><i class="fab fa-github"></i> Join the discussion at GitHub</a>
+            </p>
+    </div>
+</div>
+</main>
+<footer class="bg-light py-3 mt-5 text-muted text-center">
+  <a href="https://github.com/pauldotknopf/pauldotknopf.github.io"><i class="fab fa-github"></i> source</a>
+</footer>
+<script src="/dist/scripts.js"></script>
+</body>
+</html>
