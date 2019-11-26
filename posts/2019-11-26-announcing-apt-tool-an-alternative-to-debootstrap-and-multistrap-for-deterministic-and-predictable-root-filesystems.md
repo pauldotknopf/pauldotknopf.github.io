@@ -12,7 +12,7 @@ The ```apt-tool``` command is a tool to generate root filesystems from configura
 
 It differs from ```debootstrap``` and ```multistrap``` in many ways, but the key difference is that ```apt-tool``` behaves more like what you'd see in tools like ```npm``` and it's ```packages.json```/```packages-lock.json``` pair.
 
-The idea is that once you generate ```apt-tools```'s ```image-lock.json``` file from it's ```image.json``` file, all consecutive builds of the root filesystem will be completely perdictable.
+The idea is that once you generate ```apt-tools```'s ```image-lock.json``` file from it's ```image.json``` file, all consecutive builds of the root filesystem will be completely predictable.
 
 # Why?
 
@@ -20,7 +20,7 @@ Think about Linux devices/appliances. Each update to your appliance is typically
 
 With your applications (Python/C#/etc), you typically would have a build server that produces the same outputs from the same inputs. In other words, you need to be able to recompile older versions years later and have some confidence that the output is the same.
 
-Since your operating system is now considered your *application*, you'd need the same perdictability in your outputs. If you have a git repository that produces your root file system with ```debootstrap``` or ```multistrap```,  each build from the same commit (even days later) could have updated packages that aren't captured. I realize that you typically want package updates, but it's better that each update is captured via a git commit (updating the ```image-lock.json``` file) for identifying issues that may arrise down the road via ```git-bisect``.`
+Since your operating system is now considered your *application*, you'd need the same predictability in your outputs. If you have a git repository that produces your root file system with ```debootstrap``` or ```multistrap```,  each build from the same commit (even days later) could have updated packages that aren't captured. I realize that you typically want package updates, but it's better that each update is captured via a git commit (updating the ```image-lock.json``` file) for identifying issues that may arise down the road via ```git-bisect``.`
 
 Also, I found ```debootstrap``` and ```multistrap``` to be problematic. Their outputs are unpredictable, ```debootstrap``` doesn't support multi apt repositories, ```multistrap``` doesn't configure packages properly (errors during install), and they don't leverage ```dpkg``` as much as they should.
 
