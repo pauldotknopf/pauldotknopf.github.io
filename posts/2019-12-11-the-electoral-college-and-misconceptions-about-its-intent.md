@@ -12,13 +12,13 @@ It is wrong historically, and it is wrong mechanically.
 
 ## The founding fathers wrote nothing about this.
 
-The founding fathers wrote a great deal about many aspects of the government. However, there isn't a single writing by any of the founding fathers about the reason of the EC that involves densely populated cities.
+The founding fathers wrote a great deal about many aspects of the government. They wrote a lot about the EC. However, there isn't a single writing by any of the founding fathers about the reason of the EC that involves densely populated cities.
 
 ## This is all new. It's impossible for the founding fathers to have planned/envisioned this.
 
 EVs were originally distributed proportionally. This means that the EVs cast would closely align with the overall populate vote of the country. It wasn't until the early 1800's that a trend emerged.
 
-The more partisan states realized that if they made the EVs winner-take-all, they'd have a larger say on who would be president. If a state generally casted 2 votes for red and 1 vote for blue, moving to a winner-take-all system allowed that state to cast 3 votes for red and 2 for blue.
+The more partisan states realized that if they made the EVs winner-take-all, they'd have a larger say on who would be president. If a state generally casted 2 votes for red and 1 vote for blue, moving to a winner-take-all system allowed that state to cast 3 votes for red and 0 for blue.
 
 Other states began to follow to level the playing field. By the 1820's, it was normal practice for states to cast all EVs to the candidate with most votes.
 
