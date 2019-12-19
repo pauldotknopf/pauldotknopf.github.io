@@ -20,7 +20,7 @@ Think about Linux devices/appliances. Each update to your appliance is typically
 
 With your applications (Python/C#/etc), you typically would have a build server that produces the same outputs from the same inputs. In other words, you need to be able to recompile older versions years later and have some confidence that the output is the same.
 
-Since your operating system is now considered your *application*, you'd need the same predictability in your outputs. If you have a git repository that produces your root file system with ```debootstrap``` or ```multistrap```,  each build from the same commit (even days later) could have updated packages that aren't captured. I realize that you typically want package updates, but it's better that each update is captured via a git commit (updating the ```image-lock.json``` file) for identifying issues that may arise down the road via ```git-bisect``.`
+Since your operating system is now considered your *application*, you'd need the same predictability in your outputs. If you have a git repository that produces your root file system with ```debootstrap``` or ```multistrap```,  each build from the same commit (even days later) could have updated packages that aren't captured. I realize that you typically want package updates, but it's better that each update is captured via a git commit (updating the ```image-lock.json``` file) for identifying issues that may arise down the road, using ```git-bisect```.
 
 Also, I found ```debootstrap``` and ```multistrap``` to be problematic. Their outputs are unpredictable, ```debootstrap``` doesn't support multi apt repositories, ```multistrap``` doesn't configure packages properly (errors during install), and they don't leverage ```dpkg``` as much as they should.
 
