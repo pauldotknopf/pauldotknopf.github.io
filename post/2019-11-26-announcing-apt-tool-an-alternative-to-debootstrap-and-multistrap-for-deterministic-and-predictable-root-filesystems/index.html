@@ -58,8 +58,7 @@
 <p>In the end, it just made sense for me to write my own tool. It also uses <code>dpkg</code> and <code>apt</code> as much as possible to ensure a bug-free experience.</p>
 <h1 id="overview-1">Overview</h1>
 <p>It uses .NET, so install using the following command.</p>
-<pre><code>sudo dotnet tool install AptTool --tool-path /usr/local/bin/
-</code></pre>
+<pre><code class="language-plaintext hljs">sudo dotnet tool install AptTool --tool-path /usr/local/bin/</code></pre>
 <p>Check out a full example <a href="https://github.com/pauldotknopf/apt-tool-example">here</a>. NOTE: This example will also build a bootable .img file with the generate rootfs.</p>
 <p>The idea is simple though.</p>
 <p><strong><code>image.json</code></strong>:</p>
@@ -83,29 +82,27 @@
     ]
 }</code></pre>
 <p>Then, you need to generate the <code>image-lock.json</code>:</p>
-<pre><code>apt-tool install
-</code></pre>
+<pre><code class="language-plaintext hljs">apt-tool install</code></pre>
 <p><strong><code>image-lock.json</code></strong>:</p>
 <pre><code class="language-json hljs">{
-  "installedPackages": {
-    "gcc-8-base": {
-      "version": "8.3.0-6",
-      "architecture": "amd64"
-    },
-    "libc6": {
-      "version": "2.28-10",
-      "architecture": "amd64"
-    },
-    "libgcc1": {
-      "version": "1:8.3.0-6",
-      "architecture": "amd64"
-    },
-    ...
-  }
+    <span class="hljs-attr">"installedPackages"</span>: {
+        <span class="hljs-attr">"gcc-8-base"</span>: {
+            <span class="hljs-attr">"version"</span>: <span class="hljs-string">"8.3.0-6"</span>,
+            <span class="hljs-attr">"architecture"</span>: <span class="hljs-string">"amd64"</span>
+         },
+        <span class="hljs-attr">"libc6"</span>: {
+            <span class="hljs-attr">"version"</span>: <span class="hljs-string">"2.28-10"</span>,
+            <span class="hljs-attr">"architecture"</span>: <span class="hljs-string">"amd64"</span>
+        },
+        <span class="hljs-attr">"libgcc1"</span>: {
+            <span class="hljs-attr">"version"</span>: <span class="hljs-string">"1:8.3.0-6"</span>,
+            <span class="hljs-attr">"architecture"</span>: <span class="hljs-string">"amd64"</span>
+        }
+        <span class="hljs-comment">/* etc... */</span>
+    }
 }</code></pre>
 <p>Now, we can generate a root file system.</p>
-<pre><code>sudo apt-tool generate-rootfs
-</code></pre>
+<pre><code class="language-plaintext hljs">sudo apt-tool generate-rootfs</code></pre>
 <p>A stage2 script is placed in <code>/stage2/stage2.sh</code> that needs to be run afterwards via chroot. This can be ran automatically by using the <code>--run-stage2</code> flag.</p>
 
         </div>

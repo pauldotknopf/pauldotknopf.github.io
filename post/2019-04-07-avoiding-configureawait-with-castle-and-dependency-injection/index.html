@@ -63,8 +63,8 @@
 
 <span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Service</span> : <span class="hljs-title">IService</span>
 {
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">async</span> Task <span class="hljs-title">RunMethod</span>(<span class="hljs-params"></span>)
-    </span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">async</span> Task <span class="hljs-title">RunMethod</span>(<span class="hljs-params"></span>)</span>
+    {
         <span class="hljs-keyword">await</span> Task.Yield();
         Thread.Sleep(TimeSpan.FromSeconds(<span class="hljs-number">5</span>));
     }
@@ -74,13 +74,13 @@
 {
     <span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> IService _service;
 
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MyViewModel</span>(<span class="hljs-params">IService service</span>)
-    </span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MyViewModel</span>(<span class="hljs-params">IService service</span>)</span>
+    {
         _service = service;
     }
     
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">async</span> Task <span class="hljs-title">OnButtonClicked</span>(<span class="hljs-params"></span>)
-    </span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">async</span> Task <span class="hljs-title">OnButtonClicked</span>(<span class="hljs-params"></span>)</span>
+    {
         <span class="hljs-keyword">await</span> _service.RunMethod();
     }
 }</code></pre>
@@ -90,13 +90,13 @@
 {
     <span class="hljs-keyword">private</span> IService _inner;
 
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">NoSyncServiceWrapper</span>(<span class="hljs-params">IService inner</span>)
-    </span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">NoSyncServiceWrapper</span>(<span class="hljs-params">IService inner</span>)</span>
+    {
         _inner = inner;
     }
     
-    <span class="hljs-function"><span class="hljs-keyword">public</span> Task <span class="hljs-title">RunMethod</span>(<span class="hljs-params"></span>)
-    </span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> Task <span class="hljs-title">RunMethod</span>(<span class="hljs-params"></span>)</span>
+    {
         <span class="hljs-keyword">var</span> oldContext = SynchronizationContext.Current;
         SynchronizationContext.SetSynchronizationContext(<span class="hljs-literal">null</span>);
         <span class="hljs-keyword">try</span>
@@ -121,8 +121,8 @@
     <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">readonly</span> ProxyGenerator _proxyGenerator = <span class="hljs-keyword">new</span> ProxyGenerator();
     <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">readonly</span> SyncContextInterceptor _syncContextInterceptor = <span class="hljs-keyword">new</span> SyncContextInterceptor();
     
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">object</span> <span class="hljs-title">WrapService</span>(<span class="hljs-params">Type serviceType, <span class="hljs-keyword">object</span> instance</span>)
-    </span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">object</span> <span class="hljs-title">WrapService</span>(<span class="hljs-params">Type serviceType, <span class="hljs-keyword">object</span> instance</span>)</span>
+    {
         <span class="hljs-keyword">return</span> _proxyGenerator.CreateInterfaceProxyWithTargetInterface(serviceType,
             instance,
             <span class="hljs-keyword">new</span> ProxyGenerationOptions(),
@@ -131,8 +131,8 @@
     
     <span class="hljs-keyword">private</span> <span class="hljs-keyword">class</span> <span class="hljs-title">SyncContextInterceptor</span> : <span class="hljs-title">IInterceptor</span>
     {
-        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Intercept</span>(<span class="hljs-params">IInvocation invocation</span>)
-        </span>{
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Intercept</span>(<span class="hljs-params">IInvocation invocation</span>)</span>
+        {
             <span class="hljs-keyword">var</span> syncContext = SynchronizationContext.Current;
             SynchronizationContext.SetSynchronizationContext(<span class="hljs-literal">null</span>);
             <span class="hljs-keyword">try</span>
@@ -191,7 +191,7 @@ services.AddTransient(<span class="hljs-keyword">typeof</span>(IService), provid
                             </div>
                             <div class="footer">
                                 <ul class="nav">
-                                                                                                                                                                                                                    </ul>
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -215,7 +215,7 @@ services.AddTransient(<span class="hljs-keyword">typeof</span>(IService), provid
                             </div>
                             <div class="footer">
                                 <ul class="nav">
-                                                                                                                                                                                                                    </ul>
+                                </ul>
                             </div>
                         </div>
                     </div>

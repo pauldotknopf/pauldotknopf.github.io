@@ -57,8 +57,8 @@
 {
     <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Install</span>(<span class="hljs-params"></span>)</span>;
 
-    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Run</span>(<span class="hljs-params"><span class="hljs-keyword">string</span> command</span>)
-    </span>{
+    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Run</span>(<span class="hljs-params"><span class="hljs-keyword">string</span> command</span>)</span>
+    {
         <span class="hljs-comment">// Run "command" in your operating system.</span>
         <span class="hljs-comment">// This command could be shell scripts, apt-get/pacman commands, etc.</span>
     }
@@ -66,32 +66,32 @@
 
 <span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Arch64</span> : <span class="hljs-title">BaseImage</span>
 {
-    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Install</span>(<span class="hljs-params"></span>)
-    </span>{
+    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Install</span>(<span class="hljs-params"></span>)</span>
+    {
         Run(<span class="hljs-string">"./install-arch-rootfs.sh"</span>);
     }
 }
     
 <span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">NVidia</span> : <span class="hljs-title">Arch64</span>
 {
-    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Install</span>(<span class="hljs-params"></span>)
-    </span>{
+    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Install</span>(<span class="hljs-params"></span>)</span>
+    {
         Run(<span class="hljs-string">"./install-nvidia-drivers.sh"</span>);
     }
 }
 
 <span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Development</span> : <span class="hljs-title">NVidia</span>
 {
-    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Install</span>(<span class="hljs-params"></span>)
-    </span>{
+    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Install</span>(<span class="hljs-params"></span>)</span>
+    {
         Run(<span class="hljs-string">"./install-devtools.sh"</span>);
     }
 }
 
 <span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Gaming</span> : <span class="hljs-title">NVidia</span>
 {
-    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Install</span>(<span class="hljs-params"></span>)
-    </span>{
+    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Install</span>(<span class="hljs-params"></span>)</span>
+    {
         Run(<span class="hljs-string">"./install-stream.sh"</span>);
     }
 }</code></pre>
@@ -111,12 +111,12 @@
 <pre><code class="language-dockerfile hljs"><span class="hljs-comment"># my-base - Packages that I want present on all systems.</span>
 <span class="hljs-keyword">FROM</span> base/archlinux
 <span class="hljs-comment"># Update everything</span>
-<span class="hljs-keyword">RUN</span><span class="bash"> pacman -Syu
-</span><span class="hljs-comment"># Enable the AUR</span>
-<span class="hljs-keyword">RUN</span><span class="bash"> pacman -S yaourt
-</span><span class="hljs-comment"># Use KDE</span>
-<span class="hljs-keyword">RUN</span><span class="bash"> pacman -S plasma-meta
-</span><span class="hljs-comment"># Install Google Chrome</span>
+<span class="hljs-keyword">RUN</span><span class="bash"> pacman -Syu</span>
+<span class="hljs-comment"># Enable the AUR</span>
+<span class="hljs-keyword">RUN</span><span class="bash"> pacman -S yaourt</span>
+<span class="hljs-comment"># Use KDE</span>
+<span class="hljs-keyword">RUN</span><span class="bash"> pacman -S plasma-meta</span>
+<span class="hljs-comment"># Install Google Chrome</span>
 <span class="hljs-keyword">RUN</span><span class="bash"> pacman -S google-chrome</span></code></pre>
 <pre><code class="language-dockerfile hljs"><span class="hljs-comment"># my-base-nvidia - My base image with NVidia layered on top.</span>
 <span class="hljs-keyword">FROM</span> my-base
@@ -137,22 +137,22 @@
 <pre><code class="language-dockerfile hljs"><span class="hljs-comment"># arch-rootfs</span>
 <span class="hljs-keyword">FROM</span> base/archlinux
 <span class="hljs-comment"># Install arch-chroot</span>
-<span class="hljs-keyword">RUN</span><span class="bash"> arch-install-scripts
-</span><span class="hljs-comment"># Create our rootfs directory</span>
-<span class="hljs-keyword">RUN</span><span class="bash"> mkdir /rootfs
-</span><span class="hljs-comment"># Populate our rootfs with a base Arch install</span>
-<span class="hljs-keyword">RUN</span><span class="bash"> <span class="hljs-built_in">cd</span> /rootfs &amp;&amp;
-</span>    curl -O https://arch.com/root.tar.gz &amp;&amp;
+<span class="hljs-keyword">RUN</span><span class="bash"> arch-install-scripts</span>
+<span class="hljs-comment"># Create our rootfs directory</span>
+<span class="hljs-keyword">RUN</span><span class="bash"> mkdir /rootfs</span>
+<span class="hljs-comment"># Populate our rootfs with a base Arch install</span>
+<span class="hljs-keyword">RUN</span><span class="bash"> <span class="hljs-built_in">cd</span> /rootfs &amp;&amp;</span>
+    curl -O https://arch.com/root.tar.gz &amp;&amp;
     tar xzf root.tar.gz</code></pre>
 <p>Now we will have to add some additional commands to our layers.</p>
 <pre><code class="language-dockerfile hljs"><span class="hljs-keyword">FROM</span> arch-rootfs
 <span class="hljs-comment"># Update everything</span>
-<span class="hljs-keyword">RUN</span><span class="bash"> arch-chroot /rootfs pacman -Syu
-</span><span class="hljs-comment"># Enable the AUR</span>
-<span class="hljs-keyword">RUN</span><span class="bash"> arch-chroot /rootfs pacman -S yaourt
-</span><span class="hljs-comment"># Use KDE</span>
-<span class="hljs-keyword">RUN</span><span class="bash"> arch-chroot /rootfs pacman -S plasma-meta
-</span><span class="hljs-comment"># Install Google Chrome</span>
+<span class="hljs-keyword">RUN</span><span class="bash"> arch-chroot /rootfs pacman -Syu</span>
+<span class="hljs-comment"># Enable the AUR</span>
+<span class="hljs-keyword">RUN</span><span class="bash"> arch-chroot /rootfs pacman -S yaourt</span>
+<span class="hljs-comment"># Use KDE</span>
+<span class="hljs-keyword">RUN</span><span class="bash"> arch-chroot /rootfs pacman -S plasma-meta</span>
+<span class="hljs-comment"># Install Google Chrome</span>
 <span class="hljs-keyword">RUN</span><span class="bash"> arch-chroot /rootfs pacman -S google-chrome</span></code></pre>
 <p>It isn't exactly clean, but it will work.</p>
 <blockquote>
