@@ -30,7 +30,7 @@ In the end, it just made sense for me to write my own tool. It also uses ```dpkg
 
 It uses .NET, so install using the following command.
 
-```
+```plaintext
 sudo dotnet tool install AptTool --tool-path /usr/local/bin/
 ```
 
@@ -64,7 +64,7 @@ The idea is simple though.
 
 Then, you need to generate the ```image-lock.json```:
 
-```
+```plaintext
 apt-tool install
 ```
 
@@ -72,27 +72,27 @@ apt-tool install
 
 ```json
 {
-  "installedPackages": {
-    "gcc-8-base": {
-      "version": "8.3.0-6",
-      "architecture": "amd64"
-    },
-    "libc6": {
-      "version": "2.28-10",
-      "architecture": "amd64"
-    },
-    "libgcc1": {
-      "version": "1:8.3.0-6",
-      "architecture": "amd64"
-    },
-    ...
-  }
+    "installedPackages": {
+        "gcc-8-base": {
+            "version": "8.3.0-6",
+            "architecture": "amd64"
+         },
+        "libc6": {
+            "version": "2.28-10",
+            "architecture": "amd64"
+        },
+        "libgcc1": {
+            "version": "1:8.3.0-6",
+            "architecture": "amd64"
+        }
+        /* etc... */
+    }
 }
 ```
 
 Now, we can generate a root file system.
 
-```
+```plaintext
 sudo apt-tool generate-rootfs
 ```
 

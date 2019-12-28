@@ -13,9 +13,9 @@ namespace Build
 {
     static class Program
     {
-        static Task Main(string[] args)
+        static void Main(string[] args)
         {
-            var options = ParseOptions(args);
+            var options = ParseOptions<RunnerOptions>(args);
             var tmpRepo = ExpandPath("./tmp-repo");
             var output = ExpandPath("./output");
             var sha = ReadShell("git rev-parse --short HEAD");
@@ -97,7 +97,7 @@ namespace Build
             Target("default", DependsOn("serve"));
             Target("ci", DependsOn("build", "deploy"));
             
-            return Run(options);
+            Execute(options);
         }
     }
 }

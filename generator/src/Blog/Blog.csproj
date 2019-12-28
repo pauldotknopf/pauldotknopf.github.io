@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
 
     <!--
       This is required for compiling razor views in a console app.
@@ -14,16 +14,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Markdig" Version="0.15.3" />
-    <PackageReference Include="Octokit" Version="0.32.0" />
-    <PackageReference Include="Pek.Markdig.HighlightJs" Version="0.4.0" />
-    <PackageReference Include="PowerArgs" Version="3.5.0" />
-    <PackageReference Include="Statik" Version="0.10.1" />
-    <PackageReference Include="Statik.Files" Version="0.10.1" />
-    <PackageReference Include="Statik.Mvc" Version="0.10.1" />
-    <PackageReference Include="Statik.Markdown" Version="0.10.1" />
+    <PackageReference Include="Markdig" Version="0.18.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.0" />
+    <PackageReference Include="Octokit" Version="0.36.0" />
+    <PackageReference Include="Pek.Markdig.HighlightJs" Version="0.5.1" />
+    <PackageReference Include="PowerArgs" Version="3.6.0" />
+    <PackageReference Include="Statik" Version="0.13.0" />
+    <PackageReference Include="Statik.Files" Version="0.13.0" />
+    <PackageReference Include="Statik.Mvc" Version="0.13.0" />
+    <PackageReference Include="Statik.Markdown" Version="0.13.0" />
     <PackageReference Include="System.Xml.XmlDocument" Version="4.3.0" />
-    <PackageReference Include="YamlDotNet" Version="5.2.0" />
+    <PackageReference Include="YamlDotNet" Version="8.0.0" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
@@ -6,6 +6,7 @@ using Blog.Services;
 using Blog.Services.Impl;
 using Markdig;
 using Microsoft.AspNetCore.Mvc.Razor;
+using Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Octokit;
@@ -56,9 +57,9 @@ namespace Blog
                 {
                     services.AddSingleton(_markdownParser);
                     services.AddSingleton(_markdownRenderer);
-                    services.Configure<RazorViewEngineOptions>(options =>
+                    services.Configure<MvcRazorRuntimeCompilationOptions>(options =>
                     {
-                        options.FileProviders.Add(new EmbeddedFileProvider(typeof(Program).Assembly, "Blog.Resources"));
+                        options.FileProviders.Add(new Statik.Embedded.EmbeddedFileProvider(typeof(Program).Assembly, "Blog.Resources"));
                         //options.FileProviders.Add(new PhysicalFileProvider("/Users/pknopf/git/pauldotknopf.github.io/generator/src/Blog/Resources"));
                     });
                 });
@@ -92,7 +93,7 @@ namespace Blog
 
         private static void RegisterResources()
         {
-            _webBuilder.RegisterFileProvider(new EmbeddedFileProvider(typeof(Program).Assembly, "Blog.Resources.wwwroot"));
+            _webBuilder.RegisterFileProvider(new Statik.Embedded.EmbeddedFileProvider(typeof(Program).Assembly, "Blog.Resources.wwwroot"));
             //_webBuilder.RegisterFileProvider(new PhysicalFileProvider("/Users/pknopf/git/pauldotknopf.github.io/generator/src/Blog/Resources/wwwroot"));
             var staticDirectory = Path.Combine(_contentDirectory, "static");
             if (Directory.Exists(staticDirectory))
