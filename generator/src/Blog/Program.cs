@@ -41,10 +41,13 @@ namespace Blog
                 var githubPassword = Environment.GetEnvironmentVariable("GITHUB_PASSWORD");
                 if (string.IsNullOrEmpty(githubUsername) || string.IsNullOrEmpty(githubPassword))
                 {
-                    throw new Exception("You must provide GITHUB_USERNAME and GITHUB_PASSWORD environment variable");
+                    Console.WriteLine("Not using comments...");
+                }
+                else
+                {
+                    _github = new GitHubClient(new ProductHeaderValue("pauldotknopf.github.io"), new InMemoryCredentialStore(new Credentials(githubUsername, githubPassword)));
                 }
                 
-                _github = new GitHubClient(new ProductHeaderValue("pauldotknopf.github.io"), new InMemoryCredentialStore(new Credentials(githubUsername, githubPassword)));
                 _contentDirectory = Directory.GetCurrentDirectory();
                 _markdownParser = new MarkdownParser();
                 _markdownRenderer = new MarkdownRenderer(new MarkdownPipelineBuilder()
@@ -57,10 +60,12 @@ namespace Blog
                 {
                     services.AddSingleton(_markdownParser);
                     services.AddSingleton(_markdownRenderer);
+                    services.AddRazorPages()
+                        .AddRazorRuntimeCompilation();
                     services.Configure<MvcRazorRuntimeCompilationOptions>(options =>
                     {
                         options.FileProviders.Add(new Statik.Embedded.EmbeddedFileProvider(typeof(Program).Assembly, "Blog.Resources"));
-                        //options.FileProviders.Add(new PhysicalFileProvider("/Users/pknopf/git/pauldotknopf.github.io/generator/src/Blog/Resources"));
+                        //options.FileProviders.Add(new PhysicalFileProvider("/home/pknopf/git/pauldotknopf.github.io/generator/src/Blog/Resources"));
                     });
                 });
                 
@@ -94,7 +99,7 @@ namespace Blog
         private static void RegisterResources()
         {
             _webBuilder.RegisterFileProvider(new Statik.Embedded.EmbeddedFileProvider(typeof(Program).Assembly, "Blog.Resources.wwwroot"));
-            //_webBuilder.RegisterFileProvider(new PhysicalFileProvider("/Users/pknopf/git/pauldotknopf.github.io/generator/src/Blog/Resources/wwwroot"));
+            //_webBuilder.RegisterFileProvider(new PhysicalFileProvider("/home/pknopf/git/pauldotknopf.github.io/generator/src/Blog/Resources/wwwroot"));
             var staticDirectory = Path.Combine(_contentDirectory, "static");
             if (Directory.Exists(staticDirectory))
             {
@@ -162,33 +167,40 @@ namespace Blog
             }
             
             // Load the comments from GitHub.
-            foreach (var post in posts)
+            if (_github != null)
             {
-                if (post.CommentIssueID.HasValue)
+                foreach (var post in posts)
                 {
-                    post.Comments = new List<GitHubComment>();
-                    var comments = await _github.Issue.Comment.GetAllForIssue("pauldotknopf", "pauldotknopf.github.io", post.CommentIssueID.Value);
-                    foreach (var comment in comments)
+                    if (post.CommentIssueID.HasValue)
                     {
-                        var body = await _github.Miscellaneous.RenderArbitraryMarkdown(new NewArbitraryMarkdown(comment.Body, "gfm", "pauldotknopf/pauldotknopf.github.io"));
-                        // The API returns an "UpdatedAt", even if it isn't updated.
-                        post.Comments.Add(new GitHubComment
+                        post.Comments = new List<GitHubComment>();
+                        var comments = await _github.Issue.Comment.GetAllForIssue("pauldotknopf",
+                            "pauldotknopf.github.io", post.CommentIssueID.Value);
+                        foreach (var comment in comments)
                         {
-                            Id = comment.Id,
-                            CreatedAt = comment.CreatedAt,
-                            // The API returns UpdatedAt, even if the comment wasn't updated.
-                            UpdatedAt = comment.UpdatedAt.HasValue
-                                ? (comment.UpdatedAt.Value == comment.CreatedAt ? (DateTimeOffset?)null : comment.UpdatedAt.Value)
-                                : null,
-                            User = comment.User.Login,
-                            UserAvatarUrl = comment.User.AvatarUrl,
-                            Body = body,
-                            Reactions = comment.Reactions
-                        });
+                            var body = await _github.Miscellaneous.RenderArbitraryMarkdown(
+                                new NewArbitraryMarkdown(comment.Body, "gfm", "pauldotknopf/pauldotknopf.github.io"));
+                            // The API returns an "UpdatedAt", even if it isn't updated.
+                            post.Comments.Add(new GitHubComment
+                            {
+                                Id = comment.Id,
+                                CreatedAt = comment.CreatedAt,
+                                // The API returns UpdatedAt, even if the comment wasn't updated.
+                                UpdatedAt = comment.UpdatedAt.HasValue
+                                    ? (comment.UpdatedAt.Value == comment.CreatedAt
+                                        ? (DateTimeOffset?) null
+                                        : comment.UpdatedAt.Value)
+                                    : null,
+                                User = comment.User.Login,
+                                UserAvatarUrl = comment.User.AvatarUrl,
+                                Body = body,
+                                Reactions = comment.Reactions
+                            });
+                        }
                     }
                 }
             }
-            
+
             _posts = new Posts(posts);
             _webBuilder.RegisterServices(services => { services.AddSingleton(_posts); });
         }
