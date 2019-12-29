@@ -15,12 +15,14 @@ namespace Blog.Services.Impl
 
         public PagedList<Post> GetPosts(int pageIndex, int pageSize, bool onlyListed = true)
         {
-            var posts = _posts
-                .Where(x => !onlyListed || x.Listed)
+            var query = _posts
+                .Where(x => !onlyListed || x.Listed).ToList();
+
+            var count = query.Count();
+            
+            var posts = query
                 .Skip(pageIndex * pageSize)
                 .Take(pageSize).ToList();
-
-            var count = posts.Count;
             
             return new PagedList<Post>(posts, pageIndex, (int)Math.Ceiling(count / (decimal)pageSize) - 1, pageSize, count);
         }
