@@ -2,6 +2,7 @@
 title: "The electoral college and misconceptions about it's intent."
 date: 2019-12-11
 comment_issue_id: 14
+listed: false
 ---
 
 There are many reasons for the electoral college. However, there is one reason that is constantly stated that is just wrong.
