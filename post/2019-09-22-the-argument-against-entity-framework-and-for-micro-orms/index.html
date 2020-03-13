@@ -452,6 +452,161 @@ Hope this brain dump makes to sense anybody. <g-emoji class="g-emoji" alias="swe
                             </div>
                         </div>
                     </div>
+                    <div class="comment">
+                        <div class="comment-user">
+                            <a href="https://github.com/TehWardy" target="_blank">
+                                <img src="https://avatars3.githubusercontent.com/u/6891030?v=4"/>
+                            </a>
+                        </div>
+                        <div class="comment-main">
+                            <div class="header">
+                                <a href="https://github.com/TehWardy" target="_blank" class="user">TehWardy</a> commented
+                                <a href="https://github.com/pauldotknopf/pauldotknopf.github.io/issues/12#issuecomment-598156324" target="_blank" class="time">
+                                    <relative-time datetime="2020-03-12T12:21:18.0000000&#x2B;00:00">
+                                        Mar 12, 2020
+                                    </relative-time>
+                                </a>&nbsp;(edited)
+                            </div>
+                            <div class="body">
+                                <p>Having read this .... many of the points here are exactly where i'm at right now ... the hidden technical debt, abstraction issues I can't solve, complexity with no explanation, poor performance in scenarios that often seem trivial on face value.</p>
+<p>I'm currently looking in to an alternative to EF Core to resolve a ton of issues I have that the EF Core team seems to be either confused about, not interested in, or simply willing to pick at my description rather than focusing on the issue at hand.</p>
+<p>The fact is, since EF6, each and every subsequent release has removed or broken functionality that my stack has depended on and i'm sick of swallowing that with the reasoning being "this is the cost of progress".</p>
+<p>So here's where i'm at ...<br>
+I'm trying to find an alternative that as this blog post states should not be an issue because "there shouldn't be a problem that EF solves that another framework couldn't also solve".</p>
+<p>So here's my core functionality requirements from the EF functionality that I currently use ...</p>
+<ul>
+<li>Mapping LINQ to SQL</li>
+<li>Mapping SQL query results to Entities</li>
+<li>Managing / migrating the DB (ideally without having to manually crank out SQL myself)</li>
+<li>Complex filtration when "nested questions" happen.</li>
+</ul>
+<p>That last point appears to be the sticking point for most "micro-ORMs" .. the "micro" prefix usually means like with say Dapper that it does the SQL query to Entity mapping but won't do the bit before that to get from the LINQ expression tree to SQL.</p>
+<p>Assuming this ORM can handle that I'm looking for examples ofdoing things like applying set filters so I can achieve something like ...</p>
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">var</span> <span class="pl-smi">results</span> <span class="pl-k">=</span> <span class="pl-smi">Db</span>.<span class="pl-en">GetAll</span>&lt;<span class="pl-en">BaseT</span>&gt;()
+   .<span class="pl-en">Include</span>(<span class="pl-smi">t</span> <span class="pl-k">=&gt;</span> <span class="pl-smi">t</span>.<span class="pl-smi">Property</span>)
+       .<span class="pl-en">ThenInclude</span>(<span class="pl-smi">i</span> <span class="pl-k">=&gt;</span> <span class="pl-smi">i</span>.<span class="pl-smi">SubProperty</span>)
+   .<span class="pl-en">ToArray</span>();</pre></div>
+<p>... key things to note here that EF solves that I can't seem to find a solution to in other ORM's the include, and then the sub include are both filtered by the relationship but also on filter conditions applied to the table regardless of context in which that table is questioned.</p>
+<p>This seems to be a feature missing in all but EF.</p>
+<p>Does this ORM support this scenario?</p>
+                            </div>
+                            <div class="footer">
+                                <ul class="nav">
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comment">
+                        <div class="comment-user">
+                            <a href="https://github.com/mythz" target="_blank">
+                                <img src="https://avatars1.githubusercontent.com/u/89361?v=4"/>
+                            </a>
+                        </div>
+                        <div class="comment-main">
+                            <div class="header">
+                                <a href="https://github.com/mythz" target="_blank" class="user">mythz</a> commented
+                                <a href="https://github.com/pauldotknopf/pauldotknopf.github.io/issues/12#issuecomment-598162844" target="_blank" class="time">
+                                    <relative-time datetime="2020-03-12T12:38:44.0000000&#x2B;00:00">
+                                        Mar 12, 2020
+                                    </relative-time>
+                                </a>&nbsp;(edited)
+                            </div>
+                            <div class="body">
+                                <p>OrmLite supports <a href="https://github.com/ServiceStack/ServiceStack.OrmLite#reference-support-poco-style">"POCO References"</a> where it lets you load all nested references with its <a href="https://github.com/ServiceStack/ServiceStack.OrmLite#querying-pocos-with-references">Load* APIs</a> whereas all OrmLite's other APIs wont load any nested references, so you can't pick and choose which references you want to load (i.e. without defining different classes with different references), but as all APIs returns POCOs you also have the option to <a href="https://github.com/ServiceStack/ServiceStack.OrmLite#merge-disconnected-poco-result-sets">stitch &amp; merge multiple POCO resultsets together</a>.</p>
+<p>Like all of OrmLite APIs they return "disconnected POCOs" so it's not possible to have hidden N+1 queries that could occur when traversing the result set. i.e. you get back your exact POCOs you've defined, not some proxy sub class with injected decorated behavior.</p>
+<p>OrmLite also includes typed APIs for inspecting and <a href="https://github.com/ServiceStack/ServiceStack.OrmLite">altering existing schemas</a>. Paul <a href="https://pknopf.com/post/2019-09-22-the-argument-against-entity-framework-and-for-micro-orms/#migrations" rel="nofollow">outlines a good migration solution</a> on his blog, there's also a few different migration solutions in this <a href="https://forums.servicestack.net/t/any-recommendations-for-maintaining-database-schemas/3304" rel="nofollow">Customer Forums Thread</a>.</p>
+<p>I'd recommend reading the <a href="https://github.com/ServiceStack/ServiceStack.OrmLite">OrmLite docs on its home page</a> which documents its many features.</p>
+                            </div>
+                            <div class="footer">
+                                <ul class="nav">
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comment">
+                        <div class="comment-user">
+                            <a href="https://github.com/TehWardy" target="_blank">
+                                <img src="https://avatars3.githubusercontent.com/u/6891030?v=4"/>
+                            </a>
+                        </div>
+                        <div class="comment-main">
+                            <div class="header">
+                                <a href="https://github.com/TehWardy" target="_blank" class="user">TehWardy</a> commented
+                                <a href="https://github.com/pauldotknopf/pauldotknopf.github.io/issues/12#issuecomment-598318280" target="_blank" class="time">
+                                    <relative-time datetime="2020-03-12T17:34:32.0000000&#x2B;00:00">
+                                        Mar 12, 2020
+                                    </relative-time>
+                                </a>&nbsp;
+                            </div>
+                            <div class="body">
+                                <p>This requires you to know all the possible combinations of questions that you might want to ask the api up front or manually wiring up a second model so that the traversal is possible with sub queries.<br>
+That's never a desired result when you have a db with potentially billions of rows to manage and you want a joned set of maybe 1,000 of them from the results of a single dynamically generated SQL query.</p>
+<p>Consider putting an OrmLite managed DB behind an OData API where the questions are virtually limitless but every possible combination of scenarios has to be considered and handled.<br>
+With EF this is trivial as I can tell EF that the Set has a filter and then any time EF sees any portion of a linq query hitting a given table it applies the filter then the requested query to the SQL query.</p>
+<p>People often forget about the complexity that EF is solving stating that something is a "micro-ORM" instead of a "full ORM" is seemingly just like declaring "this solves half your issue, now go find something else that solves the other half, but it's fast ok".</p>
+<p>I've not yet found anything that can match this type of EF solved scenario that didn't require a crap ton of "work arounds" or "patching stuff together" and it's the one thing that keeps my solutions sat on it ... which is frustrating because I both hate it and have to use it at the same time as there is seemingly no alternative.</p>
+<p>Other things of note ...</p>
+<ul>
+<li>For some reason Code generation is seen as bad</li>
+<li>Designer tooling focus is seen as bad</li>
+</ul>
+<p>... all features that I often use to solve dynamic scenarios that would otherwise be unsolvable or for situations like I don't want to sit around writing boiler plate stuff like the SQL statement for building a table when I have a class that exactly matches it's structure.</p>
+<p>Also, the current version of EF core will never return "some proxy sub class with injected decorated behavior", as that functionality was ripped out as part of the rebuild when EF6 became EF Core 1.0.</p>
+<p>My current entity model, has a DbContext as you might expect with entity sets, none of which I pull from the Db in such a manner that I use things like Lazy loading, or proxies, or in any way require the resulting entities to be "attached" to the context, this is basically the same setup as is explained here.</p>
+<p>My ideal ORM would allow me to do something like ...</p>
+<pre><code>using(var db = new factory.GetConnection("db name"))
+{
+       IQueryable&lt;T&gt; results = new Query&lt;T&gt;().Where(...).Select(...).Include(...).OrderBy();
+}
+</code></pre>
+<p>... in this situation I would be constructing a simple ADO.Net connection to the Db and then telling the framework "build me a SQL query of Type T", large complex "models" seem to feel like overkill for me since the type metadata for the query you're building should tell you all you need to know.</p>
+<p>I continue my composition on that to construct the full query, including notifying it (as per my previous comment) of what "sub sets" I want in the results, then performing a .ToArray()  .ToList() or simply iterating over it would actually execute it.</p>
+<p>The results would be disconnected from the DB (simple POCO's) and be appropriately secured unless I specifically asked the framework to track changes for me to make saving easier later.<br>
+If a calling user asks for "select * from Table" configuration of a secure where clause should be a key feature of any ORM "micro" or not.</p>
+<p>My issue tends to boil down to the fact that all these ORM's claiming to be better than EF appear to be so on face value, but as soon as you start drilling in to the complex scenarios they fall short of features resulting in me having to extend or build tons of framework around the ORM.</p>
+<p>So the article makes the comparison of OrmLite's 89k cloc to EF's 514k cloc in the chart at the begining but it's forgetting that there's a bunch of stuff in that extra 400k cloc that OrmLite can't do.</p>
+<p>Unless i'm missing something?</p>
+<p>I recently asked the Dapper guys about how implementing a Dapper based back end for OData might look I simply got a one liner "you'd have to write your own version of LINQ to SQL as Dapper doesn't do that" ...</p>
+<p>So Dapper can execute a query, and map the results to an Object graph, but it can't build the query in the first place. That's half the work is it not?</p>
+<p><strong>In short</strong></p>
+<p>I'd love to see a "micro-ORM" implementation of an OData or GraphQL or similar API model as those sorts of API's really push the limits of what ORM's can do.</p>
+                            </div>
+                            <div class="footer">
+                                <ul class="nav">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" href="#">
+                                                <g-emoji alias="+1" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f44d.png" class="emoji">👍</g-emoji> 1
+                                            </a>
+                                        </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comment">
+                        <div class="comment-user">
+                            <a href="https://github.com/pauldotknopf" target="_blank">
+                                <img src="https://avatars1.githubusercontent.com/u/523150?v=4"/>
+                            </a>
+                        </div>
+                        <div class="comment-main">
+                            <div class="header">
+                                <a href="https://github.com/pauldotknopf" target="_blank" class="user">pauldotknopf</a> commented
+                                <a href="https://github.com/pauldotknopf/pauldotknopf.github.io/issues/12#issuecomment-598345543" target="_blank" class="time">
+                                    <relative-time datetime="2020-03-12T18:17:11.0000000&#x2B;00:00">
+                                        Mar 12, 2020
+                                    </relative-time>
+                                </a>&nbsp;
+                            </div>
+                            <div class="body">
+                                <p>See this: <a href="https://docs.servicestack.net/why-not-odata" rel="nofollow">Why not OData?</a></p>
+<p>Also this: <a href="https://docs.servicestack.net/autoquery" rel="nofollow">AutoQuery</a></p>
+                            </div>
+                            <div class="footer">
+                                <ul class="nav">
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
             <p class="text-center">
                 <a class="btn btn-primary btn-light btn-lg" target="_blank" href="https://github.com/pauldotknopf/pauldotknopf.github.io/issues/12#new_comment_field"><i class="fab fa-github"></i> Join the discussion at GitHub</a>
             </p>
