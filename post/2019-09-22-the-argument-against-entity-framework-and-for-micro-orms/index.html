@@ -445,7 +445,7 @@ Hope this brain dump makes to sense anybody. <g-emoji class="g-emoji" alias="swe
                                 <ul class="nav">
                                         <li class="nav-item">
                                             <a class="nav-link active" href="#">
-                                                <g-emoji alias="+1" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f44d.png" class="emoji">👍</g-emoji> 1
+                                                <g-emoji alias="+1" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f44d.png" class="emoji">👍</g-emoji> 2
                                             </a>
                                         </li>
                                 </ul>
@@ -603,6 +603,43 @@ If a calling user asks for "select * from Table" configuration of a secure where
                             </div>
                             <div class="footer">
                                 <ul class="nav">
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comment">
+                        <div class="comment-user">
+                            <a href="https://github.com/mythz" target="_blank">
+                                <img src="https://avatars1.githubusercontent.com/u/89361?v=4"/>
+                            </a>
+                        </div>
+                        <div class="comment-main">
+                            <div class="header">
+                                <a href="https://github.com/mythz" target="_blank" class="user">mythz</a> commented
+                                <a href="https://github.com/pauldotknopf/pauldotknopf.github.io/issues/12#issuecomment-598525437" target="_blank" class="time">
+                                    <relative-time datetime="2020-03-13T03:03:09.0000000&#x2B;00:00">
+                                        Mar 13, 2020
+                                    </relative-time>
+                                </a>&nbsp;(edited)
+                            </div>
+                            <div class="body">
+                                <p><a class="user-mention" data-hovercard-type="user" data-hovercard-url="/users/TehWardy/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/TehWardy">@TehWardy</a> You're living under the misguided assumption that EF's complexity is necessary, it's absolutely not, you have more flexibility and freedom with a typed ORM which gives you direct, clean access to RDBMS features, not some App-level Object Mapping framework that you're a slave to. Doesn't look like you've noticed that none of the new &amp; modern NoSQL data persistence technologies have anywhere the complexity, tracking and impedance mismatch of Heavy ORMs. Something other thriving OSS platforms are aware as their popular ORMs do not suffer EF's complexity tax. They provide straight-forward APIs to access their underlying features, essentially the goal of most API libraries which provide typed APIs to a networked resource, for some reason Heavy ORMs is the only Exception which some ("enterprise" .NET/Java) devs seem to cling on to as the only one true way they could ever envisage code could ever interact with a database.</p>
+<p>Your ideal ORM API is not my ideal ORM API which is to provide a clean typed API over RDBMS queries so you know exactly the SQL that's going to be executed - i.e. exactly what OrmLite does where its abstraction is only concerned about offering cross-RDBMS compatible implementation for portability + simplified UX, not some hidden N+1 + tracking magic that EF deems appropriate.</p>
+<p>Your OData is a great example of unnecessary complexity, pure unnecessary bloat, resulting in slow, implementation coupled APIs that you haven't got a dream of feasibly being able refactor &amp; replace its implementation without breaking external clients - effectively breaking the golden rule of API design. Read Paul's links if you want to see how you can build a simpler, cleaner &amp; faster data-driven services using a Micro ORM (OrmLite) without any of the pitfalls of OData. It's no wonder Netflix abandoned their failed experiment with it and any company that cares about performance wont go near it.</p>
+<p>Happy that you're productive with EF, but you've got very little chance in convincing many devs that have made the switch to Micro ORMs that Heavy ORMs are still the ultimate sophistication of how a ORM should be designed an implemented - many of us came from there, we're not going back.</p>
+                            </div>
+                            <div class="footer">
+                                <ul class="nav">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" href="#">
+                                                <g-emoji alias="+1" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f44d.png" class="emoji">👍</g-emoji> 1
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link active" href="#">
+                                                <g-emoji alias="heart" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/2764.png" class="emoji">❤️</g-emoji> 1
+                                            </a>
+                                        </li>
                                 </ul>
                             </div>
                         </div>
