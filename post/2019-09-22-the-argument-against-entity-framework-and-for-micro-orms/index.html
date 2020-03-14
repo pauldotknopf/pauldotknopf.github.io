@@ -637,9 +637,80 @@ If a calling user asks for "select * from Table" configuration of a secure where
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link active" href="#">
-                                                <g-emoji alias="heart" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/2764.png" class="emoji">❤️</g-emoji> 1
+                                                <g-emoji alias="heart" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/2764.png" class="emoji">❤️</g-emoji> 2
                                             </a>
                                         </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comment">
+                        <div class="comment-user">
+                            <a href="https://github.com/TehWardy" target="_blank">
+                                <img src="https://avatars3.githubusercontent.com/u/6891030?v=4"/>
+                            </a>
+                        </div>
+                        <div class="comment-main">
+                            <div class="header">
+                                <a href="https://github.com/TehWardy" target="_blank" class="user">TehWardy</a> commented
+                                <a href="https://github.com/pauldotknopf/pauldotknopf.github.io/issues/12#issuecomment-598603888" target="_blank" class="time">
+                                    <relative-time datetime="2020-03-13T08:19:06.0000000&#x2B;00:00">
+                                        Mar 13, 2020
+                                    </relative-time>
+                                </a>&nbsp;(edited)
+                            </div>
+                            <div class="body">
+                                <p>I don't agree with the bulk of points in that Odata article, for example the supposed "tight coupling of internals" problem highlighted is not present in my stack but that's a far more complex and different discussion. I was using OData as an example mainly because of the complexity in scenarios that it exposes us to only, even Microsoft who pushes OData heavily states that best practice is to have N-Tier separation and promotes the use of both an API model and a DB model, the mapping for that is an entirely different issue though that's not worth discussion here.</p>
+<p>The article seems to suggest that AutoQuery is an alternative to OData which it just isn't.<br>
+the fact is, as the article points out "the OData query-space can reference any table and any column that was exposed.", not quite true but the premise is ... you have a model (that model doesn't have to be the same as your data model, but you can build any question on any part of the API model,</p>
+<p>Essentially all i'm asking is that an ORM should be able to handle exactly that, and when I ask it a question I should be able to tell it "I want my question asked in this business context" which for the bulk of queries in enterprise applications boils down to "based on what the user making the call has access to", which in my case is a small cut of every table in the DB.</p>
+<p>If the answer it seems is to just avoid asking the question then it's not really answer is it?<br>
+This comes back to my Dapper point above, can Dapper really claim it's faster than EF when it only solves half the problem!</p>
+                            </div>
+                            <div class="footer">
+                                <ul class="nav">
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comment">
+                        <div class="comment-user">
+                            <a href="https://github.com/mythz" target="_blank">
+                                <img src="https://avatars1.githubusercontent.com/u/89361?v=4"/>
+                            </a>
+                        </div>
+                        <div class="comment-main">
+                            <div class="header">
+                                <a href="https://github.com/mythz" target="_blank" class="user">mythz</a> commented
+                                <a href="https://github.com/pauldotknopf/pauldotknopf.github.io/issues/12#issuecomment-598652307" target="_blank" class="time">
+                                    <relative-time datetime="2020-03-13T10:23:34.0000000&#x2B;00:00">
+                                        Mar 13, 2020
+                                    </relative-time>
+                                </a>&nbsp;
+                            </div>
+                            <div class="body">
+                                <blockquote>
+<p>The article seems to suggest that AutoQuery is an alternative to OData which it just isn't.</p>
+</blockquote>
+<p>AutoQuery is a solution for being able to rapidly develop data-driven Services, it's not a replacement for OData in that it has no intention to copy any of its complexity or design flaws. AutoQuery has its own goal of letting you define your data-driven Services "contract-first" that AutoQuery them implements your intentions using its extensible query model that can be extended with your own conventions. It also lets you easily re-define existing AutoQuery Services with a custom implementation that's sourced from a different or multiple data sources without breaking external clients, i.e. what all API designs should allow for.</p>
+<p>AutoQuery is one of ServiceStack's most loved features, if you've never used AutoQuery in the real-world you're not in a position to evaluate and compare its development model &amp; productivity vs OData.</p>
+<p>If the default way to develop "OData" leads to a pit of failure and you have to develop N-Tier onion architectures in order to use OData "the recommended way" then there's not going to be much benefit using it, realistically most devs are just going to go with the low-effort default approach, this is just a caveat they like to add so they can say OData is capable of creating non-brittle APIs - just N-Tier it!</p>
+<p>Microsoft used to push OData heavily when they initially developed it due to their invested significantly in creating it, I also remember at the time there were HTTP knowledgeable MS Employees who cringed at its catch-phrase "the best way to REST" since it's a horrible example of REST-ful API design (IMO it's also a general failure in software design &amp; complexity as well), but relatively no-one cares anymore since it's a waning technology that never caught traction outside of MS's PR bubble where it's now considered a long forgotten blob of complexity with anyone in that space is now using GraphQL. I expect OData to continue to have a maintenance-mode long shelf-life in MS products but have zero expectations it will ever see any kind of resurgence in the wider industry - which is the typical end for over-architected technologies since it's typically not worth the dev effort trying to re-purpose a blob of complexity (see also WCF-REST). An example of this in OData-land is how many years it took the organization with full-control over developing .NET Core to also port OData to .NET Core vs the 0 time &amp; effort it took for AutoQuery where its exact same implementation continues to work and be supported <a href="https://docs.servicestack.net/why-servicestack#multiple-hosting-options" rel="nofollow">everywhere ServiceStack runs</a>.</p>
+<p>Because AutoQuery's a simple &amp; clean implementation that's just a regular ServiceStack Service it's also able to take advantage of ServiceStack's entire <a href="https://docs.servicestack.net/why-servicestack#multiple-clients" rel="nofollow">ecosystem of features</a> around Services where it's available in <a href="https://docs.servicestack.net/add-servicestack-reference" rel="nofollow">each supported language</a> using clean, idiomatic typed APIs and all endpoint formats like CSV where you can load the <a href="https://docs.servicestack.net/csv-format#rest-usage" rel="nofollow">results of your AutoQuery CSV results</a> directly into spreadsheets or imported in RDBMS's that support it. You can even call AutoQuery Services <a href="https://docs.servicestack.net/grpc#protobuf-net-inheritance" rel="nofollow">from our latest feature - gRPC!</a>. How many more years will it take OData services to be consumable from gRPC?</p>
+<p>That's just one example of why you <a href="https://docs.servicestack.net/service-complexity-and-dto-roles" rel="nofollow">should avoid complexity</a>, your business logic becomes bound to a blob of complexity that becomes harder to re-purpose and most over-architected technologies are destined to be replaced by cleaner, simpler &amp; more focused solutions. E.g. the missing EF6 features not in EF Core and their behavioral differences is still preventing many organizations from being able to move to .NET Core, by contrast OrmLite uses the same implementation on both .NET Framework/.NET Core with perfect source-code compatibility rendering it effortless to port any business logic using it to .NET Core, whilst existing .NET Framework users continue to enjoy new features with each release and can remain confident in knowing that when the time comes it will be trivial to port to .NET Core.</p>
+<blockquote>
+<p>I should be able to tell it "I want my question asked in this business context"</p>
+</blockquote>
+<p>Which is the inspiration behind many leaky heavy abstractions and impedance mismatches and what causes Heavy ORMs to earn their bloated complexity reputations. This was also the prevailing attitude in the early 2000's when Enterprise SOA was the dominant force (and everyone should develop SOAP services) and dictated using an OOP DB abstraction without concern for the underlying RDBMS. When the hype died and they were evaluated on their own merits, it was found wanting with the industry quickly moving to simpler RESTful JSON APIs built with CoC frameworks and libraries.</p>
+<p>Most data access technologies provide a clean typed access to the underlying data technology features. So yeah to use a Micro ORM you need to know SQL since that's what their APIs are modeled after. The approach then becomes "how do I best implement my business logic with this data access technology".</p>
+<blockquote>
+<p>Dapper really claim it's faster than EF when it only solves half the problem!</p>
+</blockquote>
+<p>You're misappropriating EF features with features every ORM should also have a desire to have given you're under the assumption that every other data access technology is just a partial (half!) implementation of EF, a consequence of relying on needing to work within EF's feature-set where you'd likely struggle if you had to develop Apps using different platforms or against a different DB technologies. Don't bother looking for features relying on modification tracking to ever appear in Micro ORMs, it's an example of an unnecessary complexity that'll never be implemented. Quite simply, if you need EF features don't switch, EF will be around forever - as the catchphrase goes, you'll never get fired for choosing it.</p>
+<p>But to answer your question, yeah you can claim to be faster if you're accomplishing the same results, faster.</p>
+                            </div>
+                            <div class="footer">
+                                <ul class="nav">
                                 </ul>
                             </div>
                         </div>
