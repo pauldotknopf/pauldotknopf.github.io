@@ -575,7 +575,7 @@ If a calling user asks for "select * from Table" configuration of a secure where
                                 <ul class="nav">
                                         <li class="nav-item">
                                             <a class="nav-link active" href="#">
-                                                <g-emoji alias="+1" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f44d.png" class="emoji">👍</g-emoji> 1
+                                                <g-emoji alias="+1" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f44d.png" class="emoji">👍</g-emoji> 2
                                             </a>
                                         </li>
                                 </ul>
@@ -637,7 +637,7 @@ If a calling user asks for "select * from Table" configuration of a secure where
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link active" href="#">
-                                                <g-emoji alias="heart" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/2764.png" class="emoji">❤️</g-emoji> 2
+                                                <g-emoji alias="heart" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/2764.png" class="emoji">❤️</g-emoji> 3
                                             </a>
                                         </li>
                                 </ul>
@@ -711,6 +711,60 @@ This comes back to my Dapper point above, can Dapper really claim it's faster th
                             </div>
                             <div class="footer">
                                 <ul class="nav">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" href="#">
+                                                <g-emoji alias="+1" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f44d.png" class="emoji">👍</g-emoji> 1
+                                            </a>
+                                        </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comment">
+                        <div class="comment-user">
+                            <a href="https://github.com/mikependon" target="_blank">
+                                <img src="https://avatars3.githubusercontent.com/u/591015?v=4"/>
+                            </a>
+                        </div>
+                        <div class="comment-main">
+                            <div class="header">
+                                <a href="https://github.com/mikependon" target="_blank" class="user">mikependon</a> commented
+                                <a href="https://github.com/pauldotknopf/pauldotknopf.github.io/issues/12#issuecomment-599035744" target="_blank" class="time">
+                                    <relative-time datetime="2020-03-14T10:04:00.0000000&#x2B;00:00">
+                                        Mar 14, 2020
+                                    </relative-time>
+                                </a>&nbsp;(edited)
+                            </div>
+                            <div class="body">
+                                <p>Interesting topics, I really like to chip-in my ideas but only on ORM side. Hope to share more here soon.</p>
+<p>As of writing this, I do not have any idea of AutoQuery and I am not as deep at OData.</p>
+<blockquote>
+<p>key things to note here that EF solves that I can't seem to find a solution to in other ORM's the include, and then the sub include are both filtered by the relationship but also on filter conditions applied to the table regardless of context in which that table is questioned.</p>
+</blockquote>
+<p><a class="user-mention" data-hovercard-type="user" data-hovercard-url="/users/TehWardy/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/TehWardy">@TehWardy</a> - I think, a micro-ORM can do solve all the things, whereas EF can't. The EF has abstracted most of the things for you, and that limits you to access the benefits of the underlying storage. It means, you have less control with EF over a what we called micro-ORMs.</p>
+<blockquote>
+<p>Migration tool - People often forget about the complexity that EF is solving.</p>
+</blockquote>
+<p>True, and not true. It is based on preference. I can say, EF did not solve any complex problem :) - that's why there are micro-ORMs which allows you to have more control. Of course, you have to write more.</p>
+<p>Specifically to Migration Tool, we have developed a DevOps tool and had not used EF code-first as our preference is to not bound it to EF at all. In the end, it is much easy to maintain and solves the complexities of our releases :)</p>
+<blockquote>
+<p>I've not yet found anything that can match this type of EF solved scenario that didn't require a crap ton of "work arounds" or "patching stuff together"</p>
+</blockquote>
+<p>Do not generalize this, EF does not even have Batch and Bulk operations, 2nd layer cache, Trace, etc. And if you tend to do that, it requires you a lot of works just to make it work with EF. Also, you are bound to the models at all, and you can't do anything on your model but just to use it on a specific table.</p>
+<blockquote>
+<p>My ideal ORM would allow me to do something like ...</p>
+</blockquote>
+<p>I am interested to collaborate and share. I am also an author of one micro-ORM named <a href="https://github.com/mikependon/RepoDb">RepoDb</a>. Can you have a look?</p>
+<p>It is a hybrid-ORM which will allow you to do the things of micro-ORMs and macro-ORMs. You will have a lot of benefits while using it, I can even explain and support on this.</p>
+<p>You may experience a different test as it has been baked differently.</p>
+                            </div>
+                            <div class="footer">
+                                <ul class="nav">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" href="#">
+                                                <g-emoji alias="+1" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f44d.png" class="emoji">👍</g-emoji> 2
+                                            </a>
+                                        </li>
                                 </ul>
                             </div>
                         </div>
