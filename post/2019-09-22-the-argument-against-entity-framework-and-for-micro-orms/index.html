@@ -762,9 +762,141 @@ This comes back to my Dapper point above, can Dapper really claim it's faster th
                                 <ul class="nav">
                                         <li class="nav-item">
                                             <a class="nav-link active" href="#">
-                                                <g-emoji alias="+1" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f44d.png" class="emoji">👍</g-emoji> 2
+                                                <g-emoji alias="+1" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f44d.png" class="emoji">👍</g-emoji> 4
                                             </a>
                                         </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comment">
+                        <div class="comment-user">
+                            <a href="https://github.com/TehWardy" target="_blank">
+                                <img src="https://avatars3.githubusercontent.com/u/6891030?v=4"/>
+                            </a>
+                        </div>
+                        <div class="comment-main">
+                            <div class="header">
+                                <a href="https://github.com/TehWardy" target="_blank" class="user">TehWardy</a> commented
+                                <a href="https://github.com/pauldotknopf/pauldotknopf.github.io/issues/12#issuecomment-599275975" target="_blank" class="time">
+                                    <relative-time datetime="2020-03-15T22:51:49.0000000&#x2B;00:00">
+                                        Mar 15, 2020
+                                    </relative-time>
+                                </a>&nbsp;
+                            </div>
+                            <div class="body">
+                                <p>It's refreshing to have people to talk to about this stuff ... most devs want to avoid this type of problem as it's a minefield of pain whatever path you go down it seems, the trick is picking which mines you step on with some level of "good guess work of the future".</p>
+<p><a class="user-mention" data-hovercard-type="user" data-hovercard-url="/users/mythz/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/mythz">@mythz</a></p>
+<p>I can see you clearly have some big issues with the M$ stack, mostly they are valid too if the stack is used as documented.<br>
+The way they document stuff is the "this should get you going" method, not the "this is probably how you should be using it" way ... the main reasoning there I guess is that they want as many people using the technology as possible which is true of any stack vendor.</p>
+<p>You seem to be under the impression that OData is ...</p>
+<ol>
+<li>Not type safe / lacking contract definition.</li>
+<li>Tightly bound to a db model.</li>
+<li>Specifically an M$ technology.</li>
+<li>Over-complicated for complexity's sake.</li>
+</ol>
+<p>To that I would say ...</p>
+<ol>
+<li>The OData standard specifically requires an API model definition.</li>
+<li>It doesn't have to be, that's a documentation issue.</li>
+<li>It's open source, managed and owned by not M$ ... but M$ do have 1,000's of endpoints that use it (their entire cloud platform that they spent billions on uses it for it's entire API model).</li>
+<li>That complexity caters for scenarios that from what I can tell are impossible in service stack without a lot of code or the loss of that type safety (as per our discussion on stackoverflow).</li>
+</ol>
+<p>I've noticed that OData is referenced with regards to the v3 spec and WCF, that version is basically dead, the v4 spec and version runs entirely on .Net Core 3.1 and is actually more complete than it's partner version of EF (the soruce of my frustration right now).</p>
+<p>Also what's this ...</p>
+<blockquote>
+<p>it was found wanting with the industry quickly moving to simpler RESTful JSON APIs built with CoC frameworks and libraries.</p>
+</blockquote>
+<p>... OData isn't dead, it IS restful and returns JSON by default and my entire point to you centered around my testing efforts on service stack are literally that CoC point (i have that already and don't want to give it up), service stack doesn't seem to do anything by convention it requires explicit definition literally everywhere.</p>
+<p>When I say "I should be able to tell it "I want my question asked in this business context" ... i'm not joking, I run a transactional platform and the context of a question is important ... I see a billion euros a week worth of invoice data through the system and users getting back the wrong rowset is not an option, that is by design a complex question nto because M$ said so but simply because it has to be.</p>
+<p>As for the "mis-appropriation of features" ... I don't use any of the extended features that didn't get ported to .Net core for that exact reason, I saw the headache coming and avoided it.<br>
+The one feature i'm struggling with is expansions when pulling entities from the DB with their children, other ORM's seem to be able to do this but it's pita by comparison and lacks flexibility.</p>
+<p>I've had DBA's hand crank queries to answer some of the simpler questions and the way EF handles some of the scenarios actually beats that (it's rare but it happens).<br>
+The most complex of the queries i've hit run a 1MB select query and it comes back in incredibly short times, that's how complex the questions are.</p>
+<p>That's a requirement imposed on me because of the nature of our DB not due to the framework imposing that, replacing EF with ORmLite or Dapper will not change that, it's been tested extensively.</p>
+                            </div>
+                            <div class="footer">
+                                <ul class="nav">
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comment">
+                        <div class="comment-user">
+                            <a href="https://github.com/TehWardy" target="_blank">
+                                <img src="https://avatars3.githubusercontent.com/u/6891030?v=4"/>
+                            </a>
+                        </div>
+                        <div class="comment-main">
+                            <div class="header">
+                                <a href="https://github.com/TehWardy" target="_blank" class="user">TehWardy</a> commented
+                                <a href="https://github.com/pauldotknopf/pauldotknopf.github.io/issues/12#issuecomment-599275982" target="_blank" class="time">
+                                    <relative-time datetime="2020-03-15T22:51:53.0000000&#x2B;00:00">
+                                        Mar 15, 2020
+                                    </relative-time>
+                                </a>&nbsp;
+                            </div>
+                            <div class="body">
+                                <p><a class="user-mention" data-hovercard-type="user" data-hovercard-url="/users/mikependon/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/mikependon">@mikependon</a></p>
+<p>Thanks for the feedback, I can totally see why people say what they say about EF, hell the grief I give M$ on occasion and the EF team is somewhat ridiculous at times because i'm trying to solve problems that simply shouldn't exist.</p>
+<p>I'll happily take a look at your ORM :)</p>
+<blockquote>
+<p>As of writing this, I do not have any idea of AutoQuery and I am not as deep at OData.</p>
+</blockquote>
+<p>Good place to start, I know here on the Service Stack side OData is seen as some sort of anti-pattern due to the way that M$ documents and recommends using it, I definitely don't use OData as documented so usually don't hit the down sides (like tight binding to the DB structure).<br>
+I actually get a lot of flack from the M$ dev teams about my abuse of their tech, but my implementations are cleaner, faster, and more secure than their documented examples.</p>
+<p>When discussing it here though, it pays to appreciate the complexity of questions that you can answer with the OData + EF stack WITHOUT having to specifically write any code at all beyond building the class that matches the table by default.</p>
+<p>With other stacks like shown here with service stack I've had some interesting conversations with <a class="user-mention" data-hovercard-type="user" data-hovercard-url="/users/mythz/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/mythz">@mythz</a> (sorry mate, I do like to ask the complex questions) on this area and the choice to jump  boils down to a few key points for me ...</p>
+<ol>
+<li>I should be able to implement what I want as a "base" and extend for specific cases where needed (and only where needed).</li>
+<li>I shouldn't have to handle every possible use case of my API explicitly (because my API is consumed in situations I don't have any visibility of).</li>
+<li>My clients build a solution using my framework so I can't "build the complete API they want" (meaning it needs to answer questions i haven't thought of)</li>
+<li>I can't hand crank blocks of SQL (nor do i have any interest in that / time to do so)</li>
+<li>It would be nice if it's free, (I can't test my code stack conversion to Service Stack without buying a licence which is frustrating).</li>
+</ol>
+<p><a class="user-mention" data-hovercard-type="user" data-hovercard-url="/users/mythz/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/mythz">@mythz</a>  I was going to ask you about point 5 actually ... I've converted a few thousand lines of code over to service stack but obvs because my model is more than 10 tables (or whatever the limit is) I can't test it, i'm actually seriously interested in at least spinning it up to see if that performance gain is really there (although I do have a query generation problem to solve) as ORMLite only solves some of the scenarios I have.</p>
+<p>Some points of discussion had on stackoverflow ...</p>
+<ul>
+<li><a href="https://stackoverflow.com/questions/60686237/servicestack-is-context-based-routing-specified-in-the-url-possible" rel="nofollow">https://stackoverflow.com/questions/60686237/servicestack-is-context-based-routing-specified-in-the-url-possible</a></li>
+<li><a href="https://stackoverflow.com/questions/60678495/understanding-the-request-lifecycle-and-routing-mechanism-in-service-stack" rel="nofollow">https://stackoverflow.com/questions/60678495/understanding-the-request-lifecycle-and-routing-mechanism-in-service-stack</a></li>
+</ul>
+<p>The key thing here is that as the technical lead on my own stack I should be able to pick the pieces that work for me (EF admittedly doesn't give me that, it's all of that half million lines or nothing - ish) ... but then having picked my pieces I should be able to build solutions around them as needed.</p>
+<p>When I talk about my ideal ORM, i currently don't think it exists but then i'm very picky.</p>
+<p>Key features I would like to see in an ORM which would make building my own API easy are ...</p>
+<ul>
+<li>CRUD without a model (so much like OrmLite here or Dapper the ability to just grab a connection and do stuff with T's on it)</li>
+<li>Query generation, from either some form of string source or an expression tree.</li>
+<li>T based Filters on the DB (which is why i don't want to get involved with the SQL construction).</li>
+<li>The ability to point the ORM at a context class which defines the model and generates migrations for me (EF does this bit incredibly well).</li>
+<li>No forced patterns or architecture design.</li>
+</ul>
+<p>That last point along side the lack of SQL generation from LINQ  is where I feel both Dapper and OrmLite fall short, but this is why I think they are sold as "micro-ORM's" at least in part, they deal with ONLY the problem of talking SQL to SQL servers.<br>
+That's not a bad thing as it keeps the framework light, but maybe what's missing here is a LINQ to Sql abstraction (like the one in EF) but not tied to any ORM, one that's pluggable so consumers can override certain behaviour (probably on a tpye by type basis).</p>
+<p>consider this sort of query example ...</p>
+<div class="highlight highlight-source-cs"><pre><span class="pl-c"><span class="pl-c">//</span> build the query</span>
+<span class="pl-k">var</span> <span class="pl-smi">query</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Query</span>&lt;<span class="pl-en">T</span>&gt;()
+    .<span class="pl-en">Where</span>(...)
+    .<span class="pl-en">Where</span>(...)
+    .<span class="pl-en">Select</span>(...)
+       .<span class="pl-en">Expand</span>(...)
+             .<span class="pl-en">ThenExpand</span>(...)
+    .<span class="pl-en">GroupBy</span>(...)
+    .<span class="pl-en">OrderBy</span>(...)
+    .<span class="pl-en">ToSql</span>();
+
+<span class="pl-c"><span class="pl-c">//</span> then with Dapper I could do ...</span>
+<span class="pl-k">var</span> <span class="pl-smi">results</span> <span class="pl-k">=</span> <span class="pl-smi">connection</span>.<span class="pl-en">Query</span>&lt;<span class="pl-en">ResultType</span>&gt;(<span class="pl-smi">query</span>).<span class="pl-en">ToList</span>();</pre></div>
+<p>... the key thing to note about this example is that I'm mapping questions presented as OData parameters in to this framework basically allowing the User to build the query they want the API to run, but not only that, the base set is filtered by a preconfigured filter for T based on the users access to rows in the DB, then when they expand in to the subsets those also have a filter applied to them, all of this is automatically injected in to the query.</p>
+<p>Now I can see the response here ... "yeh you can do all that with x-ORM" ... you're right, I can ... but I don't want to hand crank all that functionality, EF already handles it for me, the only issue is that I have to take all of EF to get it.</p>
+<p>If I could take the query building, as a feature and plug that in to any ORM then I'm free to choose to use OData on top of that if I so please.<br>
+If I take service stack I can't do this, I have to pre-think of all the possible queries the user might want to ask and build them in to my API layer providing a pairing of at least 1 DTO + a service method for each possible question.</p>
+<p>For CRUD on a single OData endpoint I only require a single generic controller, with a filter on the DB table (a one of linq expression, and one liner) I can filter the table for any user that logs in by applying my own "app role logic or whatever" to the table and i'm done.</p>
+<p>Assuming I follow a convention I would then have 1 controller / service and one context class representing my DB then the simple POCO that represents the table (all things I have with service stack) ... the key difference with the OData + Ef stack is that if I want a new endpoint I simply add a new POCO and i'm done, full CRUD implemented "by convention".</p>
+<p>is this slower than a handcranked query for each CRUD operation on every possible endpoint query ... yup, do I care that it costs a few extra CPU cycles ... nope, servers are cheap to rent, cloud solutions architects and the dev teams to maintain complex codebases aren't.</p>
+                            </div>
+                            <div class="footer">
+                                <ul class="nav">
                                 </ul>
                             </div>
                         </div>
