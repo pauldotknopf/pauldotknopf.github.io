@@ -762,7 +762,7 @@ This comes back to my Dapper point above, can Dapper really claim it's faster th
                                 <ul class="nav">
                                         <li class="nav-item">
                                             <a class="nav-link active" href="#">
-                                                <g-emoji alias="+1" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f44d.png" class="emoji">👍</g-emoji> 4
+                                                <g-emoji alias="+1" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f44d.png" class="emoji">👍</g-emoji> 3
                                             </a>
                                         </li>
                                 </ul>
@@ -897,6 +897,492 @@ If I take service stack I can't do this, I have to pre-think of all the possible
                             </div>
                             <div class="footer">
                                 <ul class="nav">
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comment">
+                        <div class="comment-user">
+                            <a href="https://github.com/mythz" target="_blank">
+                                <img src="https://avatars1.githubusercontent.com/u/89361?v=4"/>
+                            </a>
+                        </div>
+                        <div class="comment-main">
+                            <div class="header">
+                                <a href="https://github.com/mythz" target="_blank" class="user">mythz</a> commented
+                                <a href="https://github.com/pauldotknopf/pauldotknopf.github.io/issues/12#issuecomment-599373526" target="_blank" class="time">
+                                    <relative-time datetime="2020-03-16T06:55:47.0000000&#x2B;00:00">
+                                        Mar 16, 2020
+                                    </relative-time>
+                                </a>&nbsp;
+                            </div>
+                            <div class="body">
+                                <p><a class="user-mention" data-hovercard-type="user" data-hovercard-url="/users/TehWardy/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/TehWardy">@TehWardy</a></p>
+<p>Your long rant is basically a list of opinions presented as assertions without substance or concrete examples backing them up. You're under the assumption OData is a necessary complexity full of must have features (that other solutions must be dying to implement) and is the reason why it must be more bloated than everything else, and that somehow by releasing libraries as "throw over the wall OSS" is somehow an indication that MS aren't the only ones fully invested, sponsoring and controlling its implementation, like because its labelled OSS there's no difference between a thriving industry adopted standard and solution like GraphQL which is available in most languages/platforms implemented by different authors vs a corporate sponsored solution like OData, which no-one outside MS's PR bubble cares for.</p>
+<p>So I'm going to ignore your opinions of OData as you seem to think it's some kind of holy grail technology that's setting some kind of API Design or software development ambition with features that everyone's dying to copy (instead of them being irrelevant and ignored). I'm assuming your beliefs could only have been formed by having no experience in different languages or OSS platforms &amp; communities where OData has no dev mindshare and zero consideration in modern technology stacks, but sure feel free to keep believing it has a thriving future and your future-proofed systems are just ahead of the curve.</p>
+<p>But I will address your inaccurate statements about ServiceStack:</p>
+<blockquote>
+<p>service stack doesn't seem to do anything by convention it requires explicit definition literally everywhere.</p>
+</blockquote>
+<p>AutoQuery literally provides the implementation for you, by convention. This is literally the most CoC you can get, you describe what your Service should support and AutoQuery provides the implementation for it. I find it hard to correlate that you spent anytime looking at AutoQuery since the introductory section shows the minimum code for an AutoQuery Service:</p>
+<blockquote>
+<p>the minimum code required is to just declare a new Request DTO with the table you wish to query:</p>
+</blockquote>
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">FindMovies</span> : <span class="pl-en">QueryDb</span>&lt;<span class="pl-en">Movie</span>&gt; {}</pre></div>
+<p>Which can then be queried with all the implicit query conventions that explicit contracts can.</p>
+<p>AutoQuery doesn't support not having to define your Service Contract since that's not how APIs should be implemented. You shouldn't be using a Typed language if you don't believe in type-safety benefits, with the most important place of all to have them is on your explicit Service Boundary, but if you're allergic to Types we actually have a solution where you can <a href="https://sharpscript.net/docs/sharp-apis" rel="nofollow">develop .NET APIs without C#</a> with little more boilerplate than the SQL you want executed, which also supports being consumed from <a href="https://sharpscript.net/docs/sharp-apis#user-content-_userapi-page" rel="nofollow">multiple serialization formats</a>, and you don't even need to define your routes as you can use folder &amp; file name conventions. It's a good choice for rapidly develop data APIs for one-off tasks or internal solutions but as they're <a href="https://sharpscript.net/docs/sharp-apis#untyped-apis" rel="nofollow">untyped they're not included in API metadata services</a> or ServiceStack ecosystem of features so we don't recommend encapsulating access to your System behind Untyped APIs like this.</p>
+<p>You're basically complaining about having to specify the definition that your Service Contract should have, i.e. having to follow the API best practice of defining a clear service boundary that your API consumers bind to - the <a href="https://docs.servicestack.net/why-remote-services-use-dtos" rel="nofollow">most important contract your system has</a>, that external clients (with different technologies, dev teams, deployment schedules, etc) bind to, whom should be shielded from your Systems internal refactorings and internal schema changes. Service Contracts describes the known features your API has to support should it ever need to change, e.g. if it ever had to add caching, sourced from multiple data sources or from different tables, e.g. when tables are denormalized or if your system starts using CQRS and data needs to be fetched from different read models.</p>
+<p>Without an explicit Service Contract it's infeasible to be able to cater to be able to reimplement Services to support this, all you're doing is exposing an API endpoint to an OData binary blob that process opaque OData queries, which isn't any better than handing out a read-only DB connection to your RDBMS, as soon as you have clients binded to your APIs your Systems become frozen forever stuck with having to use OData and your System tables become inhibited to change. If you ever abandon OData like Netflix have, you're abandoning your Customers and all the effort and resources they put into building integrations with your system.</p>
+<blockquote>
+<p>That last point along side the lack of SQL generation from LINQ is where I feel both Dapper and OrmLite fall short, but this is why I think they are sold as "micro-ORM's" at least in part, they deal with ONLY the problem of talking SQL to SQL servers.</p>
+</blockquote>
+<p>I don't understand your points about OrmLite falling short by not having a Query Builder sourced from SQL and Expression Trees, when its primary query API is using a typed query builder which generates it SQL from Expression trees, inc. support for custom SQL Fragments if you need to enlist specific RDBMS features. Your example of being able to use the SQL Builder to generate SQL that you can use in a different ORM is literally listed in <a href="https://github.com/ServiceStack/ServiceStack.OrmLite#selecting-multiple-columns-across-joined-tables">OrmLite docs</a></p>
+<blockquote>
+<p>Thanks to Micro ORM's lightweight abstractions over ADO.NET that maps to clean POCOs, we can also use OrmLite's embedded version of Dapper's QueryMultiple:</p>
+</blockquote>
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">var</span> <span class="pl-smi">q</span> <span class="pl-k">=</span> <span class="pl-smi">db</span>.<span class="pl-en">From</span>&lt;<span class="pl-en">Customer</span>&gt;()
+    .<span class="pl-en">Join</span>&lt;<span class="pl-en">Customer</span>, <span class="pl-en">CustomerAddress</span>&gt;()
+    .<span class="pl-en">Join</span>&lt;<span class="pl-en">Customer</span>, <span class="pl-en">Order</span>&gt;()
+    .<span class="pl-en">Select</span>(<span class="pl-s"><span class="pl-pds">"</span>*<span class="pl-pds">"</span></span>);
+
+<span class="pl-k">using</span> (<span class="pl-en">var</span> <span class="pl-en">multi</span> <span class="pl-k">=</span> <span class="pl-en">db</span>.<span class="pl-en">QueryMultiple</span>(<span class="pl-en">q</span>.<span class="pl-en">ToSelectStatement</span>()))
+{
+    <span class="pl-en">var</span> <span class="pl-en">results</span> <span class="pl-k">=</span> <span class="pl-en">multi</span>.<span class="pl-en">Read</span>&lt;<span class="pl-en">Customer</span>, <span class="pl-en">CustomerAddress</span>, <span class="pl-en">Order</span>, 
+        <span class="pl-en">Tuple</span>&lt;<span class="pl-en">Customer</span>,<span class="pl-en">CustomerAddress</span>,<span class="pl-en">Order</span>&gt;&gt;(<span class="pl-en">Tuple</span>.<span class="pl-en">Create</span>).<span class="pl-en">ToList</span>();
+
+    <span class="pl-k">foreach</span> (<span class="pl-k">var</span> <span class="pl-smi">tuple</span> <span class="pl-k">in</span> <span class="pl-smi">results</span>)
+    {
+        <span class="pl-en">Customer</span> <span class="pl-smi">customer</span> <span class="pl-k">=</span> <span class="pl-smi">tuple</span>.<span class="pl-smi">Item1</span>;
+        <span class="pl-en">CustomerAddress</span> <span class="pl-smi">custAddress</span> <span class="pl-k">=</span> <span class="pl-smi">tuple</span>.<span class="pl-smi">Item2</span>;
+        <span class="pl-en">Order</span> <span class="pl-smi">custOrder</span> <span class="pl-k">=</span> <span class="pl-smi">tuple</span>.<span class="pl-smi">Item3</span>;
+    }
+}</pre></div>
+<p>The equivalent API for selecting multiple tables from a single query in OrmLite looks like:</p>
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">var</span> <span class="pl-smi">q</span> <span class="pl-k">=</span> <span class="pl-smi">db</span>.<span class="pl-en">From</span>&lt;<span class="pl-en">Customer</span>&gt;()
+    .<span class="pl-en">Join</span>&lt;<span class="pl-en">Customer</span>, <span class="pl-en">CustomerAddress</span>&gt;()
+    .<span class="pl-en">Join</span>&lt;<span class="pl-en">Customer</span>, <span class="pl-en">Order</span>&gt;()
+    .<span class="pl-en">Where</span>(<span class="pl-smi">x</span> <span class="pl-k">=&gt;</span> <span class="pl-smi">x</span>.<span class="pl-smi">CreatedDate</span> <span class="pl-k">&gt;=</span> <span class="pl-k">new</span> <span class="pl-en">DateTime</span>(<span class="pl-c1">2016</span>,<span class="pl-c1">01</span>,<span class="pl-c1">01</span>))
+    .<span class="pl-en">And</span>&lt;<span class="pl-en">CustomerAddress</span>&gt;(<span class="pl-smi">x</span> <span class="pl-k">=&gt;</span> <span class="pl-smi">x</span>.<span class="pl-smi">Country</span> <span class="pl-k">==</span> <span class="pl-s"><span class="pl-pds">"</span>Australia<span class="pl-pds">"</span></span>);
+
+<span class="pl-k">var</span> <span class="pl-smi">results</span> <span class="pl-k">=</span> <span class="pl-smi">db</span>.<span class="pl-en">SelectMulti</span>&lt;<span class="pl-en">Customer</span>, <span class="pl-en">CustomerAddress</span>, <span class="pl-en">Order</span>&gt;(<span class="pl-smi">q</span>);
+
+<span class="pl-k">foreach</span> (<span class="pl-k">var</span> <span class="pl-smi">tuple</span> <span class="pl-k">in</span> <span class="pl-smi">results</span>)
+{
+    <span class="pl-en">Customer</span> <span class="pl-smi">customer</span> <span class="pl-k">=</span> <span class="pl-smi">tuple</span>.<span class="pl-smi">Item1</span>;
+    <span class="pl-en">CustomerAddress</span> <span class="pl-smi">custAddress</span> <span class="pl-k">=</span> <span class="pl-smi">tuple</span>.<span class="pl-smi">Item2</span>;
+    <span class="pl-en">Order</span> <span class="pl-smi">custOrder</span> <span class="pl-k">=</span> <span class="pl-smi">tuple</span>.<span class="pl-smi">Item3</span>;
+}</pre></div>
+<p>I hope you realize you can't just have a generic SQL Builder that generates SQL for all queries that works with all ORMs and across all RDBMS's like your proposing in your Example right? There are subtle differences between each RDBMS which needs to be abstracted so that it generates the right SQL for each specific RDBMS Dialect. There's also differences between RDBMS versions in what features it supports which you have to account for (i.e. some of the value Typed ORMs provide). So when you call <code>db.From&lt;T&gt;()</code> you're getting back a Typed Expression Builder tied to an RDBMS Dialect. Each ORM also handles how they map from RDBMS result-sets to .NET Models differently so you're not going to be able to even share POCO models when you start making use of ORM specific features, e.g. All complex Types in OrmLite that aren't <a href="https://github.com/ServiceStack/ServiceStack.OrmLite#reference-support-poco-style">marked as POCO References</a> are blobbed using a <a href="https://github.com/ServiceStack/ServiceStack.OrmLite#pluggable-complex-type-serializers">pluggable Complex Type Serializer</a> that can be configured per RDBMS Provider, I don't know of another ORM which supports that which is going to inhibit Model reuse.</p>
+<p>So it doesn't sound like your utopia of mixing ORMs data models and their typed SQL builders is going to come to pass, but if you're just after a SQL Query Builder than you may want to checkout <a href="https://github.com/sqlkata/querybuilder">SqlKata</a>.</p>
+<p>But if you want to keep using OData then you should only be considering EF, no-one in .NET outside MS is going to be wasting their efforts trying to support it. You're going to forever use whatever MS provides, who are the only ones investing any resources and effort advancing OData.</p>
+                            </div>
+                            <div class="footer">
+                                <ul class="nav">
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comment">
+                        <div class="comment-user">
+                            <a href="https://github.com/TehWardy" target="_blank">
+                                <img src="https://avatars3.githubusercontent.com/u/6891030?v=4"/>
+                            </a>
+                        </div>
+                        <div class="comment-main">
+                            <div class="header">
+                                <a href="https://github.com/TehWardy" target="_blank" class="user">TehWardy</a> commented
+                                <a href="https://github.com/pauldotknopf/pauldotknopf.github.io/issues/12#issuecomment-599439921" target="_blank" class="time">
+                                    <relative-time datetime="2020-03-16T09:47:04.0000000&#x2B;00:00">
+                                        Mar 16, 2020
+                                    </relative-time>
+                                </a>&nbsp;
+                            </div>
+                            <div class="body">
+                                <p><a class="user-mention" data-hovercard-type="user" data-hovercard-url="/users/mythz/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/mythz">@mythz</a>  i'm not ranting, sorry if you feel that way ... I thought this was a friendly discussion.</p>
+<p>I'd also like to point out that i'm about 80% of the way through making the code work with Service Stack but i'm currently stuck on a few things (understanding this AutoQuery behaviour is actually one of them, so thanks for that). In addition to that i'm constantly sharing the information you give me internally to get further feedback from my team.</p>
+<p>I'm not adverse to dropping the M$ stack entirely (again why i'm here), I just need to prove to the business that I can deliver the problem domain under the new stack without too much fallout and in a timely AND cost effective fashion (OData + EF is free after all which means something to a small business like us).</p>
+<p>The fact that i'm using OData here is not out of some misguided loyalty to it or M$ it's more that it presents certain complex challenges to ORM solutions so acts as a good example of showing the worst cases that an ORM may need to face.<br>
+OData and GraphQL have a lot of common features in their design ethos and yet you don't seem as adverse to GraphQL.</p>
+<p>Sure the M$ implementation of OData is horrendously bad in places but to conflate the implementation with the standard (which is what OData is) is out right wrong.<br>
+As you say i'm just throwing assertions around and not backing them up lets take <a class="user-mention" data-hovercard-type="user" data-hovercard-url="/users/pauldotknopf/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/pauldotknopf">@pauldotknopf</a> 's blog post from earlier, in the first part of the article he straight up begins with a bunch of incorrect assertions without backing them up ...</p>
+<blockquote>
+<p>There is virtually no contract. A service consumer has no idea how to use the service (for example, what are valid Command arguments, encoding expectations, and so on).</p>
+</blockquote>
+<p>... it's wrong because they actively push the use of metadata based descriptions for the entire model that you're exposing and even go as far as defining the definition of that metadatas schema ...<br>
+<a href="http://docs.oasis-open.org/odata/odata/v4.0/odata-v4.0-part3-csdl.html" rel="nofollow">http://docs.oasis-open.org/odata/odata/v4.0/odata-v4.0-part3-csdl.html</a></p>
+<blockquote>
+<p>The interface errs on the side of being too liberal in what it will accept.</p>
+</blockquote>
+<p>... that's just an assertion, the very thing you're accusing me of.</p>
+<blockquote>
+<p>The contract does not provide enough information to consumers on how to use the service. If a consumer must read something other than the service’s signature to understand how to use the service, the factoring of the service should be reviewed.</p>
+</blockquote>
+<p>OData is repeatedly comprared to WCF SOAP Services for some reason by both you and <a class="user-mention" data-hovercard-type="user" data-hovercard-url="/users/pauldotknopf/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/pauldotknopf">@pauldotknopf</a> in his article (which I find odd as they have literally nothing in common) EXCEPT ... SOAP had a WSDL description, you could use the tools to generate your client code.<br>
+OData doesn't require tools, it has an XML based description, as stated above the schema for that is well documented and anything that can read XML can understand OData schemas and thus consume with strong typing the service.</p>
+<p>I go a step further and expose metadata relevant to each endpoint on the endpoint itself to avoid the caller having to rely on a large blob of meta for which they want a small portion (IMO this should be the standard).</p>
+<p>I could go on but my "opinions" (however documented and fact based they may be) regarding OData aren't wanted here.</p>
+<p>Again .. The reason I pointed at OData was that it generates complex "real world questions" I have to build an API to answer.</p>
+<p>Your examples are interesting and do solve the problem in the event that I handle the question or use AutoQuery to do this for me ... can AutoQuery do this with my own business logic in the middle something like this (taking the OrmLite example) ...</p>
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">var</span> <span class="pl-smi">q</span> <span class="pl-k">=</span> <span class="pl-smi">db</span>.<span class="pl-en">From</span>&lt;<span class="pl-en">Customer</span>&gt;()
+        .<span class="pl-en">Where</span>(...)
+    .<span class="pl-en">Join</span>&lt;<span class="pl-en">Customer</span>, <span class="pl-en">CustomerAddress</span>&gt;()
+        .<span class="pl-en">Where</span>(...)
+    .<span class="pl-en">Join</span>&lt;<span class="pl-en">Customer</span>, <span class="pl-en">Order</span>&gt;()
+         .<span class="pl-en">Where</span>(...)
+    .<span class="pl-en">Where</span>(<span class="pl-smi">x</span> <span class="pl-k">=&gt;</span> <span class="pl-smi">x</span>.<span class="pl-smi">CreatedDate</span> <span class="pl-k">&gt;=</span> <span class="pl-k">new</span> <span class="pl-en">DateTime</span>(<span class="pl-c1">2016</span>,<span class="pl-c1">01</span>,<span class="pl-c1">01</span>))
+    .<span class="pl-en">And</span>&lt;<span class="pl-en">CustomerAddress</span>&gt;(<span class="pl-smi">x</span> <span class="pl-k">=&gt;</span> <span class="pl-smi">x</span>.<span class="pl-smi">Country</span> <span class="pl-k">==</span> <span class="pl-s"><span class="pl-pds">"</span>Australia<span class="pl-pds">"</span></span>);
+
+<span class="pl-k">var</span> <span class="pl-smi">results</span> <span class="pl-k">=</span> <span class="pl-smi">db</span>.<span class="pl-en">SelectMulti</span>&lt;<span class="pl-en">Customer</span>, <span class="pl-en">CustomerAddress</span>, <span class="pl-en">Order</span>&gt;(<span class="pl-smi">q</span>);
+
+<span class="pl-k">foreach</span> (<span class="pl-k">var</span> <span class="pl-smi">tuple</span> <span class="pl-k">in</span> <span class="pl-smi">results</span>)
+{
+    <span class="pl-en">Customer</span> <span class="pl-smi">customer</span> <span class="pl-k">=</span> <span class="pl-smi">tuple</span>.<span class="pl-smi">Item1</span>;
+    <span class="pl-en">CustomerAddress</span> <span class="pl-smi">custAddress</span> <span class="pl-k">=</span> <span class="pl-smi">tuple</span>.<span class="pl-smi">Item2</span>;
+    <span class="pl-en">Order</span> <span class="pl-smi">custOrder</span> <span class="pl-k">=</span> <span class="pl-smi">tuple</span>.<span class="pl-smi">Item3</span>;
+}</pre></div>
+<p>... if I understand this correctly this is the equivilent of a query that returns an expanded subset of properties too.</p>
+<ul>
+<li>Does this support filtered joins "in this manner"?</li>
+<li>Can I configure AutoQuery / ORMLite to apply the nested Where clauses ANY time a table of that type is used anywhere in any query?</li>
+</ul>
+<p>Essentially the reasoning here is that from the users information in the request (like an auth token for example), I have to filter the db down to the stuff they can see in every table then execute my question on what's left (standard multi-tenancy issue basically).</p>
+<p>From there the logic is only as complex as the user question asked which it sounds like AutoQuery might be able to limit to a problem domain that's already coded for which is perfect!</p>
+                            </div>
+                            <div class="footer">
+                                <ul class="nav">
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comment">
+                        <div class="comment-user">
+                            <a href="https://github.com/pauldotknopf" target="_blank">
+                                <img src="https://avatars1.githubusercontent.com/u/523150?v=4"/>
+                            </a>
+                        </div>
+                        <div class="comment-main">
+                            <div class="header">
+                                <a href="https://github.com/pauldotknopf" target="_blank" class="user">pauldotknopf</a> commented
+                                <a href="https://github.com/pauldotknopf/pauldotknopf.github.io/issues/12#issuecomment-599517294" target="_blank" class="time">
+                                    <relative-time datetime="2020-03-16T12:48:20.0000000&#x2B;00:00">
+                                        Mar 16, 2020
+                                    </relative-time>
+                                </a>&nbsp;
+                            </div>
+                            <div class="body">
+                                <p><a class="user-mention" data-hovercard-type="user" data-hovercard-url="/users/TehWardy/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/TehWardy">@TehWardy</a> quick question, since you are considering AutoQuery, I take it that the OData solution isn't deployed yet? You are still in the research phase? Is this a new solution?</p>
+                            </div>
+                            <div class="footer">
+                                <ul class="nav">
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comment">
+                        <div class="comment-user">
+                            <a href="https://github.com/mythz" target="_blank">
+                                <img src="https://avatars1.githubusercontent.com/u/89361?v=4"/>
+                            </a>
+                        </div>
+                        <div class="comment-main">
+                            <div class="header">
+                                <a href="https://github.com/mythz" target="_blank" class="user">mythz</a> commented
+                                <a href="https://github.com/pauldotknopf/pauldotknopf.github.io/issues/12#issuecomment-599523648" target="_blank" class="time">
+                                    <relative-time datetime="2020-03-16T13:02:14.0000000&#x2B;00:00">
+                                        Mar 16, 2020
+                                    </relative-time>
+                                </a>&nbsp;(edited)
+                            </div>
+                            <div class="body">
+                                <p>OData is lumped together with WCF SOAP because it's from the organization that's continually dumping bloated over-architected solutions onto .NET Devs only to replace them as they fall out of favor as they've done with their numerous earlier Web Services, Web and ADO.NET Data provider frameworks.</p>
+<p>The only typed client libraries that's going to consume OData endpoints are OData clients, which inversely can only be used to consume OData endpoints. They're 2 blobs of complexity on either side talking to each other using a complicated standard they made up (that no-one else is using).</p>
+<p>Contrast with AutoQuery which are just regular Web Services which can be easily consumed by any HTTP Client or with a Typed API by any of ServiceStack's generic Service Clients in any language since it's just accepting / returning clean POCO DTOs that are de/serialized with the clients chosen serialization format.</p>
+<p>It's hard to express just how ugly and unnecessarily complicated WSDL's and XML generated typed proxies are vs ServiceStack's zero-effort / no need to code-gen any types or clients since you can use your Services clean POCO DTOs it was defined with, or if you don't want to share .NET Types, use <a href="https://docs.servicestack.net/add-servicestack-reference" rel="nofollow">Add ServiceStack Reference</a> to generate a mirror of the server DTOs on the client in their supported language. In addition to being simpler, cleaner &amp; faster it's also much more versatile since we're also able to include richer markup like .NET Interfaces and Attributes in client DTOs which allows for even richer models than trying to adhere to some complicated language-agnostic/common-denominator standard they've invented to achieve the same purpose.</p>
+<p>You want to differentiate them, but OData's standard and their implementations are cut from the same cloth, they're made for each other by the same organization pushing both. In contrast to their slogan, no-one's reading the standard thinking "wow that nested alien URL structure really is the Best Way to REST!" Anyone who really cares about APIs are using the ideal, semantically correct <a href="https://en.wikipedia.org/wiki/Clean_URL" rel="nofollow">Clean URL structures</a> which are going to be technology-agnostic in that you're not going to be able to tell what technology was used to implement the API, so when scaling or evolving their system where the underlying technology (or even language) used changes they wont have to break their existing client ecosystem because they're already using the ideal API they wish to provide. You can refer to <a href="https://developer.github.com/v3/">GitHub API Docs</a> for a great example of HTTP API Design.</p>
+<p>By contrast you can tell when an API is implemented by OData by its uniquely ugly URL which will forever need to be implemented by OData.</p>
+<h3>Presenting UberData!</h3>
+<p>Anyway I digress, since you're a fan of low-effort data APIs with implicit untyped service contracts you might like this quick script I've just added to the rockwind demo in <a href="https://github.com/sharp-apps/rockwind/commit/de7770c8a0136f63152bcb27e42821544dc623bf">this commit</a>:</p>
+<h3><a href="https://github.com/ServiceStack/mix/blob/master/apps/rockwind/uberdata/_table.html">uberdata/_table.html</a></h3>
+<pre><code>```code
+`SELECT * FROM ${table}` |&gt; to =&gt; sql
+[] |&gt; to =&gt; filters
+'format,orderby,limit,offset'.split(',') |&gt; to =&gt; ignore
+#each qs.Keys where !ignore.contains(it.lower())
+    `${it} = @${it}` |&gt; addTo =&gt; filters
+/each
+#if !isEmpty(filters)
+`${sql} WHERE ${join(filters, ' AND ')}` |&gt; to =&gt; sql
+/if
+#if qs.orderBy &amp;&amp; !qs.orderBy.isUnsafeSqlFragment()
+    `${sql} ORDER BY ${qs.orderBy}` |&gt; to =&gt; sql
+/if
+#if qs.limit
+    `${sql} LIMIT ${qs.limit.toInt()}` |&gt; to =&gt; sql
+/if
+#if qs.offset
+    `${sql} OFFSET ${qs.offset.toInt()}` |&gt; to =&gt; sql
+/if
+sql |&gt; dbSelect(queryDictionary) |&gt; return
+```
+{{htmlError}}
+</code></pre>
+<p>I'm calling this script <strong>uberdata</strong> because it provides low-effort, flexible untyped data access to your RDBMS tables which anti-types-ers should love.</p>
+<p>Which you can drop this in your <a href="https://sharpscript.net/docs/sharp-pages" rel="nofollow">ServiceStack App configured with SharpPagesFeature</a> <code>#Script</code> plugin which will let you query any of your tables, querying any of your columns, including support for paging and custom ORDER BY's and supports returning results in any of your registered Content Type Formats.</p>
+<blockquote>
+<p>Note: this solution is completely free &amp; unrestricted as it doesn't use any typed OrmLite models, it's not a ServiceStack Service and all of <code>#Script</code> is completely free &amp; unrestricted to use.</p>
+</blockquote>
+<h4>Gist Desktop App</h4>
+<p>You can run &amp; play around with this App locally as it's published as a <a href="https://sharpscript.net/docs/gist-desktop-apps" rel="nofollow">Gist Desktop App</a> which you can run with our <a href="https://docs.servicestack.net/netcore-windows-desktop" rel="nofollow">app dotnet tool</a>:</p>
+<pre><code>$ dotnet tool -g app
+</code></pre>
+<p>Then run the Gist Desktop App with:</p>
+<pre><code>$ app open rockwind
+</code></pre>
+<p>Where it will download the Gist and run it in the app's local Chromium Desktop Browser.</p>
+<h4>Local Sharp App</h4>
+<p>Or if you want you can download <a href="https://github.com/sharp-apps/rockwind">sharp-apps/rockwind</a> and launch it with:</p>
+<pre><code>$ app
+</code></pre>
+<p>Where you'll be able to make changes in real-time and get instant feedback while the app's running.</p>
+<h4>Deployed Gist Desktop App</h4>
+<p>This Gist App is also <a href="https://sharpscript.net/docs/deploying-sharp-apps" rel="nofollow">deployed as a .NET Core App</a> so you'll also be able to try it out at <a href="http://rockwind-sqlite.web-app.io" rel="nofollow">rockwind-sqlite.web-app.io</a>:</p>
+<p>So you can use it to query any of your RDBMS tables using the nice page-routing based API, e.g:</p>
+<ul>
+<li><a href="http://rockwind-sqlite.web-app.io/uberdata/customer" rel="nofollow">/uberdata/customer</a></li>
+<li><a href="http://rockwind-sqlite.web-app.io/uberdata/employee" rel="nofollow">/uberdata/employee</a></li>
+<li><a href="http://rockwind-sqlite.web-app.io/uberdata/product" rel="nofollow">/uberdata/product</a></li>
+<li><a href="http://rockwind-sqlite.web-app.io/uberdata/category" rel="nofollow">/uberdata/category</a></li>
+</ul>
+<p>It's available in all registered formats, if viewed from a browser it will return the <a href="https://docs.servicestack.net/html5reportformat" rel="nofollow">Auto HTML5 Report Format</a>, you can use the <code>?format</code> queryString to specify the content type you want it in, e.g:</p>
+<ul>
+<li><a href="http://rockwind-sqlite.web-app.io/uberdata/customer?format=json" rel="nofollow">/uberdata/customer?format=json</a></li>
+<li><a href="http://rockwind-sqlite.web-app.io/uberdata/customer?format=csv" rel="nofollow">/uberdata/customer?format=csv</a></li>
+</ul>
+<p>CSV is particularly nice because you can save it in a <code>.csv</code> file and open up directly in a spreadsheet.</p>
+<p>Or if JSON is the one true format you <a href="https://sharpscript.net/docs/sharp-apis#user-content-hello-api-page" rel="nofollow">force it to always return a specific Content-Type</a> with:</p>
+<pre><code>|&gt; return({ format: 'json' })
+</code></pre>
+<p>It uses parameterized SQL it's safe from SQL injection (The free-text <code>?orderBy</code> is also validated) so you can safely query any of your columns:</p>
+<ul>
+<li><a href="http://rockwind-sqlite.web-app.io/uberdata/customer?country=Germany" rel="nofollow">/uberdata/customer?country=Germany</a></li>
+<li><a href="http://rockwind-sqlite.web-app.io/uberdata/product?categoryId=1" rel="nofollow">/uberdata/product?categoryId=1</a></li>
+</ul>
+<p>Including Paging &amp; Order By:</p>
+<ul>
+<li><a href="http://rockwind-sqlite.web-app.io/uberdata/customer?country=Germany&amp;offset=5&amp;limit=5&amp;orderBy=CompanyName" rel="nofollow">/uberdata/customer?country=Germany&amp;offset=5&amp;limit=5&amp;orderBy=CompanyName</a></li>
+</ul>
+<p>So it's a pretty flexible "uberdata" API, a nice quality about it is because it uses a clean, technology-agnostic URL and queryString API and returns a flat tabular data structure, it can later be easily re-implemented by a typed Service when you know which features you want to allow consumers to query and want to formalize it in a typed Service Contract.</p>
+<h4>bye uberdata :(</h4>
+<p>Moving back to AutoQuery, yes you can define the AutoQuery Service with joins, where it's joined using an <a href="https://github.com/ServiceStack/ServiceStack.OrmLite#typed-sqlexpression-support-for-joins">implicit JOIN Reference</a>, e.g:</p>
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">class</span> <span class="pl-en">QueryJoinedCustomers</span> : <span class="pl-en">QueryDb</span>&lt;<span class="pl-en">Customer</span>&gt;,
+    <span class="pl-en">IJoin</span>&lt;<span class="pl-en">Customer</span>,<span class="pl-en">CustomerAddress</span>&gt;, <span class="pl-en">IJoin</span>&lt;<span class="pl-en">Customer</span>,<span class="pl-en">Order</span>&gt;
+{
+    <span class="pl-c"><span class="pl-c">//</span>.. Typed Property Queries you want to allow</span>
+}</pre></div>
+<p>Then you can further augment the query in a <a href="https://docs.servicestack.net/autoquery-rdbms#custom-autoquery-implementations" rel="nofollow">custom AutoQuery implementation</a> but<br>
+AutoQuery Services are expected to return a single Tabular result, so you'd normally return a single flat POCO with all fields from all tables you want returned, e.g. <code>QueryDb&lt;Customer,CustomerJoinResult&gt;</code>.</p>
+<p>But as you're going to use your custom API to execute the query you should also be able to return a nested result like:</p>
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">CustomerJoinResult</span>
+{
+    <span class="pl-k">public</span> <span class="pl-en">Customer</span> <span class="pl-smi">Customer</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+    <span class="pl-k">public</span> <span class="pl-en">Address</span> <span class="pl-smi">Address</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+    <span class="pl-k">public</span> <span class="pl-en">Order</span> <span class="pl-smi">Order</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+}</pre></div>
+<p>Where your custom implementation would look something like:</p>
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">MyQueryServices</span> : <span class="pl-en">Service</span>
+{
+    <span class="pl-k">public</span> <span class="pl-en">IAutoQueryDb</span> <span class="pl-smi">AutoQuery</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+
+    <span class="pl-c"><span class="pl-c">//</span>Override with custom implementation</span>
+    <span class="pl-k">public</span> <span class="pl-k">object</span> <span class="pl-en">Any</span>(<span class="pl-en">QueryJoinedCustomers</span> <span class="pl-smi">query</span>)
+    {
+        <span class="pl-k">var</span> <span class="pl-smi">q</span> <span class="pl-k">=</span> <span class="pl-smi">AutoQuery</span>.<span class="pl-en">CreateQuery</span>(<span class="pl-smi">query</span>, <span class="pl-smi">Request</span>); <span class="pl-c"><span class="pl-c">//</span>pre-populated with API Request</span>
+        <span class="pl-smi">q</span>.<span class="pl-en">Where</span>&lt;<span class="pl-en">Customer</span>&gt;(<span class="pl-smi">c</span> <span class="pl-k">=&gt;</span> ...)
+         .<span class="pl-en">And</span>&lt;<span class="pl-en">Customer</span>,<span class="pl-en">CustomerAddress</span>&gt;((<span class="pl-smi">c</span>,<span class="pl-smi">a</span>) <span class="pl-k">=&gt;</span> ...)
+         .<span class="pl-en">And</span>(<span class="pl-smi">c</span> <span class="pl-k">=&gt;</span> <span class="pl-smi">x</span>.<span class="pl-smi">CreatedDate</span> <span class="pl-k">&gt;=</span> <span class="pl-k">new</span> <span class="pl-en">DateTime</span>(<span class="pl-c1">2016</span>,<span class="pl-c1">01</span>,<span class="pl-c1">01</span>))
+         .<span class="pl-en">And</span>&lt;<span class="pl-en">CustomerAddress</span>&gt;(<span class="pl-smi">a</span> <span class="pl-k">=&gt;</span> <span class="pl-smi">a</span>.<span class="pl-smi">Country</span> <span class="pl-k">==</span> <span class="pl-s"><span class="pl-pds">"</span>Australia<span class="pl-pds">"</span></span>);
+
+        <span class="pl-k">var</span> <span class="pl-smi">results</span> <span class="pl-k">=</span> <span class="pl-smi">db</span>.<span class="pl-en">SelectMulti</span>&lt;<span class="pl-en">Customer</span>, <span class="pl-en">CustomerAddress</span>, <span class="pl-en">Order</span>&gt;(<span class="pl-smi">q</span>);
+
+        <span class="pl-k">return</span> <span class="pl-k">new</span> <span class="pl-en">CustomerJoinResponse</span> {
+            <span class="pl-smi">Results</span> <span class="pl-k">=</span> <span class="pl-smi">results</span>.<span class="pl-en">Map</span>(<span class="pl-smi">x</span> <span class="pl-k">=&gt;</span> <span class="pl-k">new</span> <span class="pl-en">CustomerJoinResult</span> {
+                <span class="pl-smi">Customer</span> <span class="pl-k">=</span> <span class="pl-smi">x</span>.<span class="pl-smi">Item1</span>,
+                <span class="pl-smi">Address</span> <span class="pl-k">=</span> <span class="pl-smi">x</span>.<span class="pl-smi">Item2</span>,
+                <span class="pl-smi">Order</span> <span class="pl-k">=</span> <span class="pl-smi">x</span>.<span class="pl-smi">Item3</span>,
+            })
+        }
+    }
+}</pre></div>
+<p>You can also add the joins in your Custom implementation but then the users wouldn't be able to query the joined tables.</p>
+<p>Anyway spent to much time here, that's about all from me, back to work...</p>
+                            </div>
+                            <div class="footer">
+                                <ul class="nav">
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comment">
+                        <div class="comment-user">
+                            <a href="https://github.com/TehWardy" target="_blank">
+                                <img src="https://avatars3.githubusercontent.com/u/6891030?v=4"/>
+                            </a>
+                        </div>
+                        <div class="comment-main">
+                            <div class="header">
+                                <a href="https://github.com/TehWardy" target="_blank" class="user">TehWardy</a> commented
+                                <a href="https://github.com/pauldotknopf/pauldotknopf.github.io/issues/12#issuecomment-599561085" target="_blank" class="time">
+                                    <relative-time datetime="2020-03-16T14:17:27.0000000&#x2B;00:00">
+                                        Mar 16, 2020
+                                    </relative-time>
+                                </a>&nbsp;
+                            </div>
+                            <div class="body">
+                                <p><a class="user-mention" data-hovercard-type="user" data-hovercard-url="/users/pauldotknopf/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/pauldotknopf">@pauldotknopf</a>  I have an existing solution implemented with an OData based API layer, my issue generally isn't with OData, I think <a class="user-mention" data-hovercard-type="user" data-hovercard-url="/users/mythz/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/mythz">@mythz</a>  here has issues with "ugly URLs" in OData (not unreasonable to be honest if you lok at them encoded they can appear pretty ugly).</p>
+<p><strong>The background for my "problem domain"</strong></p>
+<p>The reason we use OData is because it allows the client to specify the question they want to ask instead of me stating to the client "these are the questions  you can ask" which is key here.<br>
+In <a class="user-mention" data-hovercard-type="user" data-hovercard-url="/users/mythz/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/mythz">@mythz</a> example from the last comment for example in order to achieve the join result in AutoQuery I have to provide the endpoint with a method that implements that particular question joined in that particular way.</p>
+<p>My issue is that I don't know that that particular join is something the client wants at the time I'm writing the code and I don't want a support call to implement a new API method everytime they have a new question to ask the API.</p>
+<p>I know you guys are highly against OData but the key thing this offers is "within the confines of the type safety as defined by the contract emtadata which defines the tpyed sets that can be questioned" the user can "build a question in a URL to confirm to even the most complex of business scenarios" and yes the nature of the question they can ask CAN get complex but it's on them to decide that not me, and forcing them to only ask "pre-built questions" won't cut it.</p>
+<p>The issue is that our clients are fortune 500 companies with big complex "poorly deisgned" systems like SAP implementations and often are constrained by having to work to a standard that that system implements, and OData is one of those standards.<br>
+This is where OData excels because the provider (this case SAP / IBM / Seimans) that delivers the platform to our client will provide functionality to allow them to interact with systems through expensive (like half a million $) "connectors" which are specifically designed to a given spec and whilst AutoQuery looks great I can't tell a client "sorry this is how we work because it's better for us" I have to conform to the provisions that their system can handle.</p>
+<p>With the netflix example netflix can decide how people communicate with them, with our platform we offer business services that connect between such systems and are forced to interact with those systems in the way that they support so i'm not dealing with an "in an ideal world" scenario.</p>
+<p><strong>With that in mind</strong><br>
+Given that the clients system works a given way, the bulk of my questions are around this area and making my API layer fit to my clients requirements.<br>
+This is arguably not a "normal" API delivery scenario that most companies have where they can essentially dictate to partners how their systems work.</p>
+                            </div>
+                            <div class="footer">
+                                <ul class="nav">
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comment">
+                        <div class="comment-user">
+                            <a href="https://github.com/mythz" target="_blank">
+                                <img src="https://avatars1.githubusercontent.com/u/89361?v=4"/>
+                            </a>
+                        </div>
+                        <div class="comment-main">
+                            <div class="header">
+                                <a href="https://github.com/mythz" target="_blank" class="user">mythz</a> commented
+                                <a href="https://github.com/pauldotknopf/pauldotknopf.github.io/issues/12#issuecomment-599595812" target="_blank" class="time">
+                                    <relative-time datetime="2020-03-16T15:21:15.0000000&#x2B;00:00">
+                                        Mar 16, 2020
+                                    </relative-time>
+                                </a>&nbsp;
+                            </div>
+                            <div class="body">
+                                <p>My issue with OData is its unnatural complexity, poor encapsulation, slow implementation, poor promotion of API design &amp; practices; basically everything you should be avoid having exposed beyond your Service layer whose goal is supposed to provide an interoperable layer that <a href="https://docs.servicestack.net/service-complexity-and-dto-roles#services" rel="nofollow">encapsulates your Systems complexity</a> - all goals OData fails hard at.</p>
+<p>Allowing clients to be able to construct adhoc joins to System tables is even worse tight-coupling, which you have even less hope of being able to make changes without breaking existing clients. Might as well give out an RDBMS connection string and give them maximum flexibility.</p>
+<p>Apart from promoting poor practices ,I have a <a href="https://docs.servicestack.net/service-complexity-and-dto-roles#softwares-biggest-enemy" rel="nofollow">high intolerance against complexity</a> and will go for the simplest, most elegant solution that accomplishes my needs every time. Apart not having to spend any time fighting my tools and libraries, my creations enjoy a rare longevity since I've been building systems with the same libraries for over a decade, which have survived many generations of alternative solutions and even new .NET runtimes. What does change over time is the <a href="https://github.com/NetCoreApps/TechStacks#recommended-net-spa-stack">best UI stack to use of the day</a> and even the platform it runs on, but my backend technologies and existing clean, well-defined ServiceStack APIs remain unchanged, it'll just gain more services + functionality.</p>
+<p><a href="https://servicestack.net/" rel="nofollow">servicestack.net</a> is another example, it was originally hosted on Mono/Linux (AFAIK the first .NET web framework that supported Linux/Mono). Mono had a number of instability issues which required restarting nginx every couple of months, and when Novell dumped the Mono/Ximian team in 2011 they lost interest/focus on ASP.NET and created Xamarin to focus on iOS/Android where ASP.NET bugs were no longer being fixed. So when ServiceStack went commercial in 2013 I decided to abandon Mono and just run it on AWS/Windows/IIS/ASP.NET since a commercial website shouldn't have to put up with random instability/downtime. Then when ServiceStack <a href="https://twitter.com/ServiceStack/status/789142311326326784" rel="nofollow">added support for .NET Core</a> I moved back to Linux/nginx/.NET Core only it was now rock solid and much faster. Through the years my backend technology and Services remained the same, because the APIs were designed correctly, they capture the essence of what's required and are implemented in the simplest way, with intuitive focused libraries that provides a thin typed wrapper over the underlying DB functionality needed, not some heavyweight artificial performance-sucking high-level abstraction that loses flavor over time. So I have zero desire to consider overarchitected complex technologies that exposes an unintuitive surface area that I have no idea what it's doing without debugging in a profiler and wasting time with reading abstraction designer docs.</p>
+<p>But hey if EF/OData works for you and you're productive with it, keep using it. I wont dissuade you from using something that you deliver value with, which in the end should be everyone's goal in-spite of our technology choices, so just use what makes you productive &amp; happy.</p>
+                            </div>
+                            <div class="footer">
+                                <ul class="nav">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" href="#">
+                                                <g-emoji alias="+1" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f44d.png" class="emoji">👍</g-emoji> 1
+                                            </a>
+                                        </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comment">
+                        <div class="comment-user">
+                            <a href="https://github.com/TehWardy" target="_blank">
+                                <img src="https://avatars3.githubusercontent.com/u/6891030?v=4"/>
+                            </a>
+                        </div>
+                        <div class="comment-main">
+                            <div class="header">
+                                <a href="https://github.com/TehWardy" target="_blank" class="user">TehWardy</a> commented
+                                <a href="https://github.com/pauldotknopf/pauldotknopf.github.io/issues/12#issuecomment-599614472" target="_blank" class="time">
+                                    <relative-time datetime="2020-03-16T15:55:02.0000000&#x2B;00:00">
+                                        Mar 16, 2020
+                                    </relative-time>
+                                </a>&nbsp;
+                            </div>
+                            <div class="body">
+                                <blockquote>
+<p>Allowing clients to be able to construct adhoc joins to System tables is even worse tight-coupling, which you have even less hope of being able to make changes without breaking existing clients. Might as well give out an RDBMS connection string and give them maximum flexibility.</p>
+</blockquote>
+<p>Or in my case ...<br>
+Allowing clients to be able to construct adhoc joins to different sets in an API model which isn't the DB Model.<br>
+My service layer deals with the translation of questions but much like the layer above it, it can generate some "interesting" questions.</p>
+<p>Believe it or not I carry much the same ethos as you but i'm often not in a position to make the "ideal choice" due to external concerns (as described above). I offset a ton of the concerns you have with the nature of the "over-complexity" and "over-engineering" by putting all my business logic behind interfaces and using IoC so if I have OData controllers, WebAPI controllers, or ServiceStack services i'm always insulated from that complexity, but it does make it tricky to answer some of the problems that such implementations introduce.</p>
+<p>I've also deliberately put EF behind an Interface which having migrated the stack on to ServiceStack I'm seeing that I did lapse in a couple of places where I exposed IQueryables when I should have exposed IEnumerables (that's on me to fix and trivial to do so).</p>
+<p>That said, having taken your advice onboard my plan is to update the code until those "leaks" are plugged then to re-migrate the code again as it only took me a couple days this time round it shouldn't be too bad next time.</p>
+<p>I have another major demand on my time this week but hopefully I can get to looking at that stuff next week. The up side is that my business logic architecture is entirely interface / IoC driven so it's mostly a lift and shift operation (i have said I don't use that stuff like most people do).</p>
+<p>I do appreciate your advice <a class="user-mention" data-hovercard-type="user" data-hovercard-url="/users/mythz/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/mythz">@mythz</a>  and you do make some great points, points that I intend to raise with Microsoft too in places because ultimately you're right and it's on them to provide good advice for the technology stacks that so many use.<br>
+I also feel in places you over generalise the problem of bad platform design and imply that I as a result have a bad stack that will ultimately need to be rebuilt because of my "assumption OData is a necessary complexity" or "mis-guided impressions", that's not how I work and for that reason my OData API doesn't support the full spec deliberately, and in places actively ignores it.</p>
+<p>I would still be interested in looking at ServiceStack but the current feedback from our board of directors is the following ...</p>
+<ol>
+<li>Who are you / how big is the company as support is a must have for the work we do?</li>
+<li>Is there a way to test our complete migrated stack without the cost of a licence fees until we know it works for us?</li>
+<li>Is It compatible with the demands our existing clients have?</li>
+</ol>
+<p>That last point is the one i've been trying to address here of course for the most part.<br>
+My current understanding is that it works the way it works and that clients should fall inline with that, which might not be something our clients are willing to accept, but it's extremely flexible so with a bit of work in some cases I should be able to make ServiceStack fit their needs.</p>
+                            </div>
+                            <div class="footer">
+                                <ul class="nav">
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comment">
+                        <div class="comment-user">
+                            <a href="https://github.com/mythz" target="_blank">
+                                <img src="https://avatars1.githubusercontent.com/u/89361?v=4"/>
+                            </a>
+                        </div>
+                        <div class="comment-main">
+                            <div class="header">
+                                <a href="https://github.com/mythz" target="_blank" class="user">mythz</a> commented
+                                <a href="https://github.com/pauldotknopf/pauldotknopf.github.io/issues/12#issuecomment-599628120" target="_blank" class="time">
+                                    <relative-time datetime="2020-03-16T16:20:29.0000000&#x2B;00:00">
+                                        Mar 16, 2020
+                                    </relative-time>
+                                </a>&nbsp;
+                            </div>
+                            <div class="body">
+                                <p><a class="user-mention" data-hovercard-type="user" data-hovercard-url="/users/TehWardy/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/TehWardy">@TehWardy</a> If you have to convince a whole board of directors I'd say keep on Microsoft's supported technology stack, they're going to have concerns adopting an alternative .NET technology esp. since most of .NET ecosystem just uses whatever MS puts out. Esp. if they're non-technical, IMO the only way they'll ever consider it, is if you have the freedom to evaluate and compare prototype solutions side-by-side. But if you still want to consider evaluating SS you can request a unrestricted trial license key from <a href="mailto:team@servicestack.net">team@servicestack.net</a>.</p>
+                            </div>
+                            <div class="footer">
+                                <ul class="nav">
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comment">
+                        <div class="comment-user">
+                            <a href="https://github.com/TehWardy" target="_blank">
+                                <img src="https://avatars3.githubusercontent.com/u/6891030?v=4"/>
+                            </a>
+                        </div>
+                        <div class="comment-main">
+                            <div class="header">
+                                <a href="https://github.com/TehWardy" target="_blank" class="user">TehWardy</a> commented
+                                <a href="https://github.com/pauldotknopf/pauldotknopf.github.io/issues/12#issuecomment-599634709" target="_blank" class="time">
+                                    <relative-time datetime="2020-03-16T16:33:54.0000000&#x2B;00:00">
+                                        Mar 16, 2020
+                                    </relative-time>
+                                </a>&nbsp;
+                            </div>
+                            <div class="body">
+                                <p>I do happen to have that freedom, and as the technical lead here for everything we do the board leans on my guidance to make it's technology spending calls, gneerally speaking the calls made are "because it's right" not out of some mis-guided impression that M$ puts out about how things should be done (hopefully i've shown you that much at least).</p>
+<p>Again, Many thanks for the feedback, when I get back to it i'll definitely ping them an email, i'm actually curious to see how the two solutions work side by side because as they say "the proof is in the pudding" ... right!</p>
+                            </div>
+                            <div class="footer">
+                                <ul class="nav">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" href="#">
+                                                <g-emoji alias="+1" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f44d.png" class="emoji">👍</g-emoji> 1
+                                            </a>
+                                        </li>
                                 </ul>
                             </div>
                         </div>
