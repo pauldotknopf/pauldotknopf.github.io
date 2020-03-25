@@ -984,6 +984,103 @@ My current understanding is that it works the way it works and that clients shou
                             </div>
                             <div class="footer">
                                 <ul class="nav">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" href="#">
+                                                <g-emoji alias="+1" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f44d.png" class="emoji">👍</g-emoji> 1
+                                            </a>
+                                        </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comment">
+                        <div class="comment-user">
+                            <a href="https://github.com/TehWardy" target="_blank">
+                                <img src="https://avatars3.githubusercontent.com/u/6891030?v=4"/>
+                            </a>
+                        </div>
+                        <div class="comment-main">
+                            <div class="header">
+                                <a href="https://github.com/TehWardy" target="_blank" class="user">TehWardy</a> commented
+                                <a href="https://github.com/pauldotknopf/pauldotknopf.github.io/issues/12#issuecomment-603311907" target="_blank" class="time">
+                                    <relative-time datetime="2020-03-24T15:36:11.0000000&#x2B;00:00">
+                                        Mar 24, 2020
+                                    </relative-time>
+                                </a>&nbsp;
+                            </div>
+                            <div class="body">
+                                <p>I completely agree <a class="user-mention" data-hovercard-type="user" data-hovercard-url="/users/kakins/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/kakins">@kakins</a>  I'm trying to be polite and promote a strong technical discussion about the differences and why they exist instead i'm just being told "accept it, drop some opinions you have and move away from what years of experience has shown you because this is better", that's not how a responsible architect delivers good architecture to a business at scale.</p>
+<p>Myths and Paul are clearly very attached to the Service Stack design and feel very strongly about it which is commendable to stand by your creation but there really is no need for the aggressive stance here, i'm not here to insult / knock anything.</p>
+<p>As it happens i've got a wide variety of experience using different approaches to the "API layer problem" and the "N-Tier stack problem" having worked in the industry for 20 years I've seen a lot of stuff claimed as the "best answer, and anything else is simply broken due to ". Frameworks always die eventually and something better always comes along, no doubt at some point that will be the case with Service Stack too.</p>
+<p>In order to shield myself from particular stacks flaws i've essentially built a business layer that sits behind and depends on interfaces entirely, so the specifics of a particular stack / framework design don't really matter much me, I just need an IoC/DI implementation to wrap it all up.</p>
+<p>That said, what i've learnt from this discussion is that both Myths and Paul point out both some valid points and some misconceptions that they will defend to the very end and not accept any adverse information to the contrary which makes it hard to get advice on how to fit complex scenarios in to Service Stack. Given the price tag on Service Stack, it really doesn't matter how good or bad OData / EF are only how well Service Stack solves the problems I have already solved with those competing technologies. If you're gonna charge for something as a potential buyer i'm gonna be dam sure i'm putting my money in to value add for the business before I pull out the company credit card.</p>
+<p>For example ...<br>
+Valid Point<br>
+OData's way of handling and serving up metadata requires heavy models and parsing of large blocks of metadata.</p>
+<p>Misconception:<br>
+The WCF model is the only one, which requires "special tools" to generate client proxies that clients should interact with in order to retain any form of contract or type safety.</p>
+<p>I have overcome this pitfall oddly enough by working not that differently to how AutoQuery works.<br>
+I've also discussed above some of my reasoning for not agreeing with many of the documented points that Paul makes in his article (both are above).</p>
+<p>That doesn't mean I disagree with the approach taken by Service Stack, it just means I don't agree with the particular use case / implementation detail they have chosen to pick fault with or the fault reasoning, I'm just looking for the parallels in order to make informed choices.</p>
+<p><strong>Why I use OData + EF + .Net Core</strong></p>
+<p>I am in a unique position in that unlike API providers like Netflix (as this seems to be the example used above) ... I have to provide an API layer that allows users to construct a UI to support a business process that they design on top of a connected web of systems with mine as the middleware platform that ties them altogether.<br>
+I don't have my own business process design I can force on others, nor do I have control over how my clients may choose to interact with my system in order to facilitate their business.</p>
+<p>This means I have to consider problems like ...</p>
+<ol>
+<li>Client needs to show a grid of data with columns from multiple tables in my DB and allow paging sorting filtering and grouping (and in some cases aggregation) on that grid regardless of my underlying data structure.</li>
+<li>The exposed sets can be mapped to cover complex edge cases to multiple entity sets (using DTO's) for complex joins or specific "common" scenarios I choose to optimise as known common paths.</li>
+<li>The data model and the API model are separated allowing me to inject my own business rules in the middle that apply to the platform (e.g. a multi-tenancy rule so that no instance of T is returned to a user without them having access to it no matter how they ask a given question).</li>
+<li>I don't have to expose all of / any of my DATA MODEL in my API MODEL as doing so is often considered bad practice.</li>
+<li>My clients are fortune 500 companies with massive complex systems that talk to standards based endpoints, some won't even use http calls because they refuse to spend £1 million on a "plugin" or module for a massive ERP solution.</li>
+<li>The nature of API provided questions are "complicated" in some scenarios beyond my control, typical things like aggregation, joins, and projections kill most API's ... not ours.</li>
+<li>It must be secure because it's financial data i'm dealing with.</li>
+<li>It must be reasonably maintainable (by convention implementations, type safe, ect).</li>
+<li>Support for us is important as often our contracts with come heavy fines if we mess up / have down time.</li>
+</ol>
+<p><strong>What this means</strong></p>
+<p>If a user wishes to design a query that pulls data from 10 tables, and filters on 3 of them as a flat set "source" for a datagrid in their UI I can support that with 0 coding, 0 deploys, 0 changes to the system at all. That's the key point here, I can't roll out a deploy every time any client finds some new question they wish to ask the API as I would be forever deploying.<br>
+I've been here asking exactly that sort of context specific question because it's the sort of question I've not really seen answerable in other so-called "better" frameworks, but these are the sorts of questions that if a framework can handle them it can literally handle anything in API circles.</p>
+<p><strong>The bottom line</strong></p>
+<p>There's a key point i'm trying to get understood here which boils down to ...<br>
+Can I deliver "OData like" features without OData (as it's deemed such bad design) or is my complex API situation that depends on those features (for good reasons) just bad design because "it's not simple enough" ....<br>
+If it's the latter that suggests that Service Stack isn't ready for real world situations that are complex as the one I have to face every day but works in situations where there's a known finite set of questions that can be asked on discrete unrelated DTO sets.</p>
+<p>Regardless of peoples opinions, there's a technical fact that comes with all this discussion which determines the viability and I would be negligent not to ask these awkward questions.</p>
+<p>I apologise if anything I have said has come across offensive here.</p>
+                            </div>
+                            <div class="footer">
+                                <ul class="nav">
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comment">
+                        <div class="comment-user">
+                            <a href="https://github.com/kakins" target="_blank">
+                                <img src="https://avatars3.githubusercontent.com/u/14915247?v=4"/>
+                            </a>
+                        </div>
+                        <div class="comment-main">
+                            <div class="header">
+                                <a href="https://github.com/kakins" target="_blank" class="user">kakins</a> commented
+                                <a href="https://github.com/pauldotknopf/pauldotknopf.github.io/issues/12#issuecomment-603565446" target="_blank" class="time">
+                                    <relative-time datetime="2020-03-24T23:58:12.0000000&#x2B;00:00">
+                                        Mar 24, 2020
+                                    </relative-time>
+                                </a>&nbsp;(edited)
+                            </div>
+                            <div class="body">
+                                <p><a class="user-mention" data-hovercard-type="user" data-hovercard-url="/users/TehWardy/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/TehWardy">@TehWardy</a> I don't think you've been offensive at all.  You've laid out your case, and although I don't know the details of the problem you're trying to solve, you've described it well enough that I can understand the essence.</p>
+<p>In the flurry of words contained in this thread, I've seen two viewpoints presented:</p>
+<ol>
+<li>My queries can by dynamically composed, constructed by the user.  The exact shape of the resulting model is unknown, which could be based on joins from any number of tables -- it's all up to the user.  There's flexibility here, but complexity comes with it.</li>
+<li>Data models should be "known" beforehand, because <em>most</em> APIs are essentially answering a set of known questions.</li>
+</ol>
+<p>That could be a simplistic over-generalization of the two views.  However, I can at least envision how EF can help solve item 1, while micro-ORMs may have difficulty supporting it.</p>
+<p>On the other hand, for simpler scenarios like item 2, you could argue that EF is overkill.  When I say "simpler" here, it is relative.  I'm by no means suggesting that micro-ORMs are only for simple solutions.</p>
+<p>However, I'll admit I haven't spent time in ServiceStack, or done much work with micro-ORMs.  But I have asked myself the same question as <a class="user-mention" data-hovercard-type="user" data-hovercard-url="/users/TehWardy/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/TehWardy">@TehWardy</a> as I've looked at Dapper.  I started writing a dynamic query builder using EF that, at least from what I could tell, would be extremely more difficult using Dapper.</p>
+                            </div>
+                            <div class="footer">
+                                <ul class="nav">
                                 </ul>
                             </div>
                         </div>
