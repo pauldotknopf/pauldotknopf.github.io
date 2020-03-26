@@ -1085,6 +1085,40 @@ If it's the latter that suggests that Service Stack isn't ready for real world s
                             </div>
                         </div>
                     </div>
+                    <div class="comment">
+                        <div class="comment-user">
+                            <a href="https://github.com/TehWardy" target="_blank">
+                                <img src="https://avatars3.githubusercontent.com/u/6891030?v=4"/>
+                            </a>
+                        </div>
+                        <div class="comment-main">
+                            <div class="header">
+                                <a href="https://github.com/TehWardy" target="_blank" class="user">TehWardy</a> commented
+                                <a href="https://github.com/pauldotknopf/pauldotknopf.github.io/issues/12#issuecomment-603802911" target="_blank" class="time">
+                                    <relative-time datetime="2020-03-25T12:05:43.0000000&#x2B;00:00">
+                                        Mar 25, 2020
+                                    </relative-time>
+                                </a>&nbsp;
+                            </div>
+                            <div class="body">
+                                <p>Exactly <a class="user-mention" data-hovercard-type="user" data-hovercard-url="/users/kakins/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/kakins">@kakins</a> it sounds like you understand the nature of my problem ...<br>
+It boils down to a need to map from a URL to an expression tree, that then gets manipulated in my business logic layer and then translated in to the final SQL in the data layer.</p>
+<p>Putting all these pieces together is essentially a standard web stack, but some use more strict / restricted API layer capabilities under the guise of "complexity is bad" but I don't have that option due to the operational requirements of the problems i'm solving.</p>
+<p>We could make a case for not using expression trees instead and just manipulate strings sourced from the API layers "query" and then directly translate those to SQL but having the expression tree in the middle gives us type safety in the business logic and an interception point that doesn't require things like reflection which can be slow.</p>
+<p>I'd be really interested in a demo service stack project that replicated some of the more complex capabilities of OData "by convention" avoiding the need to write out a lot of DTO's specific to each use case but my gut feeling is that point that Myths comes back to about the key design elements in Service Stack force this as the DTO's explicitly define the contract information.</p>
+<p>Sure OData may be bad for some valid reasons but it's a great way to point at complex API layer functionality and be like "can your API layer do this" as a point of discussion, it's certainly not the holy grail though.</p>
+<p>Things like aggregation or sub selection don't appear to be possible as a user defined scenario without me having to pre-define those in Service Stack which contradicts the "over-posting" and "over-responding"best practices i've come to like for both security and perf reasons.</p>
+<p><strong>background for this</strong></p>
+<p>If I have a business object on my back end (simple POCO) with 20 properties and I need a result set with 10 of them, filtered on some child tables values, with a system derived business rule injected in to the query for each table hit I'm not losing any type safety by asking for only those 10.<br>
+Nor should I be forced to declare a second POCO with only those 10 for that scenario else I have to now consider (in my situation at least) what are all the possible combinations of those 20 that may be needed and implement a POCO for each to avoid returning excessive data loads to the client.</p>
+<p>This is a common problem in API layers, Netflix for example assumes I want all of the fields for a movie, and I have no choice but request them all, I can't just ask for a subset like say a key and a name if i'm building a drop down list of them. In my API layer, 1MB responses could turn in to 10MB repsonses. OData whilst ugly does at least give me the flex to define exactly what I want it to do on the back end and exactly what I want it to pull from the DB for me.</p>
+                            </div>
+                            <div class="footer">
+                                <ul class="nav">
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
             <p class="text-center">
                 <a class="btn btn-primary btn-light btn-lg" target="_blank" href="https://github.com/pauldotknopf/pauldotknopf.github.io/issues/12#new_comment_field"><i class="fab fa-github"></i> Join the discussion at GitHub</a>
             </p>
