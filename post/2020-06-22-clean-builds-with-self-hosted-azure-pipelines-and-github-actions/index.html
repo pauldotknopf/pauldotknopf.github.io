@@ -131,7 +131,7 @@ index ac679c5..96f4ac5 100644
 <span class="hljs-addition">+exec ./externals/node/bin/node ./bin/AgentService.js interactive $*</span>
 \ No newline at end of file
 </code></pre>
-<p>When you have successfully setup and patched, let's build our image.</p>
+<p>When you have successfully files mentioned above setup locally and patched, let's build our image.</p>
 <pre><code class="language-bash hljs">docker build . --tag dockeragent</code></pre>
 <p>Now we can startup the image to process exactly one build.</p>
 <pre><code class="language-bash hljs"><span class="hljs-built_in">echo</span> <span class="hljs-string">"your-api-token"</span> &gt; /etc/api-token
