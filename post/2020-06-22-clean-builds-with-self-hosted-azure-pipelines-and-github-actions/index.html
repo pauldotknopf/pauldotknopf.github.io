@@ -145,7 +145,7 @@ docker run --name dockeragent \
   dockeragent:latest --once</code></pre>
 <p>Ok, great, now how do I configure this to run in a loop?</p>
 <p>Enter, <code>systemd</code>.</p>
-<p><strong><code>/lib/systemd/system/dockeragent.service</code></strong></p>
+<p><strong><code>/etc/default/dockeragent.service</code></strong></p>
 <pre><code class="language-ini hljs"><span class="hljs-attr">AZP_URL</span>=https://dev.azure.com/your-company
 <span class="hljs-attr">AZP_POOL</span>=Pipelines
 <span class="hljs-attr">AZP_TOKEN_FILE</span>=/etc/api-token
