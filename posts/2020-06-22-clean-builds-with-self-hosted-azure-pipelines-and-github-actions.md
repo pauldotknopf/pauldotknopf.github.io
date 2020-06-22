@@ -85,7 +85,7 @@ index ac679c5..96f4ac5 100644
 
 ```
 
-When you have successfully setup and patched, let's build our image.
+When you have successfully files mentioned above setup locally and patched, let's build our image.
 
 ```bash
 docker build . --tag dockeragent
