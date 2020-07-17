@@ -496,6 +496,126 @@
                             </div>
                         </div>
                     </div>
+                    <div class="comment">
+                        <div class="comment-user">
+                            <a href="https://github.com/pomma89" target="_blank">
+                                <img src="https://avatars2.githubusercontent.com/u/4697032?v=4"/>
+                            </a>
+                        </div>
+                        <div class="comment-main">
+                            <div class="header">
+                                <a href="https://github.com/pomma89" target="_blank" class="user">pomma89</a> commented
+                                <a href="https://github.com/pauldotknopf/pauldotknopf.github.io/issues/10#issuecomment-659594331" target="_blank" class="time">
+                                    <relative-time datetime="2020-07-16T18:34:27.0000000&#x2B;00:00">
+                                        Jul 16, 2020
+                                    </relative-time>
+                                </a>&nbsp;
+                            </div>
+                            <div class="body">
+                                <p><a class="user-mention" data-hovercard-type="user" data-hovercard-url="/users/pauldotknopf/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/pauldotknopf">@pauldotknopf</a> I would like to thank you for you post. I added dotnet-script to the mix, in order to obtain a single file build script: the result is very clean and flexible.</p>
+<p>For example, following <code>build.csx</code> is a good example of the final result:</p>
+<div class="highlight highlight-source-cs"><pre>#<span class="pl-k">r</span> <span class="pl-s">"nuget: Bullseye, 3.3.0"</span>
+#<span class="pl-k">r</span> <span class="pl-s">"nuget: CommandLineParser, 2.8.0"</span>
+#<span class="pl-k">r</span> <span class="pl-s">"nuget: SimpleExec, 6.2.0"</span>
+
+<span class="pl-k">using</span> <span class="pl-en">System</span>.<span class="pl-en">IO</span>;
+<span class="pl-k">using</span> <span class="pl-en">CommandLine</span>;
+<span class="pl-k">using</span> <span class="pl-k">static</span> <span class="pl-k">Bullseye</span>.<span class="pl-en">Targets</span>;
+<span class="pl-k">using</span> <span class="pl-k">static</span> <span class="pl-k">SimpleExec</span>.<span class="pl-en">Command</span>;
+
+<span class="pl-c"><span class="pl-c">//</span>//////////////////////////////////////////////////////////////////////////////</span>
+<span class="pl-c"><span class="pl-c">//</span> PREPARATION</span>
+<span class="pl-c"><span class="pl-c">//</span>//////////////////////////////////////////////////////////////////////////////</span>
+
+<span class="pl-k">var</span> <span class="pl-smi">artifactsDir</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>./artifacts<span class="pl-pds">"</span></span>;
+<span class="pl-k">var</span> <span class="pl-smi">nugetPackagesDir</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">$"</span>./{<span class="pl-smi">artifactsDir</span>}/nuget-packages<span class="pl-pds">"</span></span>;
+<span class="pl-k">var</span> <span class="pl-smi">testResultsDir</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">$"</span>../../{<span class="pl-smi">artifactsDir</span>}/test-results<span class="pl-pds">"</span></span>;
+
+<span class="pl-c"><span class="pl-c">//</span>//////////////////////////////////////////////////////////////////////////////</span>
+<span class="pl-c"><span class="pl-c">//</span> OPTIONS</span>
+<span class="pl-c"><span class="pl-c">//</span>//////////////////////////////////////////////////////////////////////////////</span>
+
+<span class="pl-k">public</span> <span class="pl-k">sealed</span> <span class="pl-k">class</span> <span class="pl-en">Options</span>
+{
+    [<span class="pl-en">Option</span>(<span class="pl-s">'c'</span>, <span class="pl-s"><span class="pl-pds">"</span>configuration<span class="pl-pds">"</span></span>, <span class="pl-en">Required</span> <span class="pl-k">=</span> <span class="pl-c1">false</span>, <span class="pl-en">Default</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>release<span class="pl-pds">"</span></span>)]
+    <span class="pl-k">public</span> <span class="pl-k">string</span> <span class="pl-smi">Configuration</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+
+    <span class="pl-k">public</span> <span class="pl-k">string</span> <span class="pl-smi">ConfigurationFlag</span> <span class="pl-k">=&gt;</span> <span class="pl-k">!</span><span class="pl-smi">string</span>.<span class="pl-en">IsNullOrWhiteSpace</span>(<span class="pl-smi">Configuration</span>) <span class="pl-k">?</span> <span class="pl-s"><span class="pl-pds">$"</span>-c {<span class="pl-smi">Configuration</span>}<span class="pl-pds">"</span></span> <span class="pl-k">:</span> <span class="pl-smi">string</span>.<span class="pl-smi">Empty</span>;
+
+    [<span class="pl-en">Option</span>(<span class="pl-s">'t'</span>, <span class="pl-s"><span class="pl-pds">"</span>target<span class="pl-pds">"</span></span>, <span class="pl-en">Required</span> <span class="pl-k">=</span> <span class="pl-c1">false</span>, <span class="pl-en">Default</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>run-unit-tests<span class="pl-pds">"</span></span>)]
+    <span class="pl-k">public</span> <span class="pl-k">string</span> <span class="pl-smi">Target</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+}
+
+<span class="pl-en">Options</span> <span class="pl-smi">opts</span>;
+
+<span class="pl-c"><span class="pl-c">//</span>//////////////////////////////////////////////////////////////////////////////</span>
+<span class="pl-c"><span class="pl-c">//</span> TARGETS</span>
+<span class="pl-c"><span class="pl-c">//</span>//////////////////////////////////////////////////////////////////////////////</span>
+
+<span class="pl-en">Target</span>(<span class="pl-s"><span class="pl-pds">"</span>clean-solution<span class="pl-pds">"</span></span>, () <span class="pl-k">=&gt;</span>
+{
+    <span class="pl-en">Run</span>(<span class="pl-s"><span class="pl-pds">"</span>dotnet<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">$"</span>clean {<span class="pl-smi">opts</span>.<span class="pl-smi">ConfigurationFlag</span>}<span class="pl-pds">"</span></span>);
+
+    <span class="pl-k">if</span> (<span class="pl-smi">Directory</span>.<span class="pl-en">Exists</span>(<span class="pl-smi">artifactsDir</span>))
+    {
+        <span class="pl-smi">Directory</span>.<span class="pl-en">Delete</span>(<span class="pl-smi">artifactsDir</span>, <span class="pl-smi">recursive</span>: <span class="pl-c1">true</span>);
+    }
+});
+
+<span class="pl-en">Target</span>(<span class="pl-s"><span class="pl-pds">"</span>check-source-code-format<span class="pl-pds">"</span></span>, <span class="pl-en">DependsOn</span>(<span class="pl-s"><span class="pl-pds">"</span>clean-solution<span class="pl-pds">"</span></span>), () <span class="pl-k">=&gt;</span>
+{
+    <span class="pl-en">Run</span>(<span class="pl-s"><span class="pl-pds">"</span>dotnet<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>format --check --verbosity detailed<span class="pl-pds">"</span></span>);
+});
+
+<span class="pl-en">Target</span>(<span class="pl-s"><span class="pl-pds">"</span>restore-nuget-packages<span class="pl-pds">"</span></span>, <span class="pl-en">DependsOn</span>(<span class="pl-s"><span class="pl-pds">"</span>check-source-code-format<span class="pl-pds">"</span></span>), () <span class="pl-k">=&gt;</span>
+{
+    <span class="pl-en">Run</span>(<span class="pl-s"><span class="pl-pds">"</span>dotnet<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">$"</span>restore<span class="pl-pds">"</span></span>);
+});
+
+<span class="pl-en">Target</span>(<span class="pl-s"><span class="pl-pds">"</span>build-solution<span class="pl-pds">"</span></span>, <span class="pl-en">DependsOn</span>(<span class="pl-s"><span class="pl-pds">"</span>restore-nuget-packages<span class="pl-pds">"</span></span>), () <span class="pl-k">=&gt;</span>
+{
+    <span class="pl-en">Run</span>(<span class="pl-s"><span class="pl-pds">"</span>dotnet<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">$"</span>build {<span class="pl-smi">opts</span>.<span class="pl-smi">ConfigurationFlag</span>} --no-restore<span class="pl-pds">"</span></span>);
+});
+
+<span class="pl-en">Target</span>(<span class="pl-s"><span class="pl-pds">"</span>run-unit-tests<span class="pl-pds">"</span></span>, <span class="pl-en">DependsOn</span>(<span class="pl-s"><span class="pl-pds">"</span>build-solution<span class="pl-pds">"</span></span>), () <span class="pl-k">=&gt;</span>
+{
+    <span class="pl-k">var</span> <span class="pl-smi">logger</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">$"</span>junit;LogFilePath={<span class="pl-smi">testResultsDir</span>}/{{assembly}}-{{framework}}.xml<span class="pl-pds">"</span></span>;
+    <span class="pl-en">Run</span>(<span class="pl-s"><span class="pl-pds">"</span>dotnet<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">$"</span>test {<span class="pl-smi">opts</span>.<span class="pl-smi">ConfigurationFlag</span>} -a . -l {<span class="pl-smi">logger</span>} --no-build<span class="pl-pds">"</span></span>);
+});
+
+<span class="pl-en">Target</span>(<span class="pl-s"><span class="pl-pds">"</span>pack-sources<span class="pl-pds">"</span></span>, <span class="pl-en">DependsOn</span>(<span class="pl-s"><span class="pl-pds">"</span>build-solution<span class="pl-pds">"</span></span>), () <span class="pl-k">=&gt;</span>
+{
+    <span class="pl-en">Run</span>(<span class="pl-s"><span class="pl-pds">"</span>dotnet<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">$"</span>pack {<span class="pl-smi">opts</span>.<span class="pl-smi">ConfigurationFlag</span>} -o {<span class="pl-smi">nugetPackagesDir</span>} --no-build<span class="pl-pds">"</span></span>);
+});
+
+<span class="pl-en">Target</span>(<span class="pl-s"><span class="pl-pds">"</span>publish-on-myget<span class="pl-pds">"</span></span>, <span class="pl-en">DependsOn</span>(<span class="pl-s"><span class="pl-pds">"</span>pack-sources<span class="pl-pds">"</span></span>), () <span class="pl-k">=&gt;</span>
+{
+    <span class="pl-k">var</span> <span class="pl-smi">mygetApiKey</span> <span class="pl-k">=</span> <span class="pl-smi">Environment</span>.<span class="pl-en">GetEnvironmentVariable</span>(<span class="pl-s"><span class="pl-pds">"</span>MYGET_API_KEY<span class="pl-pds">"</span></span>);
+    <span class="pl-en">Run</span>(<span class="pl-s"><span class="pl-pds">"</span>dotnet<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">$"</span>nuget push {<span class="pl-smi">nugetPackagesDir</span>}/*.nupkg -k {<span class="pl-smi">mygetApiKey</span>}<span class="pl-pds">"</span></span>);
+});
+
+<span class="pl-c"><span class="pl-c">//</span>//////////////////////////////////////////////////////////////////////////////</span>
+<span class="pl-c"><span class="pl-c">//</span> EXECUTION</span>
+<span class="pl-c"><span class="pl-c">//</span>//////////////////////////////////////////////////////////////////////////////</span>
+
+<span class="pl-smi">Parser</span>.<span class="pl-smi">Default</span>.<span class="pl-en">ParseArguments</span>&lt;<span class="pl-en">Options</span>&gt;(<span class="pl-smi">Args</span>).<span class="pl-en">WithParsed</span>&lt;<span class="pl-en">Options</span>&gt;(<span class="pl-smi">o</span> <span class="pl-k">=&gt;</span>
+{
+    <span class="pl-smi">opts</span> <span class="pl-k">=</span> <span class="pl-smi">o</span>;
+    <span class="pl-en">RunTargetsAndExit</span>(<span class="pl-k">new</span>[] { <span class="pl-smi">opts</span>.<span class="pl-smi">Target</span> });
+});</pre></div>
+<p>Bye, Alessio</p>
+                            </div>
+                            <div class="footer">
+                                <ul class="nav">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" href="#">
+                                                <g-emoji alias="+1" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f44d.png" class="emoji">👍</g-emoji> 1
+                                            </a>
+                                        </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
             <p class="text-center">
                 <a class="btn btn-primary btn-light btn-lg" target="_blank" href="https://github.com/pauldotknopf/pauldotknopf.github.io/issues/10#new_comment_field"><i class="fab fa-github"></i> Join the discussion at GitHub</a>
             </p>
