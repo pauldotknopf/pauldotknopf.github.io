@@ -793,23 +793,24 @@ OData doesn't require tools, it has an XML based description, as stated above th
 <p>I could go on but my "opinions" (however documented and fact based they may be) regarding OData aren't wanted here.</p>
 <p>Again .. The reason I pointed at OData was that it generates complex "real world questions" I have to build an API to answer.</p>
 <p>Your examples are interesting and do solve the problem in the event that I handle the question or use AutoQuery to do this for me ... can AutoQuery do this with my own business logic in the middle something like this (taking the OrmLite example) ...</p>
-<div class="highlight highlight-source-cs"><pre><span class="pl-k">var</span> <span class="pl-smi">q</span> <span class="pl-k">=</span> <span class="pl-smi">db</span>.<span class="pl-en">From</span>&lt;<span class="pl-en">Customer</span>&gt;()
-        .<span class="pl-en">Where</span>(...)
-    .<span class="pl-en">Join</span>&lt;<span class="pl-en">Customer</span>, <span class="pl-en">CustomerAddress</span>&gt;()
-        .<span class="pl-en">Where</span>(...)
-    .<span class="pl-en">Join</span>&lt;<span class="pl-en">Customer</span>, <span class="pl-en">Order</span>&gt;()
-         .<span class="pl-en">Where</span>(...)
-    .<span class="pl-en">Where</span>(<span class="pl-smi">x</span> <span class="pl-k">=&gt;</span> <span class="pl-smi">x</span>.<span class="pl-smi">CreatedDate</span> <span class="pl-k">&gt;=</span> <span class="pl-k">new</span> <span class="pl-en">DateTime</span>(<span class="pl-c1">2016</span>,<span class="pl-c1">01</span>,<span class="pl-c1">01</span>))
-    .<span class="pl-en">And</span>&lt;<span class="pl-en">CustomerAddress</span>&gt;(<span class="pl-smi">x</span> <span class="pl-k">=&gt;</span> <span class="pl-smi">x</span>.<span class="pl-smi">Country</span> <span class="pl-k">==</span> <span class="pl-s"><span class="pl-pds">"</span>Australia<span class="pl-pds">"</span></span>);
+<pre lang="cs"><code>var q = db.From&lt;Customer&gt;()
+        .Where(...)
+    .Join&lt;Customer, CustomerAddress&gt;()
+        .Where(...)
+    .Join&lt;Customer, Order&gt;()
+         .Where(...)
+    .Where(x =&gt; x.CreatedDate &gt;= new DateTime(2016,01,01))
+    .And&lt;CustomerAddress&gt;(x =&gt; x.Country == "Australia");
 
-<span class="pl-k">var</span> <span class="pl-smi">results</span> <span class="pl-k">=</span> <span class="pl-smi">db</span>.<span class="pl-en">SelectMulti</span>&lt;<span class="pl-en">Customer</span>, <span class="pl-en">CustomerAddress</span>, <span class="pl-en">Order</span>&gt;(<span class="pl-smi">q</span>);
+var results = db.SelectMulti&lt;Customer, CustomerAddress, Order&gt;(q);
 
-<span class="pl-k">foreach</span> (<span class="pl-k">var</span> <span class="pl-smi">tuple</span> <span class="pl-k">in</span> <span class="pl-smi">results</span>)
+foreach (var tuple in results)
 {
-    <span class="pl-en">Customer</span> <span class="pl-smi">customer</span> <span class="pl-k">=</span> <span class="pl-smi">tuple</span>.<span class="pl-smi">Item1</span>;
-    <span class="pl-en">CustomerAddress</span> <span class="pl-smi">custAddress</span> <span class="pl-k">=</span> <span class="pl-smi">tuple</span>.<span class="pl-smi">Item2</span>;
-    <span class="pl-en">Order</span> <span class="pl-smi">custOrder</span> <span class="pl-k">=</span> <span class="pl-smi">tuple</span>.<span class="pl-smi">Item3</span>;
-}</pre></div>
+    Customer customer = tuple.Item1;
+    CustomerAddress custAddress = tuple.Item2;
+    Order custOrder = tuple.Item3;
+}
+</code></pre>
 <p>... if I understand this correctly this is the equivilent of a query that returns an expanded subset of properties too.</p>
 <ul>
 <li>Does this support filtered joins "in this manner"?</li>
