@@ -22,11 +22,9 @@ jobs:
       env:
         DEPLOY_KEY_PASSWORD: ${{ secrets.DEPLOY_KEY_PASSWORD }}
       run: |
-        set -x
-        echo ${DEPLOY_KEY_PASSWORD}
-        echo "sf"
         gpg --quiet --batch --yes --decrypt --passphrase="${DEPLOY_KEY_PASSWORD}" --output deploy-key deploy-key.gpg
         chmod 600 deploy-key
+        eval `ssh-agent -s`
         ssh-add deploy-key
     - name: Build
       run: |
