@@ -26,6 +26,10 @@ jobs:
         chmod 600 deploy-key
         eval `ssh-agent -s`
         ssh-add deploy-key
+
+    - name: Setup tmate session
+      uses: mxschmitt/action-tmate@v3
+
     - name: Build
       run: |
         ./build.sh ci
