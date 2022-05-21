@@ -24,13 +24,9 @@ jobs:
       run: |
         gpg --quiet --batch --yes --decrypt --passphrase="${DEPLOY_KEY_PASSWORD}" --output deploy-key deploy-key.gpg
         chmod 600 deploy-key
-        eval `ssh-agent -s`
-        ssh-add deploy-key
-
-    - name: Test
-      run: |
-        ssh-add -l
 
     - name: Build
       run: |
+        eval `ssh-agent -s`
+        ssh-add deploy-key
         ./build.sh ci
