@@ -27,8 +27,9 @@ jobs:
         eval `ssh-agent -s`
         ssh-add deploy-key
 
-    - name: Setup upterm session
-      uses: lhotari/action-upterm@v1
+    - name: Test
+      run: |
+        ssh-add -l
 
     - name: Build
       run: |
