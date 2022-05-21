@@ -10,5 +10,6 @@ I'm working on something big. Like, really big. It's going to change the game.
 * Performance
 * Dancing
 
-![Example LED suit 1](../static/led-suit-example.jpg)
-![Example LED suit 1](../static/led-suit-example-2.jpg)
+---
+![Example LED suit ](../static/led-suit-example.jpg)
+---
