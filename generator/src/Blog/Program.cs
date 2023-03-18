@@ -75,7 +75,14 @@ namespace Blog
                 RegisterPages();
                 RegisterPosts();
                 RegisterResources();
-                
+
+                _webBuilder.RegisterMvc("/lit", new
+                {
+                    controller = "Lit",
+                    action = "Index"
+                },
+                new State.PathState(string.Empty, "Lit"));
+
                 try
                 {
                     Args.InvokeAction<Program>(args);

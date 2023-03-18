@@ -1,15 +1,40 @@
-@model PageModel
+@model SessionReportModel
 
 <div class="container">
     <div class="page">
-        @if (Model.Page.ShowTitle)
-        {
-            <h1 class="title">
-                @Model.Page.Title
-            </h1>
-        }
+        <h1 class="title">
+            Lit times
+        </h1>
         <div class="body">
-            @Html.Raw(Model.Body)
+            @foreach (var sessionsByDay in Model.SessionSpots.GroupBy(x => new DateTime(x.FromLocal.Year, x.FromLocal.Month, x.FromLocal.Day)))
+            {
+                <h2>@sessionsByDay.Key.ToString("dddd, MMMM dd")</h2>
+                @foreach (var spot in sessionsByDay)
+                {
+                    <h4>@spot.Name <span class="badge badge-secondary">@spot.FromLocal.ToString("h tt") - @spot.ToLocal.ToString("h tt")</span></h4>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Time</th>
+                                <th scope="col">Wind speed</th>
+                                <th scope="col">Wind direction</th>
+                                <th scope="col">Temp</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach(var data in spot.Data)
+                            {
+                               <tr>
+                                   <th scope="row">@data.ModelTimeLocal.ToString("h tt")</th>
+                                   <td>@data.WindSpeed</td>
+                                   <td>@data.WindDirectionText (@data.WindDirection)</td>
+                                   <td>@data.Temp</td>
+                               </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+            }
         </div>
     </div>
 </div>

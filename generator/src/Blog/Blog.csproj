@@ -25,10 +25,17 @@
     <PackageReference Include="Statik.Markdown" Version="0.13.0" />
     <PackageReference Include="System.Xml.XmlDocument" Version="4.3.0" />
     <PackageReference Include="YamlDotNet" Version="8.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Resources\**\*" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Resources\Views\Lit\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\Views\Lit\" />
+  </ItemGroup>
 </Project>
