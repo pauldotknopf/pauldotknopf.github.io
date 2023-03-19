@@ -10,7 +10,7 @@
             {
                 <h2>@sessionsByDay.Key.ToString("dddd, MMMM dd")</h2>
                 @foreach (var spot in sessionsByDay)
-                {
+            {
                     <h4>@spot.Name <span class="badge badge-secondary">@spot.FromLocal.ToString("h tt") - @spot.ToLocal.ToString("h tt")</span></h4>
                     <table class="table">
                         <thead>
@@ -26,15 +26,15 @@
                             {
                                <tr>
                                    <th scope="row">@data.ModelTimeLocal.ToString("h tt")</th>
-                                   <td>@data.WindSpeed</td>
+                                   <td>@data.WindSpeed @Model.WindUnits.ToString().ToLower()</td>
                                    <td>@data.WindDirectionText (@data.WindDirection)</td>
-                                   <td>@data.Temp</td>
+                                   <td>@data.Temp @Model.TempUnits.ToString().First().ToString().ToUpper()</td>
                                </tr>
                             }
                         </tbody>
                     </table>
                 }
-            }
+    }
         </div>
     </div>
 </div>
