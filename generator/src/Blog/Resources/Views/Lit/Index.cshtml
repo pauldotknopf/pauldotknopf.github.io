@@ -1,5 +1,43 @@
 @model SessionReportModel
-
+@{
+    var windSpeedText = "";
+    switch(Model.WindUnits)
+    {
+        case WindUnits.Mph:
+            windSpeedText = "m/ph";
+            break;
+        case WindUnits.Kph:
+            windSpeedText = "km/h";
+            break;
+        case WindUnits.Mps:
+            windSpeedText = "m/s";
+            break;
+        case WindUnits.Knots:
+            windSpeedText = "kn";
+            break;
+        default:
+            throw new NotSupportedException();
+    }
+}
+@functions
+{
+    // 14 - #00FF00
+    // 15 - #78F700
+    int GetPercentageForWindSpeed(decimal windSpeed)
+    {
+        // 5-50 is our range
+        windSpeed = Math.Min(windSpeed + 5, 50);
+        return (int)Math.Round(windSpeed * 100 / 50);
+    }
+    string GetWindSpeedClass(decimal windSpeed)
+    {
+        var number = (int)Math.Ceiling(windSpeed / 2);
+        if(number > 25) {
+            number = 25;
+        }
+        return $"wind-speed-{number}";
+    }
+}
 <div class="container">
     <div class="page">
         <h1 class="title">
@@ -8,33 +46,37 @@
         <div class="body">
             @foreach (var sessionsByDay in Model.SessionSpots.GroupBy(x => new DateTime(x.FromLocal.Year, x.FromLocal.Month, x.FromLocal.Day)))
             {
-                <h2>@sessionsByDay.Key.ToString("dddd, MMMM dd")</h2>
+                <h2><i class="fa fa-calendar-days"></i> @sessionsByDay.Key.ToString("dddd, MMMM dd")</h2>
                 @foreach (var spot in sessionsByDay)
             {
-                    <h4>@spot.Name <span class="badge badge-secondary">@spot.FromLocal.ToString("h tt") - @spot.ToLocal.ToString("h tt")</span></h4>
+                    <h5><i class="fa fa-location-dot"></i> @spot.Name <span class="badge badge-secondary">@spot.FromLocal.ToString("h tt") - @spot.ToLocal.ToString("h tt")</span></h5>
                     <table class="table">
                         <thead>
                             <tr>
-                                <th scope="col">Time</th>
-                                <th scope="col">Wind speed</th>
-                                <th scope="col">Wind direction</th>
-                                <th scope="col">Temp</th>
+                                <th scope="col" style="width: 1%; text-align: center;">Time</th>
+                                <th scope="col">Speed (@windSpeedText)</th>
+                                <th scope="col" style="width: 1%; text-align: center;">Direction</th>
+                                <th scope="col" style="width: 1%;text-align: center;">Temp</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach(var data in spot.Data)
                             {
-                               <tr>
-                                   <th scope="row">@data.ModelTimeLocal.ToString("h tt")</th>
-                                   <td>@data.WindSpeed @Model.WindUnits.ToString().ToLower()</td>
-                                   <td>@data.WindDirectionText (@data.WindDirection)</td>
-                                   <td>@data.Temp @Model.TempUnits.ToString().First().ToString().ToUpper()</td>
-                               </tr>
+                                <tr>
+                                    <th scope="row" style="text-align: center;"><span class="badge badge-secondary">@data.ModelTimeLocal.ToString("h tt")</span></th>
+                                    <td>
+                                        <div class="progress">
+                                            <div class="progress-bar @(GetWindSpeedClass(data.WindSpeed))" role="progressbar" style="width: @(GetPercentageForWindSpeed(data.WindSpeed))%" aria-valuenow="@(GetPercentageForWindSpeed(data.WindSpeed))" aria-valuemin="0" aria-valuemax="100"><b>@data.WindSpeed</b></div>
+                                        </div>
+                                    </td>
+                                    <td style="text-align: center;">@data.WindDirectionText</td>
+                                    <td style="white-space: nowrap;text-align: center;">@data.Temp @Model.TempUnits.ToString().First().ToString().ToUpper()</td>
+                                </tr>
                             }
                         </tbody>
                     </table>
                 }
-    }
+             }
         </div>
     </div>
 </div>

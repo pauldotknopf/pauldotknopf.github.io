@@ -1,0 +1,151 @@
+$wind-speed-color-slow: #00ff0c;
+$wind-speed-color-fast: #a70000;
+
+@function ease-out-wind-speed ($t, $b, $c, $d) {
+    // https://spicyyoghurt.com/tools/easing-functions
+    // easeOutQuad
+    @return -$c * ($t / $d) * ($t - 2) + $b;
+
+    // @if $t == $d {
+    //     @return $b + $c;
+    // } @else {
+    //     @return $c * (math.pow(2, -10 * $t / $d) + 1) + $b
+    // }
+
+    // @return $c * (($t = $t / $d - 1) * $t * $t * $t * $t + 1) + $b;
+
+
+}
+
+@function gradient-color-at($start, $end, $point) {
+    $error-message: "$point needs to be a percentage (0% to 100%) or a unitless number (0 to 1)";
+    $unit: unit($point);
+    // $point needs to be unitless or percentage
+    @if $unit != "" and $unit != "%" {
+      @error $error-message;
+    }
+    @else {
+      // convert $point to fraction
+      @if $unit == "%" { $point: $point / 100%; }
+      // check if within bounds
+      @if $point < 0 or $point > 1 { @error $error-message; }
+    }
+  
+    $delta_h:         hue($end) - hue($start);
+    $delta_s:  saturation($end) - saturation($start);
+    $delta_l:   lightness($end) - lightness($start);
+    $delta_a:       alpha($end) - alpha($start);
+  
+    @return adjust-color(
+      $color:       $start, 
+      $hue:         $point * $delta_h, 
+      $saturation:  $point * $delta_s, 
+      $lightness:   $point * $delta_l, 
+      $alpha:       $point * $delta_a
+    );
+  }
+
+.wind-speed-0
+{
+    background-color: gradient-color-at($wind-speed-color-slow, $wind-speed-color-fast, ease-out-wind-speed(0, 0, 1, 1)) !important;
+}
+.wind-speed-1
+{
+    background-color: gradient-color-at($wind-speed-color-slow, $wind-speed-color-fast, ease-out-wind-speed(.04, 0, 1, 1)) !important;
+}
+.wind-speed-2
+{
+    background-color: gradient-color-at($wind-speed-color-slow, $wind-speed-color-fast, ease-out-wind-speed(.08, 0, 1, 1)) !important;
+}
+.wind-speed-3
+{
+    background-color: gradient-color-at($wind-speed-color-slow, $wind-speed-color-fast, ease-out-wind-speed(.12, 0, 1, 1)) !important;
+}
+.wind-speed-4
+{
+    background-color: gradient-color-at($wind-speed-color-slow, $wind-speed-color-fast, ease-out-wind-speed(.16, 0, 1, 1)) !important;
+}
+.wind-speed-5
+{
+    background-color: gradient-color-at($wind-speed-color-slow, $wind-speed-color-fast, ease-out-wind-speed(.20, 0, 1, 1)) !important;
+}
+.wind-speed-6
+{
+    background-color: gradient-color-at($wind-speed-color-slow, $wind-speed-color-fast, ease-out-wind-speed(.24, 0, 1, 1)) !important;
+}
+.wind-speed-7
+{
+    background-color: gradient-color-at($wind-speed-color-slow, $wind-speed-color-fast, ease-out-wind-speed(.28, 0, 1, 1)) !important;
+}
+.wind-speed-8
+{
+    background-color: gradient-color-at($wind-speed-color-slow, $wind-speed-color-fast, ease-out-wind-speed(.32, 0, 1, 1)) !important;
+}
+.wind-speed-9
+{
+    background-color: gradient-color-at($wind-speed-color-slow, $wind-speed-color-fast, ease-out-wind-speed(.36, 0, 1, 1)) !important;
+}
+.wind-speed-10
+{
+    background-color: gradient-color-at($wind-speed-color-slow, $wind-speed-color-fast, ease-out-wind-speed(.40, 0, 1, 1)) !important;
+}
+.wind-speed-11
+{
+    background-color: gradient-color-at($wind-speed-color-slow, $wind-speed-color-fast, ease-out-wind-speed(.44, 0, 1, 1)) !important;
+}
+.wind-speed-12
+{
+    background-color: gradient-color-at($wind-speed-color-slow, $wind-speed-color-fast, ease-out-wind-speed(.48, 0, 1, 1)) !important;
+}
+.wind-speed-13
+{
+    background-color: gradient-color-at($wind-speed-color-slow, $wind-speed-color-fast, ease-out-wind-speed(.52, 0, 1, 1)) !important;
+}
+.wind-speed-14
+{
+    background-color: gradient-color-at($wind-speed-color-slow, $wind-speed-color-fast, ease-out-wind-speed(.56, 0, 1, 1)) !important;
+}
+.wind-speed-15
+{
+    background-color: gradient-color-at($wind-speed-color-slow, $wind-speed-color-fast, ease-out-wind-speed(.60, 0, 1, 1)) !important;
+}
+.wind-speed-16
+{
+    background-color: gradient-color-at($wind-speed-color-slow, $wind-speed-color-fast, ease-out-wind-speed(.64, 0, 1, 1)) !important;
+}
+.wind-speed-17
+{
+    background-color: gradient-color-at($wind-speed-color-slow, $wind-speed-color-fast, ease-out-wind-speed(.68, 0, 1, 1)) !important;
+}
+.wind-speed-18
+{
+    background-color: gradient-color-at($wind-speed-color-slow, $wind-speed-color-fast, ease-out-wind-speed(.72, 0, 1, 1)) !important;
+}
+.wind-speed-19
+{
+    background-color: gradient-color-at($wind-speed-color-slow, $wind-speed-color-fast, ease-out-wind-speed(.76, 0, 1, 1)) !important;
+}
+.wind-speed-20
+{
+    background-color: gradient-color-at($wind-speed-color-slow, $wind-speed-color-fast, ease-out-wind-speed(.80, 0, 1, 1)) !important;
+}
+.wind-speed-21
+{
+    background-color: gradient-color-at($wind-speed-color-slow, $wind-speed-color-fast, ease-out-wind-speed(.84, 0, 1, 1)) !important;
+}
+.wind-speed-22
+{
+    background-color: gradient-color-at($wind-speed-color-slow, $wind-speed-color-fast, ease-out-wind-speed(.88, 0, 1, 1)) !important;
+}
+.wind-speed-23
+{
+    background-color: gradient-color-at($wind-speed-color-slow, $wind-speed-color-fast, ease-out-wind-speed(.92, 0, 1, 1)) !important;
+}
+.wind-speed-24
+{
+    background-color: gradient-color-at($wind-speed-color-slow, $wind-speed-color-fast, ease-out-wind-speed(.96, 0, 1, 1)) !important;
+}
+.wind-speed-25
+{
+    background-color: gradient-color-at($wind-speed-color-slow, $wind-speed-color-fast, ease-out-wind-speed(1, 0, 1, 1)) !important;
+}
