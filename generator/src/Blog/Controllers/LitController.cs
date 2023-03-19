@@ -15,7 +15,7 @@ namespace Blog.Controllers
 		{
 			using(var httpClient = new HttpClient())
 			{
-				var content = await httpClient.GetStringAsync("https://raw.githubusercontent.com/pauldotknopf/ikitesurf-bot/main/report.json");
+				var content = await httpClient.GetStringAsync("https://raw.githubusercontent.com/pauldotknopf/ikitesurf-bot/reports/report.json");
 				var model = JsonConvert.DeserializeObject<SessionReportModel>(content, new JsonSerializerSettings
                 {
                     ContractResolver = new CamelCasePropertyNamesContractResolver()
