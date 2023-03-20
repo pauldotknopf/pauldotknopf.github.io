@@ -18,6 +18,7 @@
         default:
             throw new NotSupportedException();
     }
+    int collapseIndex = 0;
 }
 @functions
 {
@@ -38,45 +39,70 @@
         return $"wind-speed-{number}";
     }
 }
+<style>
+    [data-toggle="collapse"].collapsed .if-not-collapsed {
+        display: none;
+    }
+    [data-toggle="collapse"]:not(.collapsed) .if-collapsed {
+        display: none;
+    }
+</style>
 <div class="container">
     <div class="page">
-        <h1 class="title">
-            Lit times
-        </h1>
         <div class="body">
             @foreach (var sessionsByDay in Model.SessionSpots.GroupBy(x => new DateTime(x.FromLocal.Year, x.FromLocal.Month, x.FromLocal.Day)))
             {
                 <h2><i class="fa fa-calendar-days"></i> @sessionsByDay.Key.ToString("dddd, MMMM dd")</h2>
                 @foreach (var spot in sessionsByDay)
-            {
-                    <h5><i class="fa fa-location-dot"></i> @spot.Name <span class="badge badge-secondary">@spot.FromLocal.ToString("h tt") - @spot.ToLocal.ToString("h tt")</span></h5>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col" style="width: 1%; text-align: center;">Time</th>
-                                <th scope="col">Speed (@windSpeedText)</th>
-                                <th scope="col" style="width: 1%; text-align: center;">Direction</th>
-                                <th scope="col" style="width: 1%;text-align: center;">Temp</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach(var data in spot.Data)
-                            {
+                {
+                    var averageWindSpeed = Math.Round(spot.Data.Average(x => x.WindSpeed), 1);
+                    collapseIndex++;
+                    <h5><i class="fa fa-location-dot"></i> @spot.Name <span class="badge badge-secondary">@spot.FromLocal.ToString("h tt") - @spot.ToLocal.ToString("h tt")</span> <span class="badge badge-secondary @(GetWindSpeedClass(averageWindSpeed))">avg @averageWindSpeed @windSpeedText</span></h5>
+                    <p>
+                        <a class="btn btn-light collapsed" role="button" data-toggle="collapse" href="#collapse-@(collapseIndex)"><span class="if-collapsed">Show details</span><span class="if-not-collapsed">Hide details</span></a>
+                    </p>
+                    <div class="collapse" id="collapse-@(collapseIndex)">
+                        <table class="table">
+                            <thead>
                                 <tr>
-                                    <th scope="row" style="text-align: center;"><span class="badge badge-secondary">@data.ModelTimeLocal.ToString("h tt")</span></th>
-                                    <td>
-                                        <div class="progress">
-                                            <div class="progress-bar @(GetWindSpeedClass(data.WindSpeed))" role="progressbar" style="width: @(GetPercentageForWindSpeed(data.WindSpeed))%" aria-valuenow="@(GetPercentageForWindSpeed(data.WindSpeed))" aria-valuemin="0" aria-valuemax="100"><b>@data.WindSpeed</b></div>
-                                        </div>
-                                    </td>
-                                    <td style="text-align: center;">@data.WindDirectionText</td>
-                                    <td style="white-space: nowrap;text-align: center;">@data.Temp @Model.TempUnits.ToString().First().ToString().ToUpper()</td>
+                                    <th scope="col" style="width: 1%; text-align: center;">Time</th>
+                                    <th scope="col">Speed (@windSpeedText)</th>
+                                    <th scope="col" style="width: 1%; text-align: center;">Direction</th>
+                                    <th scope="col" style="width: 1%;text-align: center;">Temp</th>
                                 </tr>
-                            }
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach (var data in spot.Data)
+                                {
+                                    <tr>
+                                        <td scope="row" style="text-align: center;"><span class="badge badge-secondary">@data.ModelTimeLocal.ToString("h tt")</span></td>
+                                        <td>
+                                            <div class="progress">
+                                                <div class="progress-bar @(GetWindSpeedClass(data.WindSpeed))" role="progressbar" style="width: @(GetPercentageForWindSpeed(data.WindSpeed))%" aria-valuenow="@(GetPercentageForWindSpeed(data.WindSpeed))" aria-valuemin="0" aria-valuemax="100"><b>@data.WindSpeed</b></div>
+                                            </div>
+                                        </td>
+                                        <td style="text-align: center;">@data.WindDirectionText</td>
+                                        <td style="white-space: nowrap;text-align: center;">@data.Temp @Model.TempUnits.ToString().First().ToString().ToUpper()</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
                 }
-             }
+            }
+        </div>
+        <p>
+            <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                Link with href
+            </a>
+            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                Button with data-target
+            </button>
+        </p>
+        <div class="collapse" id="collapseExample">
+            <div class="card card-body">
+                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+            </div>
         </div>
     </div>
 </div>
