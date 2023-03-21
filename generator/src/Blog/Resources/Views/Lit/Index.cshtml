@@ -50,6 +50,11 @@
 <div class="container">
     <div class="page">
         <div class="body">
+            @if(Model.SessionSpots.Count == 0)
+            {
+                <p class="alert alert-warning">There aren't any good sessions!! <i class="fa-regular fa-face-sad-cry"></i></p>
+                <hr />
+            }
             @foreach (var sessionsByDay in Model.SessionSpots.GroupBy(x => new DateTime(x.FromLocal.Year, x.FromLocal.Month, x.FromLocal.Day)))
             {
                 <h2><i class="fa fa-calendar-days"></i> @sessionsByDay.Key.ToString("dddd, MMMM dd")</h2>
@@ -89,7 +94,11 @@
                         </table>
                     </div>
                 }
+                 <hr />
             }
+            <p>
+                <a href="https://github.com/pauldotknopf/ikitesurf-bot/blob/main/rules.yml" class="btn btn-secondary">View rules</a>
+            </p>
         </div>
     </div>
 </div>
