@@ -7,10 +7,6 @@ namespace Blog.Models
     {
         public string TimeZone { get; set; }
 
-        public WindUnits WindUnits { get; set; }
-
-        public TempUnits TempUnits { get; set; }
-
         public List<SessionReportSpotModel> SessionSpots { get; set; }
     }
 
@@ -51,20 +47,6 @@ namespace Blog.Models
         public string WindDirectionText { get; set; }
 
         public decimal Temp { get; set; }
-    }
-
-    public enum WindUnits
-    {
-        Mph,
-        Kph,
-        Mps,
-        Knots
-    }
-
-    public enum TempUnits
-    {
-        Fahrenheit,
-        Celsius
     }
 }
 

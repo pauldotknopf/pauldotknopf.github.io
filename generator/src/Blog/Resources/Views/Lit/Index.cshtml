@@ -1,23 +1,5 @@
 @model SessionReportModel
 @{
-    var windSpeedText = "";
-    switch(Model.WindUnits)
-    {
-        case WindUnits.Mph:
-            windSpeedText = "m/ph";
-            break;
-        case WindUnits.Kph:
-            windSpeedText = "km/h";
-            break;
-        case WindUnits.Mps:
-            windSpeedText = "m/s";
-            break;
-        case WindUnits.Knots:
-            windSpeedText = "kn";
-            break;
-        default:
-            throw new NotSupportedException();
-    }
     int collapseIndex = 0;
 }
 @functions
@@ -62,7 +44,7 @@
                 {
                     var averageWindSpeed = Math.Round(spot.Data.Average(x => x.WindSpeed), 1);
                     collapseIndex++;
-                    <h5><i class="fa fa-location-dot"></i> @spot.Name <span class="badge badge-secondary">@spot.FromLocal.ToString("h tt") - @spot.ToLocal.ToString("h tt")</span> <span class="badge badge-secondary @(GetWindSpeedClass(averageWindSpeed))">avg @averageWindSpeed @windSpeedText</span></h5>
+                    <h5><i class="fa fa-location-dot"></i> @spot.Name <span class="badge badge-secondary">@spot.FromLocal.ToString("h tt") - @spot.ToLocal.ToString("h tt")</span> <span class="badge badge-secondary @(GetWindSpeedClass(averageWindSpeed))">avg @averageWindSpeed mph</span></h5>
                     <p>
                         <a class="btn btn-light collapsed" role="button" data-toggle="collapse" href="#collapse-@(collapseIndex)"><span class="if-collapsed">Show details</span><span class="if-not-collapsed">Hide details</span></a>
                     </p>
@@ -71,7 +53,7 @@
                             <thead>
                                 <tr>
                                     <th scope="col" style="width: 1%; text-align: center;">Time</th>
-                                    <th scope="col">Speed (@windSpeedText)</th>
+                                    <th scope="col">Speed (mph)</th>
                                     <th scope="col" style="width: 1%; text-align: center;">Direction</th>
                                     <th scope="col" style="width: 1%;text-align: center;">Temp</th>
                                 </tr>
@@ -87,7 +69,7 @@
                                             </div>
                                         </td>
                                         <td style="text-align: center;">@data.WindDirectionText</td>
-                                        <td style="white-space: nowrap;text-align: center;">@data.Temp @Model.TempUnits.ToString().First().ToString().ToUpper()</td>
+                                        <td style="white-space: nowrap;text-align: center;">@data.Temp F</td>
                                     </tr>
                                 }
                             </tbody>
