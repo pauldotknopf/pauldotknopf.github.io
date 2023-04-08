@@ -33,3 +33,5 @@ jobs:
         eval `ssh-agent -s`
         ssh-add deploy-key
         ./build.sh ci
+      env:
+        IKSBOT_KEY: ${{ secrets.IKSBOT_KEY }}
