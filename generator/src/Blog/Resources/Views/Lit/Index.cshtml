@@ -44,7 +44,7 @@
                 {
                     var averageWindSpeed = Math.Round(spot.Data.Average(x => x.WindSpeed), 1);
                     collapseIndex++;
-                    <h5><i class="fa fa-location-dot"></i> @spot.Name <span class="badge badge-secondary">@spot.FromLocal.ToString("h tt") - @spot.ToLocal.ToString("h tt")</span> <span class="badge badge-secondary @(GetWindSpeedClass(averageWindSpeed))">avg @averageWindSpeed mph</span></h5>
+                    <h5><i class="fa fa-location-dot"></i> @spot.Name <span class="badge badge-secondary">@spot.FromLocal.ToString("h tt") - @spot.ToLocal.ToString("h tt")</span> <span class="badge badge-secondary @(GetWindSpeedClass(averageWindSpeed))">avg @averageWindSpeed kts</span></h5>
                     <p>
                         <a class="btn btn-light collapsed" role="button" data-toggle="collapse" href="#collapse-@(collapseIndex)"><span class="if-collapsed">Show details</span><span class="if-not-collapsed">Hide details</span></a>
                     </p>
@@ -53,7 +53,7 @@
                             <thead>
                                 <tr>
                                     <th scope="col" style="width: 1%; text-align: center;">Time</th>
-                                    <th scope="col">Speed (mph)</th>
+                                    <th scope="col">Speed (kts)</th>
                                     <th scope="col" style="width: 1%; text-align: center;">Direction</th>
                                     <th scope="col" style="width: 1%;text-align: center;">Temp</th>
                                 </tr>
