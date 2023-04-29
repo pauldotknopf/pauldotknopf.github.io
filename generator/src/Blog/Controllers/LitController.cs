@@ -15,11 +15,11 @@ namespace Blog.Controllers
 	{
 		private async Task<SessionReportModel> GetSessionReport()
 		{
-            var tempModel = JsonConvert.DeserializeObject<SessionReportModel>(System.IO.File.ReadAllText("/Users/paul.knopf/git/pauldotknopf/ikitesurf-bot/report.json"), new JsonSerializerSettings
-            {
-                ContractResolver = new CamelCasePropertyNamesContractResolver()
-            });
-            return tempModel;
+            //var tempModel = JsonConvert.DeserializeObject<SessionReportModel>(System.IO.File.ReadAllText("/Users/paul.knopf/git/pauldotknopf/ikitesurf-bot/report.json"), new JsonSerializerSettings
+            //{
+            //    ContractResolver = new CamelCasePropertyNamesContractResolver()
+            //});
+            //return tempModel;
 
             var apiKey = Environment.GetEnvironmentVariable("IKSBOT_KEY");
             if (string.IsNullOrEmpty(apiKey))
