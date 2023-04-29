@@ -5,8 +5,6 @@ namespace Blog.Models
 {
     public class SessionReportModel
     {
-        public string TimeZone { get; set; }
-
         public List<SessionReportSpotModel> SessionSpots { get; set; }
     }
 
@@ -23,22 +21,20 @@ namespace Blog.Models
 
         public int SpotId { get; set; }
 
-        public DateTimeOffset FromUtc { get; set; }
+        public string TimeZoneName { get; set; }
 
-        public DateTimeOffset FromLocal { get; set; }
+        public string TimeZoneNameShort { get; set; }
 
-        public DateTimeOffset ToUtc { get; set; }
+        public DateTimeOffset From { get; set; }
 
-        public DateTimeOffset ToLocal { get; set; }
+        public DateTimeOffset To { get; set; }
 
         public List<SessionReportSpotDataModel> Data { get; set; }
     }
 
     public class SessionReportSpotDataModel
     {
-        public DateTimeOffset ModelTimeUtc { get; set; }
-
-        public DateTimeOffset ModelTimeLocal { get; set; }
+        public DateTimeOffset ModelTime { get; set; }
 
         public decimal WindSpeed { get; set; }
 

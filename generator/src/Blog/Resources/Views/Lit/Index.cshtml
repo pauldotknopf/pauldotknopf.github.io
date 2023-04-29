@@ -37,14 +37,14 @@
                 <p class="alert alert-warning">There aren't any good sessions!! <i class="fa-regular fa-face-sad-cry"></i></p>
                 <hr />
             }
-            @foreach (var sessionsByDay in Model.SessionSpots.GroupBy(x => new DateTime(x.FromLocal.Year, x.FromLocal.Month, x.FromLocal.Day)))
+            @foreach (var sessionsByDay in Model.SessionSpots.GroupBy(x => new DateTime(x.From.Year, x.From.Month, x.From.Day)))
             {
                 <h2><i class="fa fa-calendar-days"></i> @sessionsByDay.Key.ToString("dddd, MMMM dd")</h2>
                 @foreach (var spot in sessionsByDay)
                 {
                     var averageWindSpeed = Math.Round(spot.Data.Average(x => x.WindSpeed), 1);
                     collapseIndex++;
-                    <h5><i class="fa fa-location-dot"></i> @spot.Name <span class="badge badge-secondary">@spot.FromLocal.ToString("h tt") - @spot.ToLocal.ToString("h tt")</span> <span class="badge badge-secondary @(GetWindSpeedClass(averageWindSpeed))">avg @averageWindSpeed kts</span></h5>
+                    <h5><i class="fa fa-location-dot"></i> @spot.Name <span class="badge badge-secondary">@spot.From.ToString("h tt") - @spot.To.ToString("h tt")</span> <span class="badge badge-secondary @(GetWindSpeedClass(averageWindSpeed))">avg @averageWindSpeed kts</span></h5>
                     <p>
                         <a class="btn btn-light collapsed" role="button" data-toggle="collapse" href="#collapse-@(collapseIndex)"><span class="if-collapsed">Show details</span><span class="if-not-collapsed">Hide details</span></a>
                     </p>
@@ -62,7 +62,7 @@
                                 @foreach (var data in spot.Data)
                                 {
                                     <tr>
-                                        <td scope="row" style="text-align: center;"><span class="badge badge-secondary">@data.ModelTimeLocal.ToString("h tt")</span></td>
+                                        <td scope="row" style="text-align: center;"><span class="badge badge-secondary">@data.ModelTime.ToString("h tt")</span></td>
                                         <td>
                                             <div class="progress">
                                                 <div class="progress-bar @(GetWindSpeedClass(data.WindSpeed))" role="progressbar" style="width: @(GetPercentageForWindSpeed(data.WindSpeed))%" aria-valuenow="@(GetPercentageForWindSpeed(data.WindSpeed))" aria-valuemin="0" aria-valuemax="100"><b>@data.WindSpeed</b></div>

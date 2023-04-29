@@ -13,27 +13,51 @@ namespace Blog.Controllers
 {
 	public class LitController : Controller
 	{
-		public async Task<ActionResult> Index()
+		private async Task<SessionReportModel> GetSessionReport()
 		{
-			var apiKey = Environment.GetEnvironmentVariable("IKSBOT_KEY");
-			if (string.IsNullOrEmpty(apiKey))
-			{
-				throw new Exception("IKSBOT_KEY environment variable not set.");
-			}
-			using(var httpClient = new HttpClient())
-			{
-				var byteArray = Encoding.ASCII.GetBytes($"x-access-token:{apiKey}");
-				httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
+            var tempModel = JsonConvert.DeserializeObject<SessionReportModel>(System.IO.File.ReadAllText("/Users/paul.knopf/git/pauldotknopf/ikitesurf-bot/report.json"), new JsonSerializerSettings
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            });
+            return tempModel;
 
-				var httpResponseMessage = await httpClient.GetAsync("https://raw.githubusercontent.com/pauldotknopf/ikitesurf-bot/reports/report.json").ConfigureAwait(false);
-				var response = await httpResponseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
-                
-				var model = JsonConvert.DeserializeObject<SessionReportModel>(response, new JsonSerializerSettings
+            var apiKey = Environment.GetEnvironmentVariable("IKSBOT_KEY");
+            if (string.IsNullOrEmpty(apiKey))
+            {
+                throw new Exception("IKSBOT_KEY environment variable not set.");
+            }
+            using (var httpClient = new HttpClient())
+            {
+                var byteArray = Encoding.ASCII.GetBytes($"x-access-token:{apiKey}");
+                httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
+
+                var httpResponseMessage = await httpClient.GetAsync("https://raw.githubusercontent.com/pauldotknopf/ikitesurf-bot/reports/report.json").ConfigureAwait(false);
+                var response = await httpResponseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+                var model = JsonConvert.DeserializeObject<SessionReportModel>(response, new JsonSerializerSettings
                 {
                     ContractResolver = new CamelCasePropertyNamesContractResolver()
                 });
-				return View(model);
+                return model;
             }
+        }
+
+		public async Task<ActionResult> Index()
+		{
+            var model = await GetSessionReport();
+
+            foreach(var item in model.SessionSpots)
+            {
+                var timeZone = TimeZoneInfo.FindSystemTimeZoneById(item.TimeZoneName);
+                item.From = item.From.ToOffset(timeZone.BaseUtcOffset);
+                item.To = item.To.ToOffset(timeZone.BaseUtcOffset);
+                foreach(var data in item.Data)
+                {
+                    data.ModelTime = data.ModelTime.ToOffset(timeZone.BaseUtcOffset);
+                }
+            }
+
+            return View(model);
 		}
 	}
 }
