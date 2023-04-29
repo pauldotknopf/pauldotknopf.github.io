@@ -49,11 +49,11 @@ namespace Blog.Controllers
             foreach(var item in model.SessionSpots)
             {
                 var timeZone = TimeZoneInfo.FindSystemTimeZoneById(item.TimeZoneName);
-                item.From = item.From.ToOffset(timeZone.BaseUtcOffset);
-                item.To = item.To.ToOffset(timeZone.BaseUtcOffset);
-                foreach(var data in item.Data)
+                item.From = item.From.ToOffset(timeZone.GetUtcOffset(item.From));
+                item.To = item.To.ToOffset(timeZone.GetUtcOffset(item.To));
+                foreach (var data in item.Data)
                 {
-                    data.ModelTime = data.ModelTime.ToOffset(timeZone.BaseUtcOffset);
+                    data.ModelTime = data.ModelTime.ToOffset(timeZone.GetUtcOffset(data.ModelTime));
                 }
             }
 
