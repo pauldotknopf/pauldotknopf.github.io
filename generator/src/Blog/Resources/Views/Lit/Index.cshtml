@@ -118,35 +118,37 @@
                         <a class="btn btn-light collapsed" role="button" data-toggle="collapse" href="#collapse-@(collapseIndex)"><span class="if-collapsed">Show details</span><span class="if-not-collapsed">Hide details</span></a>
                     </p>
                     <div class="collapse" id="collapse-@(collapseIndex)">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th scope="col" style="width: 1%; text-align: center;">Time</th>
-                                    <th scope="col" style="min-width: 10em;">Speed (kts)</th>
-                                    <th scope="col" style="width: 1%; text-align: center;">Direction</th>
-                                    <th scope="col" style="width: 1%;text-align: center;">Temp</th>
-                                    <th scope="col" style="width: 1%;text-align: center;">Cloud</th>
-                                    <th scope="col" style="width: 1%;text-align: center;">Precip</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var data in spot.Data)
-                                {
+                        <div style="overflow-x: auto;">
+                            <table class="table table-responsive">
+                                <thead>
                                     <tr>
-                                        <td scope="row" style="white-space: nowrap;text-align: center;"><span class="badge badge-secondary">@data.ModelTime.ToString("h tt")</span></td>
-                                        <td>
-                                            <div class="progress">
-                                                <div class="progress-bar @(GetWindSpeedClass(data.WindSpeed))" role="progressbar" style="width: @(GetPercentageForWindSpeed(data.WindSpeed))%" aria-valuenow="@(GetPercentageForWindSpeed(data.WindSpeed))" aria-valuemin="0" aria-valuemax="100"><b>@data.WindSpeed</b></div>
-                                            </div>
-                                        </td>
-                                        <td style="white-space: nowrap;text-align: center;">@data.WindDirectionText</td>
-                                        <td style="white-space: nowrap;text-align: center;">@data.Temp F</td>
-                                        <td style="white-space: nowrap;text-align: center;"><span class="badge badge-secondary" style="background-color: @(GetCloudCoverColor(data.CloudCover)); color: black;">@Math.Round(data.CloudCover)%</span></td>
-                                        <td style="white-space: nowrap;text-align: center;"><span title="Type: @data.PrecipType.ToUpper()" class="badge badge-secondary" style="background-color: @(GetPrecipColor(data.TotalPrecip)); color: black;">@Math.Round(data.TotalPrecip, 2).ToString("N2")</span></td>
+                                        <th scope="col" style="width: 1%; text-align: center;">Time</th>
+                                        <th scope="col" style="min-width: 10em;">Speed (kts)</th>
+                                        <th scope="col" style="width: 1%; text-align: center;">Direction</th>
+                                        <th scope="col" style="width: 1%;text-align: center;">Temp</th>
+                                        <th scope="col" style="width: 1%;text-align: center;">Cloud</th>
+                                        <th scope="col" style="width: 1%;text-align: center;">Precip</th>
                                     </tr>
-                                }
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    @foreach (var data in spot.Data)
+                                    {
+                                        <tr>
+                                            <td scope="row" style="white-space: nowrap;text-align: center;"><span class="badge badge-secondary">@data.ModelTime.ToString("h tt")</span></td>
+                                            <td>
+                                                <div class="progress">
+                                                    <div class="progress-bar @(GetWindSpeedClass(data.WindSpeed))" role="progressbar" style="width: @(GetPercentageForWindSpeed(data.WindSpeed))%" aria-valuenow="@(GetPercentageForWindSpeed(data.WindSpeed))" aria-valuemin="0" aria-valuemax="100"><b>@data.WindSpeed</b></div>
+                                                </div>
+                                            </td>
+                                            <td style="white-space: nowrap;text-align: center;">@data.WindDirectionText</td>
+                                            <td style="white-space: nowrap;text-align: center;">@data.Temp F</td>
+                                            <td style="white-space: nowrap;text-align: center;"><span class="badge badge-secondary" style="background-color: @(GetCloudCoverColor(data.CloudCover)); color: black;">@Math.Round(data.CloudCover)%</span></td>
+                                            <td style="white-space: nowrap;text-align: center;"><span title="Type: @data.PrecipType.ToUpper()" class="badge badge-secondary" style="background-color: @(GetPrecipColor(data.TotalPrecip)); color: black;">@Math.Round(data.TotalPrecip, 2).ToString("N2")</span></td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 }
                  <hr />
