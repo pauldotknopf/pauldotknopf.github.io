@@ -43,6 +43,12 @@ namespace Blog.Models
         public string WindDirectionText { get; set; }
 
         public decimal Temp { get; set; }
+
+        public decimal TotalPrecip { get; set; }
+
+        public string PrecipType { get; set; }
+
+        public decimal CloudCover { get; set; }
     }
 }
 
