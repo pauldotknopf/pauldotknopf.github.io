@@ -113,7 +113,7 @@
                 {
                     var averageWindSpeed = Math.Round(spot.Data.Average(x => x.WindSpeed), 1);
                     collapseIndex++;
-                    <h5><i class="fa fa-location-dot"></i> @spot.Name <span class="badge badge-secondary">@spot.From.ToString("h tt") - @spot.To.ToString("h tt")</span> <span class="badge badge-secondary @(GetWindSpeedClass(averageWindSpeed))">avg @averageWindSpeed kts</span></h5>
+                    <h5><i class="fa fa-location-dot"></i> @spot.Name <span class="badge badge-secondary">@spot.From.ToString("h tt") - @spot.To.ToString("h tt")</span> <span class="badge badge-secondary @(GetWindSpeedClass(averageWindSpeed))">avg @averageWindSpeed kts</span> <a href="https://wx.ikitesurf.com/spot/@spot.SpotId" class="badge badge-light">Forecast <i class="fa fa-arrow-right"></i></a></h5>
                     <p>
                         <a class="btn btn-light collapsed" role="button" data-toggle="collapse" href="#collapse-@(collapseIndex)"><span class="if-collapsed">Show details</span><span class="if-not-collapsed">Hide details</span></a>
                     </p>
