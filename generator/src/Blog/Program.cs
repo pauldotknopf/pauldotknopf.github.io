@@ -64,8 +64,8 @@ namespace Blog
                         .AddRazorRuntimeCompilation();
                     services.Configure<MvcRazorRuntimeCompilationOptions>(options =>
                     {
-                        //options.FileProviders.Add(new Statik.Embedded.EmbeddedFileProvider(typeof(Program).Assembly, "Blog.Resources"));
-                        options.FileProviders.Add(new PhysicalFileProvider("/Users/paul.knopf/git/pauldotknopf/pauldotknopf.github.io/generator/src/Blog/Resources"));
+                        options.FileProviders.Add(new Statik.Embedded.EmbeddedFileProvider(typeof(Program).Assembly, "Blog.Resources"));
+                        //options.FileProviders.Add(new PhysicalFileProvider("/Users/paul.knopf/git/pauldotknopf/pauldotknopf.github.io/generator/src/Blog/Resources"));
                     });
                 });
                 
@@ -105,8 +105,8 @@ namespace Blog
 
         private static void RegisterResources()
         {
-            //_webBuilder.RegisterFileProvider(new Statik.Embedded.EmbeddedFileProvider(typeof(Program).Assembly, "Blog.Resources.wwwroot"));
-            _webBuilder.RegisterFileProvider(new PhysicalFileProvider("/Users/paul.knopf/git/pauldotknopf/pauldotknopf.github.io/generator/src/Blog/Resources/wwwroot"));
+            _webBuilder.RegisterFileProvider(new Statik.Embedded.EmbeddedFileProvider(typeof(Program).Assembly, "Blog.Resources.wwwroot"));
+            //_webBuilder.RegisterFileProvider(new PhysicalFileProvider("/Users/paul.knopf/git/pauldotknopf/pauldotknopf.github.io/generator/src/Blog/Resources/wwwroot"));
             var staticDirectory = Path.Combine(_contentDirectory, "static");
             if (Directory.Exists(staticDirectory))
             {
