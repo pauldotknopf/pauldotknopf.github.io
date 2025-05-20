@@ -1,0 +1,13 @@
+<p>
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link @(ViewContext.HttpContext.Request.Path.Value == "/music" ? "active" : "")" href="@Url.Content("~/music")">All</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link @(ViewContext.HttpContext.Request.Path.Value.StartsWith("/music/guitar") ? "active" : "")" href="@Url.Content("~/music/guitar")">Guitar</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link @(ViewContext.HttpContext.Request.Path.Value.StartsWith("/music/drums") ? "active" : "")" href="@Url.Content("~/music/drums")">Drums</a>
+        </li>
+    </ul>
+</p>

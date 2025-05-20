@@ -1,0 +1,14 @@
+@model List<Blog.MusicTrack>
+@{
+    int collapseIndex = 0;
+}
+
+<div class="container">
+    <div class="page">
+        <div class="body">
+            @Html.Partial("_RenderMenu")
+            <h1>Drums</h1>
+            @Html.Partial("_RenderTrackList", Model)
+        </div>
+    </div>
+</div>

@@ -1,0 +1,43 @@
+@using Blog
+@model Blog.MusicTrack
+@{
+    int collapseIndex = 0;
+}
+
+<div class="container">
+    <div class="page">
+        <div class="body">
+            @Html.Partial("_RenderMenu")
+            <h1><a href="@Url.Content("~/music/artist/" + Model.Artist.Slugify())">@Model.Artist</a> - @Model.Song</h1>
+            @if (Model.Guitar != null)
+            {
+                <h2>Guitar</h2>
+                <p>
+                    Tuning: @Model.Guitar.Tuning<br/>
+                    @if (!string.IsNullOrEmpty(Model.Guitar.TabUrl))
+                    {
+                        <a class="btn btn-secondary" role="button" href="@Model.Guitar.TabUrl" target="_blank">tabs</a>
+                    }
+                    @if (!string.IsNullOrEmpty(Model.Guitar.BackingTrackUrl))
+                    {
+                        <a class="btn btn-secondary" role="button" href="@Model.Guitar.BackingTrackUrl" target="_blank">backing track</a>
+                    }
+                </p>
+            }
+            @if (Model.Drum != null)
+            {
+                <h2>Drums</h2>
+                <p>
+                    @if (!string.IsNullOrEmpty(Model.Drum.TabUrl))
+                    {
+                        <a class="btn btn-secondary" role="button" href="@Model.Drum.TabUrl" target="_blank">tabs</a>
+                    }
+                    @if (!string.IsNullOrEmpty(Model.Drum.BackingTrackUrl))
+                    {
+                        <a class="btn btn-secondary" role="button" href="@Model.Drum.BackingTrackUrl" target="_blank">backing track</a>
+                    }
+                </p>
+            }
+        </div>
+    </div>
+</div>

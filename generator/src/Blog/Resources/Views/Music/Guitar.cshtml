@@ -1,0 +1,25 @@
+@using Blog
+@model List<Blog.MusicTrack>
+@{
+    int collapseIndex = 0;
+}
+
+<div class="container">
+    <div class="page">
+        <div class="body">
+            @Html.Partial("_RenderMenu")
+            <h1>Guitar</h1>
+            <p>
+                <ul class="nav nav-tabs">
+                    @foreach (var tuning in Model.Select(x => x.Guitar.Tuning).Distinct().OrderBy(x => x))
+                    {
+                        <li class="nav-item active">
+                            <a class="nav-link" href="@Url.Content("~/music/guitar/tuning/" + tuning.Slugify())">@tuning</a>
+                        </li>
+                    }
+                </ul>
+            </p>
+            @Html.Partial("_RenderTrackList", Model)
+        </div>
+    </div>
+</div>

@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
+using Blog.Models;
 using Blog.Services;
 using Blog.Services.Impl;
 using Markdig;
@@ -9,6 +11,7 @@ using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
+using Newtonsoft.Json;
 using Octokit;
 using Octokit.Internal;
 using Pek.Markdig.HighlightJs;
@@ -20,6 +23,8 @@ using Statik.Markdown;
 using Statik.Markdown.Impl;
 using Statik.Mvc;
 using Statik.Web;
+using YamlDotNet.Serialization;
+using YamlDotNet.Serialization.NamingConventions;
 
 namespace Blog
 {
@@ -31,6 +36,7 @@ namespace Blog
         private static IMarkdownRenderer _markdownRenderer;
         private static IPosts _posts;
         private static IPages _pages;
+        private static IMusicTracks _musicTracks;
         private static GitHubClient _github;
         
         static async Task<int> Main(string[] args)
@@ -69,9 +75,11 @@ namespace Blog
                     });
                 });
                 
+                LoadMusic();
                 LoadPages();
                 await LoadPosts();
                 
+                RegisterMusic();
                 RegisterPages();
                 RegisterPosts();
                 RegisterResources();
@@ -97,6 +105,7 @@ namespace Blog
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.StackTrace);
                 return -1;
             }
 
@@ -121,6 +130,27 @@ namespace Blog
             }
         }
 
+        private static void LoadMusic()
+        {
+            var musicYamlPath = Path.Combine(_contentDirectory, "music.yaml");
+            var musicYaml = File.ReadAllText(musicYamlPath);
+            
+            
+            var deserializer = new DeserializerBuilder().Build();
+            var yamlObject = deserializer.Deserialize(new StringReader(musicYaml));
+            var serializer = new SerializerBuilder()
+                .JsonCompatible()
+                .Build();
+            var musicJson = serializer.Serialize(yamlObject);
+            
+            var musicTrackModels = JsonConvert.DeserializeObject<List<MusicTrack>>(musicJson);
+            _musicTracks = new MusicTracks(musicTrackModels);
+            _webBuilder.RegisterServices(services =>
+            {
+                services.AddSingleton(_musicTracks);
+            });
+        }
+        
         private static void LoadPages()
         {
             var pagesDirectory = Path.Combine(_contentDirectory, "pages");
@@ -223,6 +253,58 @@ namespace Blog
                         page
                     },
                     new State.PathState(page.FilePath, page.Title));
+            }
+        }
+
+        private static void RegisterMusic()
+        {
+            _webBuilder.RegisterMvc("/music", new
+                {
+                    controller = "Music",
+                    action = "Index"
+                },
+                new State.PathState(string.Empty, "Music"));
+            _webBuilder.RegisterMvc("/music/guitar", new
+                {
+                    controller = "Music",
+                    action = "Guitar"
+                },
+                new State.PathState(string.Empty, "Guitar"));
+            _webBuilder.RegisterMvc("/music/drums", new
+                {
+                    controller = "Music",
+                    action = "Drums"
+                },
+                new State.PathState(string.Empty, "Drums"));
+            foreach (var track in _musicTracks.GetMusicTracks())
+            {
+                _webBuilder.RegisterMvc($"/music/track/{track.Artist.Slugify()}/{track.Song.Slugify()}", new
+                    {
+                        controller = "Music",
+                        action = "Track",
+                        track
+                    },
+                    new State.PathState(string.Empty, $"{track.Artist} - {track.Song}"));
+            }
+            foreach (var artist in _musicTracks.GetMusicTracks().Select(x => x.Artist).Distinct())
+            {
+                _webBuilder.RegisterMvc($"/music/artist/{artist.Slugify()}", new
+                    {
+                        controller = "Music",
+                        action = "Artist",
+                        artistName = artist
+                    },
+                    new State.PathState(string.Empty, artist));
+            }
+            foreach (var tuning in _musicTracks.GetMusicTracks().Where(x => x.Guitar != null).Select(x => x.Guitar.Tuning).Distinct())
+            {
+                _webBuilder.RegisterMvc($"/music/guitar/tuning/{tuning.Slugify()}", new
+                    {
+                        controller = "Music",
+                        action = "Tuning",
+                        tuning
+                    },
+                    new State.PathState(string.Empty, $"Guitar Tuning {tuning}"));
             }
         }
         

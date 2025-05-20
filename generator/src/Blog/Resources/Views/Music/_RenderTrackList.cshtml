@@ -1,0 +1,46 @@
+@using Blog
+@model List<Blog.MusicTrack>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">Artist</th>
+        <th scope="col">Song</th>
+        @if (Model.Any(x => x.Guitar != null))
+        {
+            <th>Guitar</th>
+        }
+        @if (Model.Any(x => x.Drum != null))
+        {
+            <th>Drums</th>
+        }
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var track in  Model.OrderBy(x => x.Artist).ThenBy(x => x.Song))
+    {
+        <tr>
+            <td><a href="@Url.Content("~/music/artist/" + track.Artist.Slugify())">@track.Artist</a></td>
+            <td>@track.Song</td>
+            @if (track.Guitar != null)
+            {
+                <td>@track.Guitar.Tuning</td>
+            }
+            else
+            {
+                <td></td>
+            }
+            @if (track.Drum != null)
+            {
+                <td><i class="fa-solid fa-check"></i></td>
+            }
+            else
+            {
+                <td></td>
+            }
+            <td><a href="@Url.Content($"~/music/track/{track.Artist.Slugify()}/{track.Song.Slugify()}")">View</a></td>
+        </tr>
+    }
+    </tbody>
+</table>

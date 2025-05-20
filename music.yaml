@@ -1,0 +1,44 @@
+- artist: Bullet For My Valentine
+  song: Tears Dont Fall
+  guitar:
+    tuning: Drop-C
+    tabUrl: https://tabs.ultimate-guitar.com/tab/bullet-for-my-valentine/tears-dont-fall-official-1936173
+- artist: Bullet For My Valentine
+  song: Waking The Demon
+  guitar:
+    tuning: Drop-C
+    tabUrl: https://tabs.ultimate-guitar.com/tab/bullet-for-my-valentine/waking-the-demon-official-1936265
+- artist: Bullet For My Valentine
+  song: Hears Burst into Fire
+  guitar:
+    tuning: Drop-C
+    tabUrl: https://tabs.ultimate-guitar.com/tab/bullet-for-my-valentine/hearts-burst-into-fire-official-1974173
+- artist: Killswith Engage
+  song: End Of Heartache
+  guitar:
+    tuning: Drop-C
+    tabUrl: https://tabs.ultimate-guitar.com/tab/killswitch-engage/the-end-of-heartache-official-2185009
+- artist: Killswith Engage
+  song: My Curse
+  guitar:
+    tuning: Drop-C
+    tabUrl: https://tabs.ultimate-guitar.com/tab/killswitch-engage/my-curse-official-1916619
+- artist: As I Lay Daying
+  song: The Darkest Nights
+  guitar:
+    tuning: Drop-C
+    tabUrl: https://tabs.ultimate-guitar.com/tab/as-i-lay-dying/the-darkest-nights-official-2216105
+- artist: Franz Ferdinand
+  song: Take Me Out
+  guitar:
+    tuning: Standard-E
+    tabUrl: https://tabs.ultimate-guitar.com/tab/as-i-lay-dying/the-darkest-nights-official-2216105
+- artist: Taking Back Sunday
+  song: Makedamnsure
+  guitar:
+    tuning: Standard-Eb
+    tabUrl: https://tabs.ultimate-guitar.com/tab/taking-back-sunday/makedamnsure-official-2278929
+    backingTrackUrl: sdf
+  drum:
+    tabUrl: https://tabs.ultimate-guitar.com/tab/taking-back-sunday/makedamnsure-official-2278929
+    backingTrackUrl: sdf
