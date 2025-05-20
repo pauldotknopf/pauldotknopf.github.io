@@ -29,7 +29,10 @@
             }
             else
             {
-                <td></td>
+                @if (Model.Any(x => x.Guitar != null))
+                {
+                    <td></td>
+                }
             }
             @if (track.Drum != null)
             {
@@ -37,7 +40,10 @@
             }
             else
             {
-                <td></td>
+                @if (Model.Any(x => x.Drum != null))
+                {
+                    <td></td>
+                }
             }
             <td><a href="@Url.Content($"~/music/track/{track.Artist.Slugify()}/{track.Song.Slugify()}")">View</a></td>
         </tr>
